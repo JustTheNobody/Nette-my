@@ -1,0 +1,39 @@
+{block content}
+<h1>Delete Article</h1>
+<div class="divCenter" id="content">
+    <div>
+</pre>
+
+
+        <h2>Article to be removed</h2>
+        
+           {if ($blog && $blog != "No Article")}
+            {foreach $blog as $value}
+                {if is_object($value)}
+                    {if $value['article_id'] == $blog_id && $value['user_id'] == $_SESSION['user_id']}
+                    
+                        <div class="article">
+                            {foreach $value as $akey => $avalue}
+                                {if $akey == "article_id" || $akey == "user_id"}
+                                {else}
+                                <div class="titleBox">{$akey}:</div>
+                                <div class="{$akey}"> {$avalue}</div>
+                                {/if}
+                            {/foreach}
+                            {control deleteForm}
+                        </div> 
+                    {/if}  
+                {/if}           
+            {/foreach}
+            {else}
+                <h3>Sorry, no an Block to delete.</h3>
+            {/if}
+            
+            
+            
+
+
+       
+    </div>
+    <div class="button"><a href="/article">Article archive</a></div>
+</div>

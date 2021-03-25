@@ -1,0 +1,52 @@
+{block content}
+<div class="divCenter" id="content">
+    <div id="banner">
+        <h1 n:block=title>Blog archive</h1>
+    </div>
+    <div class="addArticle">
+        <div class="button">
+            <a n:href="Blog:add">Add Blog</a>
+        </div>
+    </div>
+    <div>  
+        {if ($blog != "No blog")}
+            {foreach $blog as $value}
+                {var $x = 0 }
+                <div class="article">
+                {if is_object($value)}
+                    {foreach $value as $akey => $avalue}
+                        {if $akey == "article_id" || $akey == "user_id"}
+                            {if $x == 0}
+                            <div class="editBox">
+                                {if isset($_SESSION['user_id'])}
+                                    {if $value['user_id'] == $_SESSION['user_id']} <!-- user is a article creator -->
+                                    {var $value = (array)$value}
+                                        <div class="button">
+                                            <a class="edit" n:href="Blog:edit $value">Edit Blog</a>
+                                        </div>
+                                        <div class="button">
+                                            <a class="delete" n:href="delete! $value['article_id'], $value['user_id']">Delete</a>
+                                        </div>
+                                    {/if}
+                                {/if}
+                            </div>
+                            {var $x = 1}
+                            {/if}
+                        {else}
+                            <div class="titleBox">{$akey}:</div>
+                            <div class="{$akey}"> {$avalue}</div>
+                        {/if}
+                    {/foreach}
+                {/if}
+                </div>
+            {/foreach}
+        {else}
+            <div class="noArtic">
+                <h3>Be the first one to type some!</h3>
+            </div>
+        {/if}
+    </div>
+    <div class="button">
+        <a href="/">Home page</a>
+    </div>
+</div>

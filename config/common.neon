@@ -1,0 +1,43 @@
+parameters:
+	wwwDir: %appDir%/Models/../www
+
+application:
+	errorPresenter: Error
+	#catchExceptions: yes
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+
+
+di:
+	export:
+		parameters: no
+		tags: no
+
+
+services:
+	- App\Router\RouterFactory::createRouter
+	- App\Models\BlogModel
+	- Nette\Utils\ArrayHash
+	- App\Models\UserModel
+	- App\Models\CustomFormModel
+	- App\Forms\CustomFormFactory
+	- App\Forms\LoginFactory
+	- App\Forms\RegisterFactory
+	- App\Forms\BlogFactory
+	- App\Forms\ContactForm
+	- App\Forms\SettingsForm
+
+	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])
+	
+security:
+	authentication:
+		# po jak dlouhé době nečinnosti bude uživatel odhlášen
+		expiration: 5 minutes        # (string) výchozí je nenastaveno
+
+		# kam ukládat informace o přihlášeném uživateli
+		storage: session              # (session|cookie) výchozí je session
+

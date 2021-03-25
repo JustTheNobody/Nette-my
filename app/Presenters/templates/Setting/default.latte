@@ -1,0 +1,58 @@
+{block content}
+<h2>
+    Setting page
+    <span>{(isset($value))? "Change ".$value : ''}</span>
+</h2>
+<div class="settingWrapper">
+    <div>
+        Change
+        <ul>
+            <li><a n:href="Setting:default, [actions=>password]">Pasword</a></li>
+            <li><a n:href="Setting:default, [actions=>email]">Email</a></li>
+            <li><a n:href="Setting:default, [actions=>avatar, file=>'']">Avatar</a></li>
+        </ul>
+        Delete Account
+        <ul>
+            <li><a n:href="Setting:default, [actions=>delete]">Delete</a></li>
+        </ul>
+    </div>
+    <div>
+        {if (isset($value))}
+            {switch $value}
+                {case avatar}
+                    <div class="defaultAvatar">
+                        <span>Default Avatars: </span>
+                        {foreach $avatars as $key => $avatar}
+                            <a n:href="Setting:default, [actions=>avatar, file=>$avatar]">
+                                <img src="/img/avatar/{$avatar}" alt="avatar">
+                            </a>
+                        {/foreach}
+                    </div>
+                    <div class="avatarFile">
+                        <p>Form NOT working yet -> todo list</p>
+                        {control avatarForm}
+                        <img id="previewImg" alt="" >
+                    </div>
+                {case email}
+                    {control emailForm}
+                {case password}
+                    {control passwordForm}                 
+                {default}            
+            {/switch}
+        {/if}
+    </div>
+</div>
+<!-- preview of the uploaded img -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    function previewFile(input){
+        var file=$("input[type=file]").get(0).files[0];
+        if(file){
+            var reader = new FileReader();
+            reader.onload = function(){
+                $('#previewImg').attr("src",reader.result);
+            }
+            reader.readAsDataURL(file)
+        }
+    }
+</script>

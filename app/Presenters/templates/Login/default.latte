@@ -1,0 +1,12 @@
+{block content}
+<div id="banner">
+    <h1 n:block=title>Login</h1>
+</div>
+
+<div class="divCenter" id="content">
+    <div>
+        <h3 n:ifset=$result>{$result}</h3>
+        {control loginForm}
+        <a href="/register">Are you Not Registered? Register HERE!</a>
+    </div>
+</div>

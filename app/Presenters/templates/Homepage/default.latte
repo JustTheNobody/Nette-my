@@ -1,0 +1,30 @@
+{block content}
+<h3 n:ifset=$result>Welcome {$result}</h3>
+<div class="divCenter" id="content">
+    <div>  
+        {if $blog[0] != 'No blog'}
+            <h2>The last added Blog</h2>
+            <div class="article">
+            {foreach $blog[0] as $key => $value}
+                {if ($key == "article_id" || $key == "user_id")}
+                {else}
+                <div class="titleBox">{$key}:</div>
+                <div class="{$key}"> {$value}</div>
+                {/if}
+            {/foreach}
+            </div>
+            <div class="button"><a n:href="Blog:default">Blog archive</a></div>
+        {else}
+            <div class="article">
+                <div class="noArticle">
+                    <h2>There is no a Blog in here yet.</h2>
+                    <p>Be the first one to type in some! 
+                        <div class="button">
+                            <a n:href="Blog:add">Add Blog</a>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        {/if} 
+    </div>
+</div>
