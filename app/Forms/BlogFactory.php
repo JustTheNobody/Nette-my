@@ -2,6 +2,8 @@
 
 namespace App\Forms;
 
+use App\Models\UserModel;
+
 class BlogFactory
 {
 
@@ -9,17 +11,18 @@ class BlogFactory
     FORM_MSG_REQUIRED = 'this field is required';
     
     public CustomFormFactory $forms;
+    public UserModel $user;
 
-    public function __construct(CustomFormFactory $forms)
+    public function __construct(CustomFormFactory $forms, UserModel $user)
     {
         $this->forms = $forms;
+        $this->user = $user;
     }
 
     public function renderForm($blog)
     {
         $form = $this->forms->create();
                 
-        $form->addHidden('user_id', $_SESSION['user_id']);
         $form->addHidden('article_id', (is_array($blog) && !empty($blog))? $blog['article_id'] : '');
     
         $form->addText('title', 'Title')
