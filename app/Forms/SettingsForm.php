@@ -5,12 +5,13 @@ namespace App\Forms;
 use App\Models\UserModel;
 use Nette\Utils\Validators;
 
+use Nette\Security\UserStorage;
+
 class SettingsForm
 {
-
     const
     FORM_MSG_REQUIRED = 'this field is required';
-    
+
     public CustomFormFactory $forms;
     public UserModel $user;
 
@@ -19,16 +20,14 @@ class SettingsForm
         $this->user = $user;
         $this->forms = $forms;
     }
- 
+
     public function renderEmailForm()
     {
         $form = $this->forms->create();
 
         $form->addHidden('action', 'email');
         $form->addText('email', 'Your current email:')
-            ->setDefaultValue(
-                $this->user->getEmailValue($_SESSION['user_id'])
-            )
+            ->setDefaultValue($this->user->getEmailValue()) //$this->user->testUser->getIdentity()->email  ??
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('readonly');
         $form->addText('newemail', 'New email:')
@@ -70,7 +69,7 @@ class SettingsForm
         $form = $this->forms->create();
 
         $form->addHidden('action', 'password');
-        $form->addHidden('email', $_SESSION['user_email']);
+        $form->addHidden('email', $this->user->testUser->getIdentity()->email);
         
         $form->addPassword('password', 'Current Password:')
             ->setRequired(self::FORM_MSG_REQUIRED)
@@ -99,7 +98,6 @@ class SettingsForm
             ->setHtmlAttribute('onchange', 'previewFile(this)');
         $form->addSubmit('submit', 'Upload Avatar')
             ->setHtmlAttribute('class', 'btn btn-primary');
-        $form->addHidden($_SESSION['user_id']);
 
         return $form;
     }

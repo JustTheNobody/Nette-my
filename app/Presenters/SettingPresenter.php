@@ -44,11 +44,11 @@ final class SettingPresenter extends Presenter //implements Authorizator
                 } 
             }
             if ($value['actions'] == "delete") {
-                ($this->users->deleteUser($_SESSION['user_id']) != 1)
+                ($this->users->deleteUser() != 1)
                     ?
-                    $this->flashMessage('Something went wrong', 'fail')
+                    $this->flashMessage('Something went wrong', 'fail')//not deleted
                     :
-                    $this->redirect('Login:out');
+                    $this->redirect('Login:out');//deleted
             }
             // Předání výsledku do šablony
             $this->template->value = $value['actions'];
@@ -71,18 +71,16 @@ final class SettingPresenter extends Presenter //implements Authorizator
 
     public function formSucces(ArrayHash $values)
     {   
-        $result = $this->users->authenticate($values->email, $values->password);
+        $result = $this->users->autenticate($values->email, $values->password);
         
-        if ($result->id == 'fail' ) {
+        if (is_array($result) && in_array('fail', $result)) {
             $this->flashMessage('Invalid password', 'fail');
-            $this->redirect('Setting:default, email');
-        }
-        
-        //hash the password
-        ($values->password)?? $this->passwords->hash($values->password);
+            //redirect to email setting?
+            $this->redirect('Setting:default');
+        }        
         //change the email/password now
         $row = $this->users->settingChange($values);
-
+        
         ($row != 1)? 
         $this->flashMessage("Your $values->action has not been changed.", 'fail') : 
         $this->flashMessage("Your $values->action has been changed.", 'success');

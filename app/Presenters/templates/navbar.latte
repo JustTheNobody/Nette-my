@@ -22,13 +22,13 @@
                 <a class="nav-link active" aria-current="page" href="/contact">Contact</a>
             </li>  
         </ul>  
-        {if isset($_SESSION['user']) } 
+        {if isset($user->getIdentity()->name) } 
         <ul class="navbar-nav le-auto mb-2 mb-lg-0 user-nav">
             <div>
-                {if isset($_SESSION['user_avatar'])} 
-                    <img src="/img/avatar/{$_SESSION['user_avatar']}" alt="avatar"> 
+                {if isset($user->getIdentity()->avatar)} 
+                    <img src="/img/avatar/{$user->getIdentity()->avatar}" alt="avatar"> 
                 {/if}
-                {isset($_SESSION['user']) ? $_SESSION['user']}   
+                {isset($user->getIdentity()->name) ? $user->getIdentity()->name}   
             <div>
         
             <li>                         

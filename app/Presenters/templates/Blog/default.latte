@@ -9,7 +9,7 @@
         </div>
     </div>
     <div>  
-        {if ($blog != "No blog")}
+        {if ($blog != "No any blog here yet")}
             {foreach $blog as $value}
                 {var $x = 0 }
                 <div class="article">
@@ -18,14 +18,14 @@
                         {if $akey == "article_id" || $akey == "user_id"}
                             {if $x == 0}
                             <div class="editBox">
-                                {if isset($_SESSION['user_id'])}
-                                    {if $value['user_id'] == $_SESSION['user_id']} <!-- user is a article creator -->
+                                {if $user->getIdentity()->getID()}
+                                    {if $value['user_id'] == $user->getIdentity()->getID()} <!-- user is a article creator -->
                                     {var $value = (array)$value}
                                         <div class="button">
                                             <a class="edit" n:href="Blog:edit $value">Edit Blog</a>
                                         </div>
                                         <div class="button">
-                                            <a class="delete" n:href="delete! $value['article_id'], $value['user_id']">Delete</a>
+                                            <a class="delete" n:href="delete! $value['article_id']">Delete</a>
                                         </div>
                                     {/if}
                                 {/if}

@@ -59,14 +59,12 @@ final class BlogPresenter extends Presenter
         $this->blogModel = $blogModel;
         $this->user = $user;
         $this->forms = $forms;
-
-        isset($_SESSION['user_id'])? $this->user_id = $_SESSION['user_id'] : 0;
     }
 
     public function checkAuth()
     {
         //check if user loged
-        if ($this->user_id == 0) {
+        if ($this->user->testUser->getIdentity()->getId() == null) {
             $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
             $this->redirect('Login:default');
         }
@@ -89,9 +87,9 @@ final class BlogPresenter extends Presenter
         $this->template->blog = $blog; // Send to template.
     }
 
-    public function handleDelete($blog_id, $user_id)
+    public function handleDelete($blog_id)
     {
-        $result = $this->blogModel->removeBlog($blog_id, $user_id);
+        $result = $this->blogModel->removeBlog($blog_id);
 
         if ($result == "success") {
             $this->status = "success";

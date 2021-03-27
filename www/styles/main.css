@@ -249,6 +249,15 @@ section .container .divCenter div {
   align-items: center;
 }
 
+section .container .divCenter div a {
+  text-decoration: none;
+}
+
+section .container .divCenter div a:hover, section .container .divCenter div a:focus {
+  color: #25008b;
+  font-weight: bolder;
+}
+
 section .container .divCenter div .noArtic {
   min-height: 200px;
   display: -webkit-box;
@@ -296,8 +305,51 @@ section .container .divCenter div .article .editBox {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding-right: 40px;
+}
+
+section .container .divCenter div .article .editBox .button {
+  float: right;
+  margin: 10px;
+}
+
+section .container .divCenter div .article .editBox .button a {
+  text-decoration: none;
+}
+
+section .container .divCenter div .article .editBox .button .edit:hover, section .container .divCenter div .article .editBox .button .edit:focus {
+  color: darkgreen;
+  font-weight: bolder;
+}
+
+section .container .divCenter div .article .editBox .button .delete:hover, section .container .divCenter div .article .editBox .button .delete:focus {
+  color: darkred;
+  font-weight: bolder;
+}
+
+section .container .divCenter div .article .titleBox {
+  background: chocolate;
+  padding: 0 10px;
+}
+
+section .container .divCenter div .article .content,
+section .container .divCenter div .article .description,
+section .container .divCenter div .article .title {
+  padding: 10px 20px;
+}
+
+section .container .divCenter .addArticle a {
+  text-decoration: none;
+}
+
+section .container .divCenter .addArticle a:hover, section .container .divCenter .addArticle a:focus {
+  color: #25008b;
+  font-weight: bolder;
 }
 
 form {

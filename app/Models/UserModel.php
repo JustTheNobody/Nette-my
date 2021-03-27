@@ -2,29 +2,33 @@
 
 namespace App\Models;
 
+use stdClass;
+use Nette\Utils\FileSystem;
 use Nette\Database\Explorer;
-use Nette\Security\Passwords;
-use Nette\Security\SimpleIdentity;
-use Nette\Security\Authenticator;
 /**
  * Commented out at lines 31 & 42, for the user frendly output msg
  */ 
 use Nette\Security\AuthenticationException;
+use Nette\Security\Passwords;
+use Nette\Security\SimpleIdentity;
 
-class UserModel implements Authenticator
+use Nette\Security\UserStorage;
+use Nette\Security\User;
+class UserModel
 {
-    public $database;
-    private $passwords;
-    public $sessionStorage;
+    public Explorer $database;
+    private Passwords $passwords;
+    public User $testUser;
 
-    public function __construct(Explorer $database, Passwords $passwords) 
+    public function __construct(Explorer $database, Passwords $passwords, User $testUser) 
     {
         $this->database = $database;
         $this->passwords = $passwords;
+        $this->testUser = $testUser;
     }
 
-    public function authenticate(string $email, string $password): SimpleIdentity
-    {   
+    public function autenticate(string $email, string $password)
+    {
         $row = $this->database->table('users')
             ->where('email LIKE ?', $email)
             ->fetch();
@@ -32,30 +36,29 @@ class UserModel implements Authenticator
         if (!$row) {
             //throw new AuthenticationException('User not found.');
             //just for user fendly output, I'm sure that is the best practice
-            $autStatus = 'fail';
-            $autError = 'user';
-            return new SimpleIdentity(
-                $autStatus,
-                $autError   
-            );
+            return ['status' => 'fail', 'error' => 'email'];
         }
 
         if (!$this->passwords->verify($password, $row->passwords)) {
             //throw new AuthenticationException('Invalid password.');
             //just for user fendly output, I'm sure that is the best practice
-            $autStatus = 'fail';
-            $autError = 'password';
-            return new SimpleIdentity(
-                $autStatus,
-                $autError   
-            );
+            return ['status' => 'fail', 'error' => 'password'];
         }
 
-        return new SimpleIdentity(
-            $row->id,
-            ['role' => 'user'],
-            ['name' => $row->firstname, 'email' => $email, 'avatar' => $row->avatar]
+
+        $this->testUser->getStorage()->saveAuthentication(
+            new SimpleIdentity(
+                $row->id,
+                ['role' => 'user'],
+                [
+                    'name' => $row->firstname,
+                    'email' => $email,
+                    'avatar' => $row->avatar
+                ]
+            )
         );
+        
+        return $this->testUser->getId();
     }
 
     public function registerUser($values)
@@ -73,22 +76,33 @@ class UserModel implements Authenticator
 
     public function settingChange($values)
     {
-        $this->database->table('users')
-            ->where('id', $_SESSION['user_id'])
+        return $this->database->table('users')
+            ->where('id', $this->testUser->getIdentity()->getId())
             ->update(
                 ($values->action == 'email')?
                 ['email' => $values->newemail]:
-                ['passwords' => $values->newpassword]
-            );
+                ['passwords' => $this->passwords->hash($values->newpassword)]
+            );  
     }
 
     public function settingAvatarChange($values)
     {
-        $this->database->table('users')
-            ->where('id', $_SESSION['user_id'])
-            ->update(['avatar' => $values]);
-        //set new avatar in session
-        $_SESSION['user_avatar'] = $values;
+        if (\is_object($values)) {
+            $file = new FileModel;
+            $result = $file->uploadAvatar($values);
+            if ($result) {
+                return true; 
+            } else { 
+                return false;
+            }
+            return ($result)? true : false;
+        } else {
+            $this->database->table('users')
+                ->where('id', $this->testUser->getIdentity()->getID())
+                ->update(['avatar' => $values]);
+            //set new avatar in session
+            $this->testUser->getIdentity()->avatar = $values;
+        }
         /**
          * Upload->uploadModel(if upload avatar create user folder(id) 
          * if user deleted=> delete the userFolder to), 
@@ -97,20 +111,26 @@ class UserModel implements Authenticator
          */ 
     }
     
+    //check the unique email
     public function getValue($email)
     {
         return $this->database->fetchField('SELECT email FROM users WHERE email = ?', $email);
     }
 
-    public function getEmailValue($id)
+    //value for the 
+    public function getEmailValue()
     {
-        return $this->database->fetchField('SELECT email FROM users WHERE id = ?', $id);
+        return $this->database->fetchField('SELECT email FROM users WHERE id = ?', $this->testUser->getIdentity()->getId());
     }
 
-    public function deleteUser($id)
+    public function deleteUser()
     {
-        $result = $this->database->query('DELETE FROM users WHERE id = ?', $id)
-                                ->getRowCount();
+        FileSystem::delete(
+            "storage/" . $this->testUser->getIdentity()->getId()
+        );
+
+        $result = $this->database->query('DELETE FROM users WHERE id = ?', $this->testUser->getIdentity()->getId())
+            ->getRowCount();
         return $result;
     }
 }

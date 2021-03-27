@@ -1,5 +1,6 @@
 parameters:
 	wwwDir: %appDir%/Models/../www
+	imageStorage: ImageStorage(%wwwDir%/www/storage)
 
 application:
 	errorPresenter: Error
@@ -20,9 +21,11 @@ di:
 
 services:
 	- App\Router\RouterFactory::createRouter
+
 	- App\Models\BlogModel
-	- Nette\Utils\ArrayHash
 	- App\Models\UserModel
+
+	- Nette\Utils\ArrayHash	
 	- App\Models\CustomFormModel
 	- App\Forms\CustomFormFactory
 	- App\Forms\LoginFactory
@@ -32,12 +35,3 @@ services:
 	- App\Forms\SettingsForm
 
 	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])
-	
-security:
-	authentication:
-		# po jak dlouhé době nečinnosti bude uživatel odhlášen
-		expiration: 5 minutes        # (string) výchozí je nenastaveno
-
-		# kam ukládat informace o přihlášeném uživateli
-		storage: session              # (session|cookie) výchozí je session
-

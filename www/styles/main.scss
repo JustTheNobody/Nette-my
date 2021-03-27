@@ -188,6 +188,14 @@ section {
                 -webkit-box-align: center;
                 -ms-flex-align: center;
                 align-items: center;
+                a {
+                    text-decoration: none;
+                    &:hover,
+                    &:focus {
+                        color: rgb(37, 0, 139);
+                        font-weight: bolder;
+                    }
+                }
                 .noArtic {
                     min-height: 200px;
                     display: flex;
@@ -220,13 +228,50 @@ section {
                     }
                     .editBox {
                         width: 100%;
-                        display: -webkit-box;
-                        display: -ms-flexbox;
                         display: flex;
-                        -webkit-box-orient: horizontal;
-                        -webkit-box-direction: normal;
-                        -ms-flex-direction: row;
                         flex-direction: row;
+                        justify-content: flex-end;
+                        padding-right: 40px;
+                        .button {
+                            float: right;
+                            margin: 10px;
+                            a {
+                                text-decoration: none;
+                            }
+                            .edit {
+                                &:hover,
+                                &:focus {
+                                    color: darkgreen;
+                                    font-weight: bolder;
+                                }
+                            }
+                            .delete {
+                                &:hover,
+                                &:focus {
+                                    color: darkred;
+                                    font-weight: bolder;
+                                }
+                            }
+                        }
+                    }
+                    .titleBox {
+                        background: chocolate;
+                        padding: 0 10px;
+                    }
+                    .content,
+                    .description,
+                    .title {
+                        padding: 10px 20px;
+                    }
+                }
+            }
+            .addArticle {
+                a {
+                    text-decoration: none;
+                    &:hover,
+                    &:focus {
+                        color: rgb(37, 0, 139);
+                        font-weight: bolder;
                     }
                 }
             }

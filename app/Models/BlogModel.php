@@ -14,21 +14,21 @@ class BlogModel
 
     const
         TABLE_NAME = 'articles',
-        COLUMN_ID = 'article_id',
-        COLUMN_USER = 'user_id';
+        COLUMN_ID = 'article_id';
 
     public string $blog = '';
     public int $blog_id = 0;
     public string $title = '';
     public string $description = '';
     public string $content = '';
-    public int $user_id = 0;
+    private $user;
 
     private $database;
 
-    public function __construct(Explorer $database)
+    public function __construct(Explorer $database, UserModel $user)
     {
         $this->database = $database;
+        $this->user = $user;
     }
 
     //get all Blog -> display one at home page rest in Blog page
@@ -74,14 +74,13 @@ class BlogModel
         $this->title = $blog->title;
         $this->description = $blog->description;
         $this->content = $blog->content;
-        $this->user_id = $_SESSION['user_id'];
 
         $this->database->query(
             'INSERT INTO articles ?', [ 
             'title' => $this->title,
             'description' => $this->description,
             'content' => $this->content,
-            'user_id' => $this->user_id,]
+            'user_id' => $this->user->testUser->getId(),]
         );
 
         // it return's auto-increment of the inserted blog
@@ -93,15 +92,14 @@ class BlogModel
     /**
      * Remove Blog with given ID.
      */
-    public function removeBlog($blog_id, $user_id)
+    public function removeBlog($blog_id)
     {
         $this->blog_id = intval($blog_id);
-        $this->user_id = intval($user_id);
 
         $query = $this->database->query(
             'DELETE FROM articles WHERE ?', [
             self::COLUMN_ID => $this->blog_id,
-            self::COLUMN_USER => $this->user_id]
+            $this->user->testUser->getId()]
         );
         
         return ($query->getRowCount() !== 1) ? "fail" : "success";
