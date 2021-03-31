@@ -8,9 +8,14 @@ use Nette\Application\UI\Presenter;
 
 final class PortfolioPresenter extends Presenter
 {
+    public function beforeRender()
+    {
+        $this->template->title = 'portfolio';    
+    }
+
     public function renderDefault()
     {
-        // Předání výsledku do šablony       
+        //
     }
 
 }

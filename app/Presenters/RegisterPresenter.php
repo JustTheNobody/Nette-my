@@ -27,9 +27,13 @@ final class RegisterPresenter extends Presenter
         $this->forms = $forms;
     }
 
-    public function renderDefault()
+    public function beforeRender()
     {
-        // Předání výsledku do šablony       
+        $this->template->title = 'register';
+    }
+
+    public function renderDefault()
+    {         
     }
 
     protected function createComponentRegisterForm()

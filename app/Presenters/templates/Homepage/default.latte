@@ -2,7 +2,7 @@
 <h3 n:ifset=$result>Welcome {$result}</h3>
 <div class="divCenter" id="content">
     <div>  
-        {if $blog[0] != 'No blog'}
+        {if $blog}
             <h2>The last added Blog</h2>
             <div class="article">
             {foreach $blog[0] as $key => $value}

@@ -29,6 +29,11 @@ final class SettingPresenter extends Presenter //implements Authorizator
         $this->sform = $sform;
     }
 
+    public function beforeRender()
+    {
+        $this->template->title = 'setting';
+    }
+
     public function renderDefault(array $value)
     {
         if (isset($value['actions'])) {
@@ -76,14 +81,15 @@ final class SettingPresenter extends Presenter //implements Authorizator
         if (is_array($result) && in_array('fail', $result)) {
             $this->flashMessage('Invalid password', 'fail');
             //redirect to email setting?
-            $this->redirect('Setting:default');
+            //$link = $this->link('Setting:default', ['actions' =>$values['actions']]);
+           //$this->redirect($link);
+           $this->redirect('Setting:default');
         }        
         //change the email/password now
-        $row = $this->users->settingChange($values);
-        
+        $row = $this->users->settingChange($values);     
         ($row != 1)? 
-        $this->flashMessage("Your $values->action has not been changed.", 'fail') : 
-        $this->flashMessage("Your $values->action has been changed.", 'success');
+        $this->flashMessage("Your $values->actions has not been changed.", 'fail') : 
+        $this->flashMessage("Your $values->actions has been changed.", 'success');
 
         $this->redirect('Setting:default');  
     }

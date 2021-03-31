@@ -79,7 +79,7 @@ class UserModel
         return $this->database->table('users')
             ->where('id', $this->testUser->getIdentity()->getId())
             ->update(
-                ($values->action == 'email')?
+                ($values->actions == 'email')?
                 ['email' => $values->newemail]:
                 ['passwords' => $this->passwords->hash($values->newpassword)]
             );  

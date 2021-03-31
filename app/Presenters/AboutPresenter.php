@@ -8,9 +8,14 @@ use Nette\Application\UI\Presenter;
 
 final class AboutPresenter extends Presenter
 {
+    public function beforeRender()
+    {
+        $this->template->title = 'about'; 
+    }
+
     public function renderDefault()
     {
-        // Předání výsledku do šablony       
+        //
     }
 
 }

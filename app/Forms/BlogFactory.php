@@ -37,17 +37,30 @@ class BlogFactory
             ->setHtmlAttribute('cols', 40)
             ->setRequired(self::FORM_MSG_REQUIRED)
             ->addRule($form::MIN_LENGTH, 'Content has to be minimum of %d letters', 30);
-            
-        $form->addText('description', 'Description')
-            ->setValue((is_array($blog) && !empty($blog))? $blog['description'] : '')
-            ->setRequired(self::FORM_MSG_REQUIRED)
-            ->addRule($form::MIN_LENGTH, 'Title has to be minimum of %d letters', 5)
-            ->addRule($form::MAX_LENGTH, 'Title has to be maximum of %d letters', 25);
 
-        $form->addSubmit('submit', (is_array($blog) && !empty($blog))? 'Update Blog' : 'Add Blog');
+        $form->addSubmit('submit', (is_array($blog) && !empty($blog))? 'Update Blog' : 'Add Blog')
+            ->setHtmlAttribute('class', 'btn btn-primary');
         $form->setHtmlAttribute('class', 'updateForm');
 
         return $form;
     }
 
+    public function renderCommentForm()
+    {
+        $form = $this->forms->create();
+        $form->addHidden('article_id');
+        $form->addHidden('comment_id');
+
+        $form->addTextArea('content', 'Content')
+            ->setHtmlAttribute('rows', 5)
+            ->setHtmlAttribute('cols', 40)            
+            ->setRequired(self::FORM_MSG_REQUIRED)
+            ->addRule($form::MIN_LENGTH, 'Content has to be minimum of %d letters', 5);
+            
+        $form->addSubmit('submit', 'add Comment')
+            ->setHtmlAttribute('class', 'btn btn-primary');
+        $form->setHtmlAttribute('class', 'updateForm');
+
+        return $form;
+    }
 }

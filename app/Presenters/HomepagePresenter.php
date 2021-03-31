@@ -22,6 +22,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
     public function beforeRender()
     {
         $this->lastBlog = $this->blogModel->getLast();
+        $this->template->title = 'home';
     }
 
     public function renderDefault()

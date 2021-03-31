@@ -44,6 +44,41 @@ nav {
     .container-fluid {
         max-width: 1200px;
         margin: 0 auto;
+        .logo {
+            width: 90px;
+            height: 46px;
+            background: chocolate;
+        }
+        .collapse {
+            .navbar-nav {
+                .nav-item {
+                    width: 100px;
+                    a {
+                        display: block;
+                        transform-origin: center;
+                        &:hover,
+                        &:focus {
+                            transform: rotate(15deg);
+                            letter-spacing: 2px;
+                        }
+                    }
+                }
+                .active {
+                    margin-top: 10px;
+                    font-weight: bolder;
+                    color: chocolate;
+                    transform: rotate(15deg);
+                    letter-spacing: 2px;
+                }
+            }
+            .nav-main {
+                align-items: center;
+                li {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+        }
         .user-nav {
             display: flex;
             align-items: center;
@@ -69,7 +104,7 @@ nav {
                             color: rgba(0, 0, 0, .9);
                             &:hover,
                             &:focus {
-                                color: #0d6efd;
+                                color: #1E87D2;
                             }
                         }
                     }
@@ -102,7 +137,7 @@ nav {
         color: blue;
     }
     .success {
-        color: green;
+        color: #2DD21E;
     }
     .fail {
         color: darkred;
@@ -190,9 +225,12 @@ section {
                 align-items: center;
                 a {
                     text-decoration: none;
+                    padding: 0 5px;
+                    border-radius: 5px;
                     &:hover,
                     &:focus {
-                        color: rgb(37, 0, 139);
+                        color: white;
+                        background: chocolate;
                         font-weight: bolder;
                     }
                 }
@@ -237,18 +275,22 @@ section {
                             margin: 10px;
                             a {
                                 text-decoration: none;
+                                padding: 0 5px;
+                                border-radius: 5px;
                             }
                             .edit {
                                 &:hover,
                                 &:focus {
-                                    color: darkgreen;
+                                    color: white;
+                                    background: #2DD21E;
                                     font-weight: bolder;
                                 }
                             }
                             .delete {
                                 &:hover,
                                 &:focus {
-                                    color: darkred;
+                                    color: white;
+                                    background: darkred;
                                     font-weight: bolder;
                                 }
                             }
@@ -259,18 +301,42 @@ section {
                         padding: 0 10px;
                     }
                     .content,
-                    .description,
                     .title {
                         padding: 10px 20px;
+                    }
+                    .commentList {
+                        width: 100%;
+                        padding: 0 20px;
+                        display: flex;
+                        align-items: flex-start;
+                        .item {
+                            width: 100%;
+                            padding: 0 20px;
+                            display: flex;
+                            align-items: flex-start;
+                            border-bottom: 0.5px solid rgba(0, 0, 0, 0.6);
+                            .editBox {
+                                width: 100%;
+                                display: flex;
+                                align-items: flex-end;
+                            }
+                        }
+                    }
+                    .commentBox {
+                        margin: 30px;
+                        margin-bottom: 0;
                     }
                 }
             }
             .addArticle {
                 a {
                     text-decoration: none;
+                    padding: 0 5px;
+                    border-radius: 5px;
                     &:hover,
                     &:focus {
-                        color: rgb(37, 0, 139);
+                        color: white;
+                        background: chocolate;
                         font-weight: bolder;
                     }
                 }
@@ -325,4 +391,13 @@ form {
 
 .error {
     color: darkred;
+}
+
+.btn-primary {
+    background: #1E87D2;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
 }

@@ -25,8 +25,7 @@ final class LoginPresenter extends Presenter //implements Authorizator
 
     public function renderDefault()
     {
-        // Předání výsledku do šablony
-        //$this->template->userName = $this->userName;
+        $this->template->title = 'login';
     }
 
     protected function createComponentLoginForm()

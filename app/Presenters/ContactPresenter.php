@@ -23,9 +23,14 @@ final class ContactPresenter extends Presenter
         $this->form = $form;
     }
 
+    public function beforeRender()
+    {
+        $this->template->title = 'contact';   
+    }
+
     public function renderDefault()
     {
-        // Předání výsledku do šablony       
+        //
     }
 
     public function createComponentContactForm()

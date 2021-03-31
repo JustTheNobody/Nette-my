@@ -47,6 +47,52 @@ nav .container-fluid {
   margin: 0 auto;
 }
 
+nav .container-fluid .logo {
+  width: 90px;
+  height: 46px;
+  background: chocolate;
+}
+
+nav .container-fluid .collapse .navbar-nav .nav-item {
+  width: 100px;
+}
+
+nav .container-fluid .collapse .navbar-nav .nav-item a {
+  display: block;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+
+nav .container-fluid .collapse .navbar-nav .nav-item a:hover, nav .container-fluid .collapse .navbar-nav .nav-item a:focus {
+  -webkit-transform: rotate(15deg);
+          transform: rotate(15deg);
+  letter-spacing: 2px;
+}
+
+nav .container-fluid .collapse .navbar-nav .active {
+  margin-top: 10px;
+  font-weight: bolder;
+  color: chocolate;
+  -webkit-transform: rotate(15deg);
+          transform: rotate(15deg);
+  letter-spacing: 2px;
+}
+
+nav .container-fluid .collapse .nav-main {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+nav .container-fluid .collapse .nav-main li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 nav .container-fluid .user-nav {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -88,7 +134,7 @@ nav .container-fluid .user-nav li ul li a {
 }
 
 nav .container-fluid .user-nav li ul li a:hover, nav .container-fluid .user-nav li ul li a:focus {
-  color: #0d6efd;
+  color: #1E87D2;
 }
 
 .errorPage {
@@ -126,7 +172,7 @@ nav .container-fluid .user-nav li ul li a:hover, nav .container-fluid .user-nav 
 }
 
 .flashWrapper .success {
-  color: green;
+  color: #2DD21E;
 }
 
 .flashWrapper .fail {
@@ -251,10 +297,13 @@ section .container .divCenter div {
 
 section .container .divCenter div a {
   text-decoration: none;
+  padding: 0 5px;
+  border-radius: 5px;
 }
 
 section .container .divCenter div a:hover, section .container .divCenter div a:focus {
-  color: #25008b;
+  color: white;
+  background: chocolate;
   font-weight: bolder;
 }
 
@@ -320,15 +369,19 @@ section .container .divCenter div .article .editBox .button {
 
 section .container .divCenter div .article .editBox .button a {
   text-decoration: none;
+  padding: 0 5px;
+  border-radius: 5px;
 }
 
 section .container .divCenter div .article .editBox .button .edit:hover, section .container .divCenter div .article .editBox .button .edit:focus {
-  color: darkgreen;
+  color: white;
+  background: #2DD21E;
   font-weight: bolder;
 }
 
 section .container .divCenter div .article .editBox .button .delete:hover, section .container .divCenter div .article .editBox .button .delete:focus {
-  color: darkred;
+  color: white;
+  background: darkred;
   font-weight: bolder;
 }
 
@@ -338,17 +391,57 @@ section .container .divCenter div .article .titleBox {
 }
 
 section .container .divCenter div .article .content,
-section .container .divCenter div .article .description,
 section .container .divCenter div .article .title {
   padding: 10px 20px;
 }
 
+section .container .divCenter div .article .commentList {
+  width: 100%;
+  padding: 0 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+section .container .divCenter div .article .commentList .item {
+  width: 100%;
+  padding: 0 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.6);
+}
+
+section .container .divCenter div .article .commentList .item .editBox {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+section .container .divCenter div .article .commentBox {
+  margin: 30px;
+  margin-bottom: 0;
+}
+
 section .container .divCenter .addArticle a {
   text-decoration: none;
+  padding: 0 5px;
+  border-radius: 5px;
 }
 
 section .container .divCenter .addArticle a:hover, section .container .divCenter .addArticle a:focus {
-  color: #25008b;
+  color: white;
+  background: chocolate;
   font-weight: bolder;
 }
 
@@ -390,5 +483,14 @@ form table tbody tr td textarea {
 
 .error {
   color: darkred;
+}
+
+.btn-primary {
+  background: #1E87D2;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
 }
 /*# sourceMappingURL=main.css.map */

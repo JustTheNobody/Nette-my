@@ -25,7 +25,7 @@ class SettingsForm
     {
         $form = $this->forms->create();
 
-        $form->addHidden('action', 'email');
+        $form->addHidden('actions', 'email');
         $form->addText('email', 'Your current email:')
             ->setDefaultValue($this->user->getEmailValue()) //$this->user->testUser->getIdentity()->email  ??
             ->setHtmlAttribute('class', 'form-control')
@@ -68,7 +68,7 @@ class SettingsForm
     {
         $form = $this->forms->create();
 
-        $form->addHidden('action', 'password');
+        $form->addHidden('actions', 'password');
         $form->addHidden('email', $this->user->testUser->getIdentity()->email);
         
         $form->addPassword('password', 'Current Password:')
