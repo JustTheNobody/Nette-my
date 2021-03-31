@@ -36,7 +36,6 @@ final class BlogPresenter extends Presenter
     public string $blog = '';
     public int $blog_id = 0;
     public string $title = '';
-    public string $description = '';
     public string $content = '';
     public int $user_id = 0;
     
@@ -61,10 +60,15 @@ final class BlogPresenter extends Presenter
         $this->forms = $forms;
     }
 
+    public function beforeRender()
+    {
+        $this->template->title = 'blog';
+    }
+    
     public function checkAuth()
     {
         //check if user loged
-        if ($this->user->testUser->getIdentity()->getId() == null) {
+        if ($this->user->testUser->getIdentity() == null) {
             $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
             $this->redirect('Login:default');
         }
@@ -80,25 +84,23 @@ final class BlogPresenter extends Presenter
         $blog = $this->blogModel->getBlogs();
 
         // Read the Blog -> 404 if not found.
-        if ($blog == 'No blog') {
+        if (!$blog) {
             $this->flashMessage('There are not any blogs in here yet.', 'fail');
         }
 
         $this->template->blog = $blog; // Send to template.
+        $this->template->title = 'blog';
     }
 
-    public function handleDelete($blog_id)
+    public function handleDelete($id)
     {
-        $result = $this->blogModel->removeBlog($blog_id);
+        $item = explode('_', $id);
+        $result = $this->blogModel->removeBlog($id);
 
-        if ($result == "success") {
-            $this->status = "success";
-            $this->flashMessage('Blog has been deleted.', 'success');
-        } else {
-            //redirect
-            $this->status = "fail";
-            $this->flashMessage('Sorry, there was a unexpected error in deleting the Blog.', 'fail');
-        }
+        ($result)?
+            $this->flashMessage("$item[0] has been deleted.", 'success'):
+            $this->flashMessage("Sorry, there was a unexpected error in deleting the $item[0].", 'fail');
+        
         $this->redirect('Blog:default');
     }
     
@@ -109,6 +111,7 @@ final class BlogPresenter extends Presenter
     {
         //check if loged in -> if not redirect
         $this->checkAuth();
+        $this->template->title = 'blog';
     }
 
     protected function createComponentBlogForm()
@@ -122,7 +125,7 @@ final class BlogPresenter extends Presenter
     {
         $result = $this->blogModel->saveBlog($values);
 
-        if ($result == "success") {
+        if ($result) {
             //redirect 2 userPage
             $this->flashMessage('Blog has been saved.', 'success');
             $this->redirect('Blog:default');
@@ -136,7 +139,7 @@ final class BlogPresenter extends Presenter
     /**
      * Edit the Blog section
      */
-    public function renderEdit(array $blog)
+    public function renderEdit(object $blog)
     {
         $this->blogs = $blog;
         $this->template->blog = $this->blog; // Send to template.
@@ -154,7 +157,7 @@ final class BlogPresenter extends Presenter
    
         $result = $this->blogModel->updateBlog($blog);
 
-        if ($result == "success") {
+        if ($result) {
             //redirect 2 userPage
             $this->status = "success";
             $this->flashMessage('Blog has been updated.', 'success');
@@ -163,6 +166,21 @@ final class BlogPresenter extends Presenter
             $this->status = "fail";
             $this->flashMessage('Sorry, there was a unexpected error in updating of the blog.', 'fail');
         }
+        $this->redirect('Blog:default');
+    }
+
+    protected function createComponentCommentForm()
+    {
+        $form = $this->forms->renderCommentForm();
+        $form->onSuccess[] = [$this, 'commentFormSucceeded'];
+        return $form;
+    }
+
+    public function commentFormSucceeded(ArrayHash $values)
+    {
+        ($this->blogModel->commentBlog($values))? 
+        $this->flashMessage('Your comment has been added.', 'success'):
+        $this->flashMessage('Sorry, there was a problem, your comment is not added.', 'fail');
         $this->redirect('Blog:default');
     }
 }
