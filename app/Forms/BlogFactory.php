@@ -60,7 +60,7 @@ class BlogFactory
         $form->addSubmit('submit', 'add Comment')
             ->setHtmlAttribute('class', 'btn btn-primary');
         $form->setHtmlAttribute('class', 'updateForm');
-
+        
         return $form;
     }
 }
