@@ -4,22 +4,27 @@
     <span>{(isset($value))? "Change ".$value : ''}</span>
 </h2>
 <div class="settingWrapper">
-    <div>
-        Change
-        <ul>
-            <li><a n:href="Setting:default, [actions=>password]">Pasword</a></li>
-            <li><a n:href="Setting:default, [actions=>email]">Email</a></li>
-            <li><a n:href="Setting:default, [actions=>avatar, file=>'']">Avatar</a></li>
-        </ul>
-        Delete Account
-        <ul>
-            <li><a n:href="Setting:default, [actions=>delete]">Delete</a></li>
-        </ul>
-    </div>
-    <div>
-        {if (isset($value))}
+    <div class="settingSide">
+        <div>
+            Change
+            <ul>
+                <li><a n:href="Setting:default, [actions=>password]">Pasword</a></li>
+                <li><a n:href="Setting:default, [actions=>email]">Email</a></li>
+                <li><a n:href="Setting:default, [actions=>avatar, file=>'']">Avatar</a></li>
+            </ul>
+            {if ($user->getIdentity()->getID() && !$role['role'] == 'admin')} 
+                Delete Account
+                <ul>
+                    <li><a n:href="Setting:default, [actions=>delete]">Delete</a></li>
+                </ul>
+            {/if}
+        </div>
+    </div>    
+    <div class="settingMiddle">
+        {if (isset($value))}        
             {switch $value}
                 {case avatar}
+                    <h3>Change Avatar</h3>
                     <div class="defaultAvatar">
                         <span>Default Avatars: </span>
                         {foreach $avatars as $key => $avatar}
@@ -34,13 +39,37 @@
                         <img id="previewImg" alt="" >
                     </div>
                 {case email}
+                    <h3>Change Email</h3>
                     {control emailForm}
                 {case password}
-                    {control passwordForm}                 
+                    <h3>Change Password</h3>
+                    {control passwordForm}    
+                {case web}
+                    <h3>Add Web</h3>
+                    {control webForm}   
+                {case graphic}
+                    <h3>Add Graphic</h3>
+                    {control graphicForm}
+                {case photography}
+                    <h3>Add Photography</h3>
+                    {control photographyForm}
                 {default}            
             {/switch}
         {/if}
     </div>
+    {if ($user->getIdentity()->getID() && $role['role'] == 'admin')}    
+        <div class="adminSide">
+            <h3>Admin Site</h3>
+            <div>
+                Add to Portfolio
+                <ul>
+                    <li><a n:href="Setting:default, [add=>web]">Add Web</a></li>
+                    <li><a n:href="Setting:default, [add=>graphic]">Add Graphic</a></li>
+                    <li><a n:href="Setting:default, [add=>photography]">Add Photography</a></li>
+                </ul>                
+            </div>
+        </div>
+    {/if}    
 </div>
 <!-- preview of the uploaded img -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

@@ -93,6 +93,7 @@ class SettingsForm
         $form = $this->forms->create();
 
         $form->addUpload('avatar', 'From Your File:')
+            ->setRequired(self::FORM_MSG_REQUIRED)
             ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP.')
             ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 1 MB.', 1024 * 1024)
             ->setHtmlAttribute('onchange', 'previewFile(this)');

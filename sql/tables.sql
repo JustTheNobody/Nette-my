@@ -8,6 +8,7 @@ CREATE TABLE `users` (
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `passwords` varchar(255) NOT NULL,
+  `role` varchar(11) NOT NULL DEFAULT `user`,
   `avatar` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
@@ -39,3 +40,29 @@ CREATE TABLE `comments` (
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`comment_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
+
+-- ----------------------------
+-- Table structure for `category`
+-- ----------------------------
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+    `category_id`  int(11) NOT NULL AUTO_INCREMENT,
+    `category`       varchar(20) COLLATE utf8_czech_ci DEFAULT NULL,
+    PRIMARY KEY (`category_id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
+
+-- ----------------------------
+-- Table structure for `portfolio`
+-- ----------------------------
+DROP TABLE IF EXISTS `portfolio`;
+CREATE TABLE `portfolio` (
+    `portfolio_id`  int(11) NOT NULL AUTO_INCREMENT,
+    `title`       varchar(255) COLLATE utf8_czech_ci DEFAULT NULL,
+    `description`     text COLLATE utf8_czech_ci,
+    `content`     text COLLATE utf8_czech_ci,   
+    `img`         varchar(255) DEFAULT NULL,
+    `category_id`     int(11) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (`portfolio_id`)      
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
+

@@ -63,16 +63,12 @@ final class BlogPresenter extends Presenter
     public function beforeRender()
     {
         $this->template->title = 'blog';
-    }
-    
-    public function checkAuth()
-    {
-        //check if user loged
-        if ($this->user->testUser->getIdentity() == null) {
+        if (!$this->user->checkAuth()) {
             $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
             $this->redirect('Login:default');
+            exit;
         }
-    }
+    }    
 
     /**
      * Read the Default Blog template.
@@ -88,6 +84,7 @@ final class BlogPresenter extends Presenter
             $this->flashMessage('There are not any blogs in here yet.', 'fail');
         }
 
+        $this->template->role = $this->getUser()->getIdentity()->roles;
         $this->template->blog = $blog; // Send to template.
         $this->template->title = 'blog';
     }
@@ -139,7 +136,7 @@ final class BlogPresenter extends Presenter
     /**
      * Edit the Blog section
      */
-    public function renderEdit(object $blog)
+    public function renderEdit(array $blog)
     {
         $this->blogs = $blog;
         $this->template->blog = $this->blog; // Send to template.

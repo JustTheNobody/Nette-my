@@ -7,6 +7,7 @@ namespace app\Models;
 use DateTime;
 use stdClass;
 use Nette\SmartObject;
+use Nette\Utils\Arrays;
 use Nette\Utils\ArrayHash;
 use Nette\Database\Explorer;
 
@@ -22,7 +23,8 @@ class BlogModel
     public int $blog_id = 0;
     public string $title = '';
     public string $content = '';
-    public $id;
+    public $artId = 0;
+    public $comId = 0;
     private $user;
 
     private $database;
@@ -31,20 +33,6 @@ class BlogModel
     {
         $this->database = $database;
         $this->user = $user;        
-    }
-
-    //get all Blog -> display one at home page rest in Blog page
-    public function getBlogs()
-    {
-        $row = $this->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
-        $rowComment = $this->database->fetchAll('SELECT * FROM comments ORDER BY article_id DESC');
-
-        if (empty($row)) {
-            return false;
-        }
-
-        $output = self::relations($row, $rowComment);
-        return $output;
     }
 
     //get Blog with bigest ID if there any Blog at all
@@ -60,6 +48,8 @@ class BlogModel
                 "SELECT * FROM articles
                 WHERE article_id = $id"
             );
+
+            $row[0]->created_at = $row[0]->created_at->format('d-m-Y');
             return $row;
         }
     }
@@ -98,22 +88,22 @@ class BlogModel
     public function removeBlog($id)
     {
         $item = explode('_', $id);
-        $this->id = intval($item[1]);
+        $this->artId = intval($item[1]);
 
-        if ($item[0] == 'Comment') {
+        if ($item[0] == 'comment') {
             $query = $this->database->query(
                 'DELETE FROM comments WHERE ?', [
-                'comment_id' => $this->id]
+                'comment_id' => $this->artId]
             );
         } else {
             //remove Article & comments
             $query = $this->database->query(
                 'DELETE FROM articles WHERE ?', [
-                self::ARTICLE_COLUMN_ID => $this->id]
+                self::ARTICLE_COLUMN_ID => $this->artId]
             );
             $query1 = $this->database->query(
                 'DELETE FROM comments WHERE ?', [
-                'article_id' => $this->id]
+                'article_id' => $this->artId]
             );
         }
         return ($query->getRowCount() !== 1) ? false : true;
@@ -136,40 +126,79 @@ class BlogModel
 
     public function commentBlog($values)
     {
+        
         $this->content = $values->content;
-        $this->id = $values->article_id;
+        $this->artId = $values->article_id;
+        $this->comId = $values->comment_id;    
 
-        $this->database->query(
-            'INSERT INTO comments ?', [ 
-            'article_id' => $this->id,
-            'content' => $this->content,
-            'user_id' => $this->user->testUser->getId(),]
-        );
-
+            $this->database->query(
+                'INSERT INTO comments ?', [ 
+                'article_id' => $this->artId,
+                'parent_id' => $this->comId,
+                'content' => $this->content,
+                'user_id' => $this->user->testUser->getId(),]
+            );
         // it return's auto-increment of the inserted blog
         $id = $this->database->getInsertId();
 
         return ($id > 0) ? true : false;
     }
 
+    //get all Blog -> display one at home page rest in Blog page
+    public function getBlogs()
+    {
+        $row = $this->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
+        $rowComment = $this->database->fetchAll('SELECT * FROM comments ORDER BY parent_id DESC');
+     
+        if (empty($row)) {
+            return false;
+        }
+        //sort by article's comments
+        $output = self::relations($row, $rowComment);
+
+        return $output;
+    }
+
     public static function relations($row, $rowComment)
     {
-        //conect articles to comments & comments to comments
-        $i = 0;
-        foreach ($row as $article) {
-            $y = 0;
-            $row[$i]->comment = [];
-            if (is_object($article)) {
-                $article->created_at = $article->created_at->format('d-m-Y');
-                foreach ($rowComment as $value) {
-                    if (is_object($value) && $value->article_id == $article->article_id) {
-                        $row[$i]->comment[$y] = $value;
-                        $y++; 
-                    }                 
+
+        foreach ($rowComment as $rowComm) {
+            $rowComm->created_at = $rowComm->created_at->format('d-m-Y');           
+            $newRow[] = (array) $rowComm;
+        }
+
+        $references = [];
+        foreach ($newRow as &$entry) {
+            $entry['comments'] = [];
+            $references[$entry['comment_id']] = &$entry;                      
+        } 
+
+        $output = [];
+        array_walk(
+            $references, function (&$entry) use ($references, &$output) {
+                if ($entry['parent_id'] != 0) {
+                    $references[$entry['parent_id']]['comments'][] = $entry;
+                } else {
+                    $output[] = $entry;
                 }
             }
-            $i++;
-        }
-        return $row;
+        );                
+
+        //put the article_id as key
+        $referencesR = [];
+        foreach ($row as &$rEntry) {
+            $rEntry['comments'] = [];
+            $rEntry['created_at'] = $rEntry['created_at']->format('d-m-Y'); 
+            $referencesR[$rEntry['article_id']] = (array)$rEntry;
+        }             
+          
+        \array_walk(
+            $output, function (&$value) use (&$referencesR) {
+                if ($referencesR[$value['article_id']] && $value['article_id']) {
+                    $referencesR[$value['article_id']]['comments'][] = $value;
+                }  
+            }
+        );     
+        return $referencesR;
     }
 }

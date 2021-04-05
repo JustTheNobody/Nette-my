@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="logo">
             <a class="navbar-brand" href="/">
-                <img src="/img/logo.png" alt="avatar">
+                <img src="/img/logo.png" alt="logo">
             </a>
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@
         <ul class="navbar-nav le-auto mb-2 mb-lg-0 user-nav">
             <div>
                 {if isset($user->getIdentity()->avatar)} 
-                    <img src="/img/avatar/{$user->getIdentity()->avatar}" alt="avatar"> 
+                    <img src="/storage/_users/{$user->getIdentity()->getId()}/avatar/{$user->getIdentity()->avatar}" alt="avatar"> 
                 {/if}
                 {isset($user->getIdentity()->name) ? $user->getIdentity()->name}   
             <div>

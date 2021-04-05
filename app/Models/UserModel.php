@@ -16,6 +16,10 @@ use Nette\Security\UserStorage;
 use Nette\Security\User;
 class UserModel
 {
+    const
+    DEFAULT_AVATAR_DIR = IMG_DIR . '/avatar',
+    FILE_DIR = WWW_DIR . '/storage';
+
     public Explorer $database;
     private Passwords $passwords;
     public User $testUser;
@@ -49,7 +53,7 @@ class UserModel
         $this->testUser->getStorage()->saveAuthentication(
             new SimpleIdentity(
                 $row->id,
-                ['role' => 'user'],
+                ['role' => $row->role],
                 [
                     'name' => $row->firstname,
                     'email' => $email,
@@ -59,6 +63,15 @@ class UserModel
         );
         
         return $this->testUser->getId();
+    }
+
+    public function checkAuth()
+    {
+        //check if user loged
+        if ($this->testUser->getIdentity() == null) {
+            return false;
+        }
+        return true;
     }
 
     public function registerUser($values)
@@ -86,31 +99,32 @@ class UserModel
     }
 
     public function settingAvatarChange($values)
-    {
-        if (\is_object($values)) {
-            $file = new FileModel;
-            $result = $file->uploadAvatar($values);
-            if ($result) {
-                return true; 
-            } else { 
-                return false;
-            }
-            return ($result)? true : false;
+    {          
+        $file = new FileModel($this);     
+        if (\is_object($values) && $values->avatar->hasFile()) {
+            
+            $avatarValues = $file->upload($values->avatar, 'avatar');
+            return $this->saveAvatarToDb($avatarValues);
+            //return ($result)? true : false;
         } else {
-            $this->database->table('users')
-                ->where('id', $this->testUser->getIdentity()->getID())
-                ->update(['avatar' => $values]);
-            //set new avatar in session
-            $this->testUser->getIdentity()->avatar = $values;
+            //copy def file avatar to user dir?
+            $file->copyDefaultAvatar($values);
+            return $this->saveAvatarToDb($values);
         }
-        /**
-         * Upload->uploadModel(if upload avatar create user folder(id) 
-         * if user deleted=> delete the userFolder to), 
-         * if avatar selected from default -> no user folder,  
-         * and save
-         */ 
+
     }
     
+    public function saveAvatarToDb($avatar)
+    {
+        $result = $this->database->table('users')
+            ->where('id', $this->testUser->getIdentity()->getID())
+            ->update(['avatar' => $avatar]);
+            //set new avatar in session
+            
+        $this->testUser->getIdentity()->avatar = $avatar;
+        return $result;
+    }
+
     //check the unique email
     public function getValue($email)
     {
