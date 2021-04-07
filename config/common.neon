@@ -22,19 +22,23 @@ di:
 services:
 	- App\Router\RouterFactory::createRouter
 
+	- Nette\Utils\ArrayHash	
+	
+	- App\Models\AdminModel
+	- App\Models\CustomFormModel
 	- App\Models\BlogModel
 	- App\Models\UserModel
+	- App\Models\FileModel
+	- App\Models\PortfolioModel
 
-	- Nette\Utils\ArrayHash	
-	- App\Models\CustomFormModel
-	- App\Models\AdminModel
-	- App\Forms\CustomFormFactory
 	- App\Forms\LoginFactory
 	- App\Forms\RegisterFactory
 	- App\Forms\BlogFactory
+
+	- App\Forms\CustomFormFactory
 	- App\Forms\ContactForm
 	- App\Forms\SettingsForm
 	- App\Forms\AdminForm
-	- App\Models\FileModel
+	- App\Forms\PortfolioForm
 
 	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])

@@ -39,7 +39,29 @@ h2 span {
   bottom: -1.3rem;
   right: 0;
   font-size: 1rem;
-  color: rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+h4,
+h3 {
+  position: relative;
+  padding: 0 30px;
+  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+h4 span,
+h4 a,
+h3 span,
+h3 a {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 nav .container-fluid {
@@ -164,7 +186,7 @@ nav .container-fluid .user-nav li ul li a:hover, nav .container-fluid .user-nav 
       -ms-flex-align: center;
           align-items: center;
   width: auto;
-  background-color: #c7dcf0;
+  background-color: lightgrey;
 }
 
 .flashWrapper .info {
@@ -172,7 +194,7 @@ nav .container-fluid .user-nav li ul li a:hover, nav .container-fluid .user-nav 
 }
 
 .flashWrapper .success {
-  color: #2DD21E;
+  color: #0e8003;
 }
 
 .flashWrapper .fail {
@@ -288,6 +310,87 @@ section .container .settingWrapper .settingSide div:nth-of-type(1) {
   margin-top: 50px;
 }
 
+section .container .portfolio {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 50px;
+  padding-left: 50px;
+}
+
+section .container .portfolio h3 {
+  margin-left: 30px;
+}
+
+section .container .portfolio .grupWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+section .container .portfolio .grupWrap .itemWrap {
+  width: 300px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 10px;
+}
+
+section .container .portfolio .grupWrap .itemWrap .img {
+  position: relative;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+section .container .portfolio .grupWrap .itemWrap .img span {
+  background: rgba(255, 255, 255, 0.534);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 0 5px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+section .container .portfolio .grupWrap .itemWrap img {
+  width: 300px;
+  height: auto;
+}
+
+section .container .portfolio .grupWrap .itemWrap .title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-weight: bolder;
+}
+
 section .container .divCenter {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -302,6 +405,17 @@ section .container .divCenter {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
+}
+
+section .container .divCenter .portfolio {
+  width: 100%;
+  margin-bottom: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+section .container .divCenter .portfolio img {
+  max-width: 300px;
+  height: auto;
 }
 
 section .container .divCenter div {
@@ -385,7 +499,6 @@ section .container .divCenter div .article .editBox {
 }
 
 section .container .divCenter div .article .editBox .button {
-  float: right;
   margin: 10px;
 }
 

@@ -74,18 +74,17 @@ final class SettingPresenter extends Presenter //implements Authorizator
             // Předání výsledku do šablony
             $this->template->value = $value['actions'];
         } 
-        if (isset($value['add'])) {
-            if ($value['add'] == "web") {
-                $this->template->category = "web";
-            }
-            if ($value['add'] == "graphic") {
-                $this->template->category = "graphic";
-            }
-            if ($value['add'] == "photography") {
-                $this->template->category = "web";
-            }
-            $this->template->value = $value['add'];
-        }       
+
+        foreach($value as $key => $val)
+        {
+            if($key == 'edit' || $key == 'delete') {
+                //redirect to Portfolio page and displau edit otions on items
+                $this->redirect('Portfolio:default', $key);
+                $this->template->value = $val;
+                $this->template->action = $key;
+                exit;
+            }            
+        }    
     }
 
     protected function createComponentEmailForm()

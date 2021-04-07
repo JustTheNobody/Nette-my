@@ -66,3 +66,13 @@ CREATE TABLE `portfolio` (
     PRIMARY KEY (`portfolio_id`)      
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
 
+-- ----------------------------
+-- Table structure for `statistic`
+-- ----------------------------
+DROP TABLE IF EXISTS `statistic`;
+CREATE TABLE `statistic` (
+    `statistic_id`  int(11) NOT NULL AUTO_INCREMENT,
+    `page`       varchar(25) COLLATE utf8_czech_ci NOT NULL,
+    `count`     int(11) NOT NULL,
+    PRIMARY KEY (`statistic_id`)      
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;

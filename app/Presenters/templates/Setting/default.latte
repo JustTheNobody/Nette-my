@@ -19,7 +19,7 @@
                 </ul>
             {/if}
         </div>
-    </div>    
+    </div>  
     <div class="settingMiddle">
         {if (isset($value))}        
             {switch $value}
@@ -45,14 +45,17 @@
                     <h3>Change Password</h3>
                     {control passwordForm}    
                 {case web}
-                    <h3>Add Web</h3>
-                    {control webForm}   
+                    <h4>Portfolio <span>Add Web</span></h4>
+                    {control webForm}  
+                    <img id="previewImg" alt="" > 
                 {case graphic}
-                    <h3>Add Graphic</h3>
+                    <h4>Portfolio <span>Add Graphic</span></h4>
                     {control graphicForm}
+                    <img id="previewImg" alt="" >
                 {case photography}
-                    <h3>Add Photography</h3>
+                    <h4>Portfolio <span>Add Photography</span></h4>
                     {control photographyForm}
+                    <img id="previewImg" alt="" >
                 {default}            
             {/switch}
         {/if}
@@ -63,25 +66,16 @@
             <div>
                 Add to Portfolio
                 <ul>
-                    <li><a n:href="Setting:default, [add=>web]">Add Web</a></li>
-                    <li><a n:href="Setting:default, [add=>graphic]">Add Graphic</a></li>
-                    <li><a n:href="Setting:default, [add=>photography]">Add Photography</a></li>
+                    <li><a n:href="Setting:default, [actions=>web]">Add Web</a></li>
+                    <li><a n:href="Setting:default, [actions=>graphic]">Add Graphic</a></li>
+                    <li><a n:href="Setting:default, [actions=>photography]">Add Photography</a></li>
                 </ul>                
             </div>
         </div>
     {/if}    
 </div>
 <!-- preview of the uploaded img -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script>
-    function previewFile(input){
-        var file=$("input[type=file]").get(0).files[0];
-        if(file){
-            var reader = new FileReader();
-            reader.onload = function(){
-                $('#previewImg').attr("src",reader.result);
-            }
-            reader.readAsDataURL(file)
-        }
-    }
-</script>
+{block scripts}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{$basePath}/js/pic-preview.js"></script>
+{/block}

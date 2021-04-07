@@ -9,7 +9,6 @@ use Nette\Mail\Message;
 use App\Forms\ContactForm;
 use App\Models\EmailModel;
 
-//https://doc.nette.org/cs/3.1/mailing
 use Nette\Mail\SendmailMailer;
 use Nette\Application\UI\Presenter;
 use Tracy\Bridges\Nette\MailSender;

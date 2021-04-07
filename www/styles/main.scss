@@ -36,7 +36,21 @@ h2 {
         bottom: -1.3rem;
         right: 0;
         font-size: 1rem;
-        color: rgba(0, 0, 0, .7);
+        color: rgba(0, 0, 0, .6);
+    }
+}
+
+h4,
+h3 {
+    position: relative;
+    padding: 0 30px;
+    display: block;
+    display: flex;
+    flex-direction: column;
+    span,
+    a {
+        font-size: 1rem;
+        color: rgba(0, 0, 0, .6);
     }
 }
 
@@ -131,13 +145,13 @@ nav {
     justify-content: center;
     align-items: center;
     width: auto;
-    background-color: #c7dcf0;
+    background-color: lightgrey;
     .flash {}
     .info {
         color: blue;
     }
     .success {
-        color: #2DD21E;
+        color: #0e8003;
     }
     .fail {
         color: darkred;
@@ -204,6 +218,52 @@ section {
                 }
             }
         }
+        .portfolio {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 50px;
+            padding-left: 50px;
+            h3 {
+                margin-left: 30px;
+            }
+            .grupWrap {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: center;
+                .itemWrap {
+                    width: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    margin: 10px;
+                    .img {
+                        position: relative;
+                        max-height: 300px;
+                        overflow: hidden;
+                        span {
+                            background: rgba(255, 255, 255, 0.534);
+                            border-radius: 10px;
+                            border: 1px solid rgba(255, 255, 255, 0.8);
+                            padding: 0 5px;
+                            position: absolute;
+                            right: 20px;
+                            top: 10px;
+                        }
+                    }
+                    img {
+                        width: 300px;
+                        height: auto;
+                    }
+                    .title {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
         .divCenter {
             display: -webkit-box;
             display: -ms-flexbox;
@@ -218,6 +278,15 @@ section {
             -webkit-box-direction: normal;
             -ms-flex-direction: column;
             flex-direction: column;
+            .portfolio {
+                width: 100%;
+                margin-bottom: 50px;
+                border: 1px solid rgba(0, 0, 0, 0.6);
+                img {
+                    max-width: 300px;
+                    height: auto;
+                }
+            }
             div {
                 display: -webkit-box;
                 display: -ms-flexbox;
@@ -277,7 +346,6 @@ section {
                         justify-content: flex-end;
                         padding-right: 40px;
                         .button {
-                            float: right;
                             margin: 10px;
                             a {
                                 text-decoration: none;

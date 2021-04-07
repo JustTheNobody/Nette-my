@@ -17,69 +17,113 @@ class PortfolioModel
     PORTFOLIO_TABLE_NAME = 'portfolio',
     PORTFOLIO_COLUMN_ID = 'portfolio_id';
 
-    public function __construct(Explorer $database, UserModel $user)
-    {
-        $this->database = $database;
-        $this->user = $user;        
+    private Explorer $database;
+    public FileModel $file;
+
+    public function __construct(
+        Explorer $database,
+        FileModel $file
+    ) {
+        $this->database = $database; 
+        $this->file = $file;      
     }
 
-    //get Blog with bigest ID if there any Blog at all
     public function getLast()
-    {
-        $maxId = $this->database->fetchAll('SELECT portfolio_id FROM portfolio');
+    {        
+        $row = $this->database->fetchAll(
+            "SELECT * FROM portfolio
+            ORDER BY portfolio_id DESC LIMIT 1"
+        );
 
-        if (empty($maxId)) {
-            return false;
-        } else {
-            $row = $this->database->fetchAll(
-                "SELECT * FROM portfolio
-                ORDER BY portfolio_id DESC LIMIT 1"
-            );
-            return $row;
-        }
+        $row[0]->created_at = $row[0]->created_at->format('d-m-Y');
+        //get the category by the category_id  
+        $category = $this->database->fetchPairs(
+            "SELECT category FROM category
+            WHERE category_id = ?", $row[0]->category_id
+        );
+        $row[0]->category = ucfirst($category[0]);
+   
+        return (array)$row[0];
+    }
+
+    public function getOne($id)
+    {        
+        $row = $this->database->fetchAll(
+            "SELECT * FROM portfolio
+            WHERE portfolio_id = ?", $id
+        );
+   
+        return (array)$row[0];
     }
 
     public function getReferences()
     {
-        $row = $this->database->fetchAll('SELECT * FROM portfolio ORDER BY portfolio_id DESC');
+        $rows = $this->database->fetchAll('SELECT * FROM portfolio ORDER BY category_id');
         $rowCategory = $this->database->fetchAll('SELECT * FROM category');
-     
-        if (empty($row)) {
+  
+        if (empty($rows)) {
             return false;
         }
-        //sort by article's comments
-        $output = self::relations($row, $rowCategory);
-
-        return $output;
+        
+        return self::relations($rows, $rowCategory);
     }
 
 
     //TODO
-    public static function relations($row, $rowComment)
+    public static function relations($rows, $rowCategory)
+    {
+        foreach ($rows as &$row) {
+            $row->created_at = $row->created_at->format('d-m-Y');  
+            $row = (array)$row;        
+        }
+ 
+        $newP = [];
+        array_walk(
+            $rows, function (&$category) use (&$rowCategory, &$newP) {
+                foreach ($rowCategory as $cat) {
+                    if ($cat->category_id == $category['category_id']) { 
+                        $newP[$cat->category][] = $category;
+                    }                    
+                }                                
+            }
+        ); 
+        return $newP;
+    }
+
+    public function remove($id)
+    {
+        $query = $this->database->query(
+            'DELETE FROM portfolio WHERE portfolio_id = ?', $id
+        );
+        return ($query->getRowCount() !== 1) ? false : true;
+    }
+
+    public function save($value)
     {
 
-        foreach ($rowComment as $rowComm) {
-            $rowComm->created_at = $rowComm->created_at->format('d-m-Y');           
-            $newRow[] = (array) $rowComm;
+        //check if there is new img  2 upload
+        if ($value['img']->hasFile()) {
+
+            $newName = $this->file->upload($value['img'], $value['category']);
+
+            $query = $this->database->query(
+                'UPDATE portfolio SET', [
+                'title' => $value['title'],
+                'description' => $value['description'],
+                'content' => $value['content'],
+                'img' => $newName,
+                ], 'WHERE portfolio_id = ?', $value['portfolio_id']
+            );
+        } else {
+            $query = $this->database->query(
+                'UPDATE portfolio SET', [
+                'title' => $value['title'],
+                'description' => $value['description'],
+                'content' => $value['content'],
+                ], 'WHERE portfolio_id = ?', $value['portfolio_id']
+            );
         }
-
-        $references = [];
-        foreach ($newRow as &$entry) {
-            $entry['comments'] = [];
-            $references[$entry['comment_id']] = &$entry;                      
-        } 
-
-        $output = [];
-        array_walk(
-            $references, function (&$entry) use ($references, &$output) {
-                if ($entry['parent_id'] != 0) {
-                    $references[$entry['parent_id']]['comments'][] = $entry;
-                } else {
-                    $output[] = $entry;
-                }
-            }
-        );                
-    
-        return $references;
+              
+        return ($query->getRowCount() !== 1) ? false : true;
     }
 }
