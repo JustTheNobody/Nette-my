@@ -154,16 +154,21 @@ class BlogModel
             return false;
         }
         //sort by article's comments
-        $output = self::relations($row, $rowComment);
-
-        return $output;
+        if ($rowComment) {
+            return $output = self::relations($row, $rowComment);
+        } else {
+            foreach ($row as &$item) {
+                $item = (array)$item;
+            }
+            return $row;
+        }
     }
 
     public static function relations($row, $rowComment)
     {
-
+               
         foreach ($rowComment as $rowComm) {
-            $rowComm->created_at = $rowComm->created_at->format('d-m-Y');           
+            $rowComm->created_at = $rowComm->created_at->format('d-m-Y'); 
             $newRow[] = (array) $rowComm;
         }
 
@@ -171,7 +176,7 @@ class BlogModel
         foreach ($newRow as &$entry) {
             $entry['comments'] = [];
             $references[$entry['comment_id']] = &$entry;                      
-        } 
+        }         
 
         $output = [];
         array_walk(
@@ -183,7 +188,7 @@ class BlogModel
                 }
             }
         );                
-
+        
         //put the article_id as key
         $referencesR = [];
         foreach ($row as &$rEntry) {
