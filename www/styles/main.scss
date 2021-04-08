@@ -176,6 +176,15 @@ section {
             h3 {
                 margin-left: 30px;
             }
+            .img {
+                position: relative;
+                width: 100%;
+                height: auto;
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
             .grupWrap {
                 display: flex;
                 flex-wrap: wrap;
@@ -287,6 +296,7 @@ section {
                 }
                 img {
                     width: 100%;
+                    max-width: 500px;
                     height: auto;
                 }
             }

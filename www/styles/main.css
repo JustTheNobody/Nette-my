@@ -237,6 +237,17 @@ section .container .portfolio h3 {
   margin-left: 30px;
 }
 
+section .container .portfolio .img {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+section .container .portfolio .img img {
+  width: 100%;
+  height: auto;
+}
+
 section .container .portfolio .grupWrap {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -436,6 +447,7 @@ section .container .divCenter .portfolio .img {
 
 section .container .divCenter .portfolio img {
   width: 100%;
+  max-width: 500px;
   height: auto;
 }
 
