@@ -35,15 +35,19 @@ class PortfolioModel
             ORDER BY portfolio_id DESC LIMIT 1"
         );
 
-        $row[0]->created_at = $row[0]->created_at->format('d-m-Y');
-        //get the category by the category_id  
-        $category = $this->database->fetchPairs(
-            "SELECT category FROM category
-            WHERE category_id = ?", $row[0]->category_id
-        );
-        $row[0]->category = ucfirst($category[0]);
-   
-        return (array)$row[0];
+        if ($row) {
+            $row[0]->created_at = $row[0]->created_at->format('d-m-Y');
+            //get the category by the category_id  
+            $category = $this->database->fetchPairs(
+                "SELECT category FROM category
+                WHERE category_id = ?", $row[0]->category_id
+            );
+            $row[0]->category = ucfirst($category[0]);
+
+            return (array)$row[0];
+        }
+        
+        return [];        
     }
 
     public function getOne($id)
