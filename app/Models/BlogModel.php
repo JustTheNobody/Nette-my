@@ -41,7 +41,7 @@ class BlogModel
         $maxId = $this->database->fetchAll('SELECT article_id FROM articles');
 
         if (empty($maxId)) {
-            return false;
+            return [];
         } else {
             $id = $maxId[count($maxId)-1]->article_id;
             $row = $this->database->fetchAll(
