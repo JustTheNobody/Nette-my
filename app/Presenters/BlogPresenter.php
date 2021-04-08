@@ -107,7 +107,7 @@ final class BlogPresenter extends Presenter
     public function renderAdd()
     {
         //check if loged in -> if not redirect
-        $this->checkAuth();
+        $this->user->checkAuth();
         $this->template->title = 'blog';
     }
 
