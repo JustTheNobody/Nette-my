@@ -20,22 +20,22 @@ class AdminModel
         $this->file = $file;
     }
 
-    public function saveAdd($values)
+    public function saveAdd($values, $file)
     {
         // 1 - get the file name to be passed to DB -> or rename based on timestamp?
         // 2 - upload file to storage folder based on ['types']
-        $imgName = $this->file->upload($values->file, $values->category);
+        $imgName = $this->file->upload($file, $values['category']);
 
         if (\is_string($imgName)) {
             
             // 3 - save 2 Db based on ['types']
             $this->database->query(
                 'INSERT INTO portfolio ?', [
-                'title' => $values->title,
-                'description' => $values->description,
-                'content' => $values->content,
+                'title' => $values['title'],
+                'description' => $values['description'],
+                'content' => $values['content'],
                 'img' => $imgName,
-                'category_id' => $this->database->fetchField('SELECT category_id FROM category WHERE category = ?', $values->category)]
+                'category_id' => $this->database->fetchField('SELECT category_id FROM category WHERE category = ?', $values['category'])]
             );
             // return auto-increment of the inserted row
             return $this->database->getInsertId();

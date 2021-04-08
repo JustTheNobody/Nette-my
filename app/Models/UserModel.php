@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use stdClass;
-use Nette\Utils\FileSystem;
-use Nette\Database\Explorer;
+use Nette\Http\Request;
+use Nette\Security\User;
 /**
  * Commented out at lines 31 & 42, for the user frendly output msg
  */ 
-use Nette\Security\AuthenticationException;
+use Nette\Utils\FileSystem;
+use Nette\Database\Explorer;
 use Nette\Security\Passwords;
-use Nette\Security\SimpleIdentity;
 
 use Nette\Security\UserStorage;
-use Nette\Security\User;
+use Nette\Security\SimpleIdentity;
+use Nette\Security\AuthenticationException;
+
 class UserModel
 {
     const
@@ -23,12 +25,18 @@ class UserModel
     public Explorer $database;
     private Passwords $passwords;
     public User $testUser;
+    public Request $request;
 
-    public function __construct(Explorer $database, Passwords $passwords, User $testUser) 
-    {
+    public function __construct(
+        Explorer $database,
+        Passwords $passwords,
+        User $testUser,
+        Request $request
+    ) {
         $this->database = $database;
         $this->passwords = $passwords;
         $this->testUser = $testUser;
+        $this->request = $request;
     }
 
     public function autenticate(string $email, string $password)
@@ -92,18 +100,18 @@ class UserModel
         return $this->database->table('users')
             ->where('id', $this->testUser->getIdentity()->getId())
             ->update(
-                ($values->actions == 'email')?
-                ['email' => $values->newemail]:
-                ['passwords' => $this->passwords->hash($values->newpassword)]
+                ($values['actions'] == 'email')?
+                ['email' => $values['newemail']]:
+                ['passwords' => $this->passwords->hash($values['newpassword'])]
             );  
     }
 
     public function settingAvatarChange($values)
     {          
         $file = new FileModel($this);     
-        if (\is_object($values) && $values->avatar->hasFile()) {
+        if (\is_object($values) && $values->hasFile()) {
             
-            $avatarValues = $file->upload($values->avatar, 'avatar');
+            $avatarValues = $file->upload($values, 'avatar');
             return $this->saveAvatarToDb($avatarValues);
             //return ($result)? true : false;
         } else {

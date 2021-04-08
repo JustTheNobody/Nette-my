@@ -29,18 +29,22 @@ class AdminForm
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('readonly');
         $form->addText('title', 'Title:')
-            ->setHtmlAttribute('class', 'form-control');
+            ->setHtmlAttribute('class', 'form-control')
+            ->setRequired(self::FORM_MSG_REQUIRED);
         $form->addText('description', 'Description:')
-            ->setHtmlAttribute('class', 'form-control');
+            ->setHtmlAttribute('class', 'form-control')
+            ->setRequired(self::FORM_MSG_REQUIRED);
         $form->addTextArea('content', 'Content:')
             ->setHtmlAttribute('rows', 10)
             ->setHtmlAttribute('cols', 40)
-            ->setHtmlAttribute('class', 'form-control');        
+            ->setHtmlAttribute('class', 'form-control')
+            ->setRequired(self::FORM_MSG_REQUIRED);       
 
         $form->addUpload('file', 'Choose file:')
             ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP.')
             ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 1 MB.', 1024 * 1024)
-            ->setHtmlAttribute('onchange', 'previewFile(this)');
+            ->setHtmlAttribute('onchange', 'previewFile(this)')
+            ->setRequired(self::FORM_MSG_REQUIRED);
 
         $form->addSubmit('submit', 'Add')
             ->setHtmlAttribute('class', 'btn btn-primary');   

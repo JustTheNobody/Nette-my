@@ -205,9 +205,87 @@ section .container {
   width: 100%;
   max-width: 1200px;
   margin: 40px auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-section .container .settingWrapper {
+section .container .portfolio {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+  padding-left: 50px;
+  margin-bottom: 20px;
+}
+
+section .container .portfolio h3 {
+  margin-left: 30px;
+}
+
+section .container .portfolio .grupWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+section .container .portfolio .grupWrap .itemWrap {
+  width: 300px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 10px;
+}
+
+section .container .portfolio .grupWrap .itemWrap .img {
+  position: relative;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+section .container .portfolio .grupWrap .itemWrap .img span {
+  background: rgba(255, 255, 255, 0.534);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 0 5px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+section .container .portfolio .grupWrap .itemWrap img {
+  width: 300px;
+  height: auto;
+}
+
+section .container .portfolio .grupWrap .itemWrap .title {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -215,6 +293,21 @@ section .container .settingWrapper {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-weight: bolder;
+}
+
+section .container .settingWrapper {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -310,111 +403,39 @@ section .container .settingWrapper .settingSide div:nth-of-type(1) {
   margin-top: 50px;
 }
 
-section .container .portfolio {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin-top: 50px;
-  padding-left: 50px;
-}
-
-section .container .portfolio h3 {
-  margin-left: 30px;
-}
-
-section .container .portfolio .grupWrap {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-section .container .portfolio .grupWrap .itemWrap {
-  width: 300px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin: 10px;
-}
-
-section .container .portfolio .grupWrap .itemWrap .img {
-  position: relative;
-  max-height: 300px;
-  overflow: hidden;
-}
-
-section .container .portfolio .grupWrap .itemWrap .img span {
-  background: rgba(255, 255, 255, 0.534);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  padding: 0 5px;
-  position: absolute;
-  right: 20px;
-  top: 10px;
-}
-
-section .container .portfolio .grupWrap .itemWrap img {
-  width: 300px;
-  height: auto;
-}
-
-section .container .portfolio .grupWrap .itemWrap .title {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  font-weight: bolder;
-}
-
 section .container .divCenter {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+section .container .divCenter .section {
+  margin-top: 50px;
 }
 
 section .container .divCenter .portfolio {
   width: 100%;
-  margin-bottom: 50px;
   border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
+section .container .divCenter .portfolio .img {
+  width: 80%;
+  height: 300px;
+  overflow: hidden;
+}
+
 section .container .divCenter .portfolio img {
-  max-width: 300px;
+  width: 100%;
   height: auto;
 }
 

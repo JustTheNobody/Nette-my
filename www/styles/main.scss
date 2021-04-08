@@ -163,9 +163,60 @@ section {
         width: 100%;
         max-width: 1200px;
         margin: 40px auto;
-        .settingWrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .portfolio {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10px;
+            padding-left: 50px;
+            margin-bottom: 20px;
+            h3 {
+                margin-left: 30px;
+            }
+            .grupWrap {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: center;
+                .itemWrap {
+                    width: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    margin: 10px;
+                    .img {
+                        position: relative;
+                        max-height: 300px;
+                        overflow: hidden;
+                        span {
+                            background: rgba(255, 255, 255, 0.534);
+                            border-radius: 10px;
+                            border: 1px solid rgba(255, 255, 255, 0.8);
+                            padding: 0 5px;
+                            position: absolute;
+                            right: 20px;
+                            top: 10px;
+                        }
+                    }
+                    img {
+                        width: 300px;
+                        height: auto;
+                    }
+                    .title {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
+        .settingWrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
             .adminSide {}
             .settingMiddle {
@@ -218,72 +269,24 @@ section {
                 }
             }
         }
-        .portfolio {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-top: 50px;
-            padding-left: 50px;
-            h3 {
-                margin-left: 30px;
-            }
-            .grupWrap {
-                display: flex;
-                flex-wrap: wrap;
-                flex-direction: row;
-                justify-content: center;
-                .itemWrap {
-                    width: 300px;
-                    display: flex;
-                    flex-direction: column;
-                    margin: 10px;
-                    .img {
-                        position: relative;
-                        max-height: 300px;
-                        overflow: hidden;
-                        span {
-                            background: rgba(255, 255, 255, 0.534);
-                            border-radius: 10px;
-                            border: 1px solid rgba(255, 255, 255, 0.8);
-                            padding: 0 5px;
-                            position: absolute;
-                            right: 20px;
-                            top: 10px;
-                        }
-                    }
-                    img {
-                        width: 300px;
-                        height: auto;
-                    }
-                    .title {
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-                        font-weight: bolder;
-                    }
-                }
-            }
-        }
         .divCenter {
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-box-pack: center;
-            -ms-flex-pack: center;
             justify-content: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
             align-items: center;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: column;
             flex-direction: column;
+            .section {
+                margin-top: 50px;
+            }
             .portfolio {
                 width: 100%;
-                margin-bottom: 50px;
                 border: 1px solid rgba(0, 0, 0, 0.6);
+                .img {
+                    width: 80%;
+                    height: 300px;
+                    overflow: hidden;
+                }
                 img {
-                    max-width: 300px;
+                    width: 100%;
                     height: auto;
                 }
             }

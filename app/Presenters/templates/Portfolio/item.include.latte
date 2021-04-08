@@ -1,16 +1,17 @@
 <div class="itemWrap">
     <div class="title">
-        <span>{$portfolio['title']}</span>        
-    </div>
-    <div>{$portfolio['description']}</div>    
-    <div class="img">
-        {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
-            <span>
-                <a n:href="Portfolio:reference, $key, $portfolio['portfolio_id'], 'edit'=>'edit'">Edit</a>
-                <a class="delete" n:href="delete! $portfolio['portfolio_id']">Delete</a>
-            </span> 
-        {/if}
-        <img src="/storage/{$key}/{$portfolio['img']}" alt="portfolio">
-    </div>
-    <a n:href="Portfolio:reference, $key, $portfolio['portfolio_id']">Details</a>
+            <span>{$portfolio['title']}</span>        
+        </div>
+        <div>{$portfolio['description']}</div>    
+        <div class="img">
+            {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
+                <span>
+                    <a n:href="Portfolio:reference, $key, $portfolio['portfolio_id'], 'edit'=>'edit'">Edit</a>
+                    <a class="delete" n:href="delete! $portfolio['portfolio_id'], $portfolio['img'], $portfolio['category']">Delete</a>
+                </span> 
+            {/if}
+            <img src="/storage/{$key}/{$portfolio['img']}" alt="portfolio">
+        </div>
+        <a n:href="Portfolio:reference, $key, $portfolio['portfolio_id']">Details</a>
+    
 </div>

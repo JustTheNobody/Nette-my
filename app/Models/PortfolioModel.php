@@ -74,6 +74,7 @@ class PortfolioModel
     {
         foreach ($rows as &$row) {
             $row->created_at = $row->created_at->format('d-m-Y');  
+            $row->category = '';
             $row = (array)$row;        
         }
  
@@ -82,7 +83,8 @@ class PortfolioModel
             $rows, function (&$category) use (&$rowCategory, &$newP) {
                 foreach ($rowCategory as $cat) {
                     if ($cat->category_id == $category['category_id']) { 
-                        $newP[$cat->category][] = $category;
+                        $category['category'] = $cat->category;
+                        $newP[$cat->category][] = $category;                        
                     }                    
                 }                                
             }
@@ -90,8 +92,11 @@ class PortfolioModel
         return $newP;
     }
 
-    public function remove($id)
+    public function remove($id, $fileName, $category)
     {
+        //delete img from folder!  fileName + filePAth
+        $this->file->deleteFile($fileName, $category);
+
         $query = $this->database->query(
             'DELETE FROM portfolio WHERE portfolio_id = ?', $id
         );
@@ -103,6 +108,9 @@ class PortfolioModel
 
         //check if there is new img  2 upload
         if ($value['img']->hasFile()) {
+
+            //delete the old img from folder!  fileName + filePAth
+            $this->file->deleteFile($value['oldImgName'], $value['category']);
 
             $newName = $this->file->upload($value['img'], $value['category']);
 

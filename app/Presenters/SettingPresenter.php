@@ -16,7 +16,7 @@ use Nette\Application\UI\Presenter;
 final class SettingPresenter extends Presenter //implements Authorizator
 {
     public Passwords $passwords;
-    public UserModel $users;
+    public UserModel $user;
     public SettingsForm $sform;
     public AdminForm $aform;
     private AdminModel $admin;
@@ -24,13 +24,13 @@ final class SettingPresenter extends Presenter //implements Authorizator
     public $value = [];
   
     public function __construct(
-        UserModel $users, 
+        UserModel $user, 
         Passwords $passwords,
         SettingsForm $sform,
         AdminForm $aform,
         AdminModel $admin
     ) {
-        $this->users = $users;
+        $this->user = $user;
         $this->passwords = $passwords;
         $this->sform = $sform;
         $this->aform = $aform;
@@ -40,7 +40,7 @@ final class SettingPresenter extends Presenter //implements Authorizator
 
     public function beforeRender()
     {
-        if (!$this->users->checkAuth()) {
+        if (!$this->user->checkAuth()) {
             $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
             $this->redirect('Login:default');
             exit;
@@ -53,18 +53,18 @@ final class SettingPresenter extends Presenter //implements Authorizator
     {
         if (isset($value['actions'])) {
             if ($value['actions'] == "avatar") {
-                $avatars = new FileModel($this->users);
+                $avatars = new FileModel($this->user);
                 $this->template->avatars = $avatars->getAvatars();
                 if ($value['file'] != "") {
                     //save the avatar to db
-                    $this->users->settingAvatarChange($value['file']);
+                    $this->user->settingAvatarChange($value['file']);
                     $this->template->value = 'avatar';
                     $this->flashMessage('New Avatar has been set', 'success');
                     return;
                 } 
             }
             if ($value['actions'] == "delete") {
-                ($this->users->deleteUser() != 1)
+                ($this->user->deleteUser() != 1)
                     ?
                     $this->flashMessage('Something went wrong', 'fail')//not deleted
                     :
@@ -101,9 +101,10 @@ final class SettingPresenter extends Presenter //implements Authorizator
         return $form;
     }
 
-    public function formSucces(ArrayHash $values)
+    public function formSucces()
     {   
-        $result = $this->users->autenticate($values->email, $values->password);
+        $values = $this->user->request->getPost();
+        $result = $this->user->autenticate($values['email'], $values['password']);
         
         if (is_array($result) && in_array('fail', $result)) {
             $this->flashMessage('Invalid password', 'fail');
@@ -113,10 +114,10 @@ final class SettingPresenter extends Presenter //implements Authorizator
            $this->redirect('Setting:default');
         }        
         //change the email/password now
-        $row = $this->users->settingChange($values);     
+        $row = $this->user->settingChange($values);     
         ($row != 1)? 
-        $this->flashMessage("Your $values->actions has not been changed.", 'fail') : 
-        $this->flashMessage("Your $values->actions has been changed.", 'success');
+        $this->flashMessage("Your ".$values['actions']." has not been changed.", 'fail') : 
+        $this->flashMessage("Your ".$values['actions']." has been changed.", 'success');
 
         $this->redirect('Setting:default');  
     }
@@ -128,9 +129,10 @@ final class SettingPresenter extends Presenter //implements Authorizator
         return $form;
     }
 
-    public function avatarFormSucces(ArrayHash $values)
-    {        
-        $row = $this->users->settingAvatarChange($values);
+    public function avatarFormSucces()
+    {    
+        $values = $this->user->request->getFile('avatar'); 
+        $row = $this->user->settingAvatarChange($values);
 
         ($row != 1)? 
         $this->flashMessage("Your avatar has not been changed.", 'fail') : 
@@ -167,14 +169,15 @@ final class SettingPresenter extends Presenter //implements Authorizator
         return $form;
     }
 
-    public function formAdminSucces(ArrayHash $values)
+    public function formAdminSucces()
     {   
-        
-        $row = $this->admin->saveAdd($values);
+        $values = $this->user->request->getPost();
+        $file = $this->user->request->getFile('file');
+        $row = $this->admin->saveAdd($values, $file);
 
         ($row && is_int($row))? 
-        $this->flashMessage("Your $values->category has not been added!", 'fail') : 
-        $this->flashMessage("Your $values->category has been added.", 'success');
+        $this->flashMessage("Your ". $values['category']." has not been added!", 'fail') : 
+        $this->flashMessage("Your ". $values['category']." has been added.", 'success');
 
         $this->redirect('Setting:default');  
     }

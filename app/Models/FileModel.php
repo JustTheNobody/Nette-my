@@ -74,4 +74,10 @@ class FileModel
             $fileTarget = $targetDir . $avatar;
             FileSystem::copy($fileOrigin, $fileTarget);
     }
+
+    public function deleteFile($fileName, $category)
+    {
+        $targetFile = self::FILE_DIR . "/$category/" . $fileName;
+        FileSystem::delete($targetFile);
+    }
 }

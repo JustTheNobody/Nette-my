@@ -34,9 +34,10 @@ final class PortfolioPresenter extends Presenter
     }
 
     public function renderDefault(array $value)
-    {
+    {        
         //get all
         $this->template->references = $this->portfolio->getReferences();
+
         //delete/edit
         $this->template->pAction = $value;
     }
@@ -53,9 +54,9 @@ final class PortfolioPresenter extends Presenter
         $this->template->edit = (!empty($edit))?? $edit;
     }
 
-    public function handleDelete($id)
-    {        
-        $result = $this->portfolio->remove($id);
+    public function handleDelete($id, $img, $category)
+    {     
+        $result = $this->portfolio->remove($id, $img, $category);
 
         ($result)?
             $this->flashMessage("Item has been deleted.", 'success'):

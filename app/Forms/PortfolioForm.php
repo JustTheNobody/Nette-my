@@ -27,6 +27,8 @@ class PortfolioForm
             ->setValue(isset($values)?$values['portfolio_id']: '');
         $form->addHidden('category')
             ->setValue(isset($values)? lcfirst($values['category']): '');
+        $form->addHidden('oldImgName')
+            ->setValue(isset($values)? lcfirst($values['img']): '');
     
         $form->addText('title', 'Title')
             ->setValue(isset($values)?$values['title']: '')

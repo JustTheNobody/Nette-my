@@ -6,14 +6,14 @@
         <div class="portfolio">
             <div>{$portfolio['title']}</div>
             <div>{$portfolio['description']}</div>
-            <div>
+            <div class="img">
                 <img src="/storage/{$portfolio['category']}/{$portfolio['img']}" alt="portfolio">
             </div>
-            <div>{$portfolio['content']}</div>
-            <div class="button"><a n:href="Portfolio:default">My Portfolio</a></div>
+            <div>{$portfolio['content']}</div>            
         </div>         
+        <div class="button"><a n:href="Portfolio:default">My Portfolio</a></div>
     {/if}
-    <div>  
+    <div class="section">  
         {if $blog}
             <h2>The last added Blog</h2>
             <div class="article">
