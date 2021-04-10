@@ -7,7 +7,6 @@ namespace App\Forms;
 use Nette;
 use Nette\Application\UI\Form;
 
-
 class CustomFormFactory
 {
     use Nette\SmartObject;

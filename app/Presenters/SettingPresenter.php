@@ -64,12 +64,7 @@ final class SettingPresenter extends Presenter //implements Authorizator
                 } 
             }
             if ($value['actions'] == "delete") {
-                ($this->user->deleteUser() != 1)
-                    ?
-                    $this->flashMessage('Something went wrong', 'fail')//not deleted
-                    :
-                    $this->flashMessage('We are sorry to see you leaving', 'success');
-                    $this->redirect('Login:out');//deleted
+                $this->template->value = 'delete';                
             }
             // Předání výsledku do šablony
             $this->template->value = $value['actions'];
@@ -85,6 +80,32 @@ final class SettingPresenter extends Presenter //implements Authorizator
                 exit;
             }            
         }    
+    }
+
+    protected function createComponentDeleteAccountForm()
+    {
+        $form = $this->sform->renderDeleteAccountForm();
+        $form->onSuccess[] = [$this, 'deleteAccountFormSucces'];
+        return $form;        
+    }
+
+    public function deleteAccountFormSucces()
+    {
+        $values = $this->user->request->getPost();
+        $result = $this->user->autenticate($values['email'], $values['password']);
+
+        if (is_array($result) && in_array('fail', $result)) {
+            $this->flashMessage('Invalid password', 'fail');
+            $this->redirect('Setting:default');
+            exit;
+        }
+
+        ($this->user->deleteUser() != 1)
+            ?
+            $this->flashMessage('Something went wrong', 'fail')//not deleted
+            :
+            $this->flashMessage('We are sorry to see you leaving', 'success');
+            $this->redirect('Login:out');//deleted
     }
 
     protected function createComponentEmailForm()

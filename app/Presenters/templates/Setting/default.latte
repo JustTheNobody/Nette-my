@@ -16,7 +16,7 @@
             {if ($user->getIdentity()->getID() && !$role['role'] == 'admin')} 
                 Delete Account
                 <ul>
-                    <li><a n:href="Setting:default, [actions=>delete]">Delete</a></li>
+                    <li><a n:href="Setting:default, [actions=>delete]">Delete Account</a></li>
                 </ul>
             {/if}
         </div>
@@ -38,6 +38,9 @@
                         {control avatarForm}
                         <img id="previewImg" alt="" >
                     </div>
+                {case delete}
+                    <h3>Delete This Account</h3>
+                    {control deleteAccountForm}
                 {case email}
                     <h3>Change Email</h3>
                     {control emailForm}

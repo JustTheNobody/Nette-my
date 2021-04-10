@@ -33,13 +33,14 @@ final class BlogPresenter extends Presenter
     private $blogModel;
 
     //for edit/delete
+    public array $blogEdit = [];
     public string $blog = '';
     public int $blog_id = 0;
     public string $title = '';
     public string $content = '';
     public int $user_id = 0;
+    public int $id = 0;
     
-    public array $blogs = [];
     public BlogFactory $forms;
 
      /**
@@ -57,7 +58,7 @@ final class BlogPresenter extends Presenter
         $this->defaultBlogId = $defaultBlogId;
         $this->blogModel = $blogModel;
         $this->user = $user;
-        $this->forms = $forms;
+        $this->forms = $forms;        
     }
 
     public function beforeRender()
@@ -136,22 +137,29 @@ final class BlogPresenter extends Presenter
     /**
      * Edit the Blog section
      */
-    public function renderEdit(array $blog)
-    {
-        $this->blogs = $blog;
-        $this->template->blog = $this->blog; // Send to template.
+    public function renderEdit($blog)
+    {   
+        $this->id = (int)$blog;
+        $this->blogEdit = $this->blogModel->getBlog($this->id);
+        $this->template->blog = (int)$this->blogEdit; // Send to template.
     }
 
     protected function createComponentEditForm()
     {
-        $form = $this->forms->renderForm($this->blogs);
-        $form->onSuccess[] = [$this, 'editFormSucceeded'];
+        $values = $this->user->request->getPost();
+
+        if (!empty($values)) {
+            $form = $this->forms->renderForm($values);
+            $form->onSuccess[] = [$this, 'editFormSucceeded'];
+        } else {
+            $form = $this->forms->renderForm($this->blogEdit[$this->id]);
+        }
+        
         return $form;
     }
 
     public function editFormSucceeded(ArrayHash $blog)
     {
-   
         $result = $this->blogModel->updateBlog($blog);
 
         if ($result) {
@@ -178,6 +186,21 @@ final class BlogPresenter extends Presenter
         ($this->blogModel->commentBlog($values))? 
         $this->flashMessage('Your comment has been added.', 'success'):
         $this->flashMessage('Sorry, there was a problem, your comment is not added.', 'fail');
+        $this->redirect('Blog:default');
+    }
+    
+    protected function createComponentCommentEditForm()
+    {
+        $form = $this->forms->renderCommentEditForm();
+        $form->onSuccess[] = [$this, 'commentEditFormSucceeded'];
+        return $form;
+    }
+
+    public function commentEditFormSucceeded(ArrayHash $values)
+    {
+        ($this->blogModel->updateBlog($values))? 
+        $this->flashMessage('Your comment has been updated.', 'success'):
+        $this->flashMessage('Sorry, there was a problem, your comment has not been updated.', 'fail');
         $this->redirect('Blog:default');
     }
 }

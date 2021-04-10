@@ -1,36 +1,4 @@
-{if !isset($value[0])}
-    <div class="item">
-        {if $user->getIdentity() != null}            
-                <div class="editBox">
-                    <div class="button">
-                        <a class="change add" id="$value['article_id']" onClick="comment($value['article_id'], $value['comment_id'])">Add</a>
-                    </div>
-                    {if ($value[$i]['user_id'] == $user->getIdentity()->getID() || 'admin' == $role['role'])}
-                        <div class="button">
-                            <a class="change edit" href="#">Edit</a>
-                        </div>
-                        <div class="button">
-                            <a class="change delete" n:href="delete! comment_.$value['comment_id']">Delete</a>
-                        </div>
-                    {/if}
-                </div>            
-        {/if}
-        <p>
-            {$value['content']}
-        </p>
-        <div class="hidden commentHolder" id="com{$value['comment_id']}">
-            <form n:name=commentForm class=form id="comf{$value['comment_id']}">
-                <input n:name=article_id value="{$value['article_id']}">
-                <input n:name=comment_id value="{$value['comment_id']}">
-                <p><label n:name=content>Comment: <input n:name=content></label>
-                <p><input n:name=submit class="btn btn-primary">
-            </form>
-        </div>
-        {if !empty($value['comments'])}
-            {include 'blog.include.latte', value: $value['comments']}
-        {/if}    
-    </div> 
-{else} 
+
     {var $count = count($value)}
     {for $i=0; $i<$count; $i++}
         <div class="item">
@@ -41,7 +9,7 @@
                     </div>
                     {if ($value[$i]['user_id'] == $user->getIdentity()->getID() || 'admin' == $role['role'])}
                     <div class="button">
-                        <a class="change edit" href="#">Edit</a>
+                        <a class="change edit" onClick="commentEdit({$value[$i]['comment_id']}, {$value[$i]['article_id']})">Edit</a>
                     </div>
                     <div class="button">
                         <a class="change delete" n:href="delete! comment_.$value[$i]['comment_id']">Delete</a>
@@ -49,15 +17,15 @@
                     {/if}
                 </div>                
             {/if}
-            <p>
+            <p id="{$value[$i]['comment_id']}">
                 {$value[$i]['content']}
             </p>
             <div class="hidden commentHolder" id="com{$value[$i]['comment_id']}">
                 <form n:name=commentForm class=form id="comf{$value[$i]['comment_id']}">
                     <input n:name=article_id value="{$value[$i]['article_id']}">
                     <input n:name=comment_id value="{$value[$i]['comment_id']}">
-                    <p><label n:name=content>Comment: <input n:name=content></label>
-                    <p><input n:name=submit class="btn btn-primary">
+                    <label n:name=content>Comment: <input n:name=content></label>
+                    <input n:name=submit class="btn btn-primary">
                 </form>
             </div>
             {if !empty($value[$i]['comments'])}
@@ -65,7 +33,7 @@
             {/if}  
         </div> 
     {/for}     
-{/if}                            
+                           
 
       
     

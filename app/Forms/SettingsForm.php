@@ -21,6 +21,19 @@ class SettingsForm
         $this->forms = $forms;
     }
 
+    public function renderDeleteAccountForm()
+    {
+        $form = $this->forms->create();
+
+        $form->addHidden('email', $this->user->getEmailValue());
+        $form->addPassword('password', 'To DELETE this account confirm with your password:')
+            ->setRequired(self::FORM_MSG_REQUIRED)
+            ->setHtmlAttribute('class', 'form-control');
+        $form->addSubmit('submit', 'DELETE ACCOUNT')
+            ->setHtmlAttribute('class', 'btn btn-primary');
+        return $form;
+    }
+
     public function renderEmailForm()
     {
         $form = $this->forms->create();

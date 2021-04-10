@@ -24,7 +24,8 @@ class BlogFactory
         $form = $this->forms->create();
                 
         $form->addHidden('article_id', (is_array($blog) && !empty($blog))? $blog['article_id'] : '');
-    
+        $form->addHidden('edit', 'article');
+
         $form->addText('title', 'Title')
             ->setValue((is_array($blog) && !empty($blog))? $blog['title'] : '')
             ->setRequired(self::FORM_MSG_REQUIRED)
@@ -59,6 +60,24 @@ class BlogFactory
             
         $form->addSubmit('submit', 'add Comment')
             ->setHtmlAttribute('class', 'btn btn-primary');
+        $form->setHtmlAttribute('class', 'updateForm');
+        
+        return $form;
+    }
+
+    public function renderCommentEditForm()
+    {
+        $form = $this->forms->create();
+        $form->addHidden('comment_id');
+        $form->addHidden('_do');
+        $form->addHidden('edit');
+
+        $form->addTextArea('content', 'Content')
+            ->setHtmlAttribute('rows', 5)
+            ->setHtmlAttribute('width', 100)            
+            ->setRequired(self::FORM_MSG_REQUIRED)
+            ->addRule($form::MIN_LENGTH, 'Content has to be minimum of %d letters', 5);
+            
         $form->setHtmlAttribute('class', 'updateForm');
         
         return $form;

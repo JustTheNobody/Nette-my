@@ -21,7 +21,7 @@
                             </div>
                             {if ($value['user_id'] == $user->getIdentity()->getID() || 'admin' == $role['role'])}
                                 <div class="button">
-                                    <a class="edit" n:href="Blog:edit $value">Edit</a>
+                                    <a class="edit" n:href="Blog:edit $value['article_id']">Edit</a>
                                 </div>
                                 <div class="button">
                                     <a class="delete" n:href="delete! blog_.$value['article_id']">Delete</a>
@@ -67,7 +67,58 @@
         } else {
             document.getElementById("com"+com).classList.remove("hidden");             
         }
-        //holder.classList.remove("hidden");
+    }
+
+    function commentEdit(com, art)
+    {
+        let commentTargetP = document.getElementById(com); 
+
+        //form
+        let form = document.createElement('form');
+        form.setAttribute("n:name", "commentEditForm");
+        form.setAttribute("novalidate", "");
+        form.setAttribute("action", "/blog/");
+        form.setAttribute("method", "post");
+
+        //hiden input for Nette _do
+        let inputDo = document.createElement('input');
+        inputDo.setAttribute("name", "_do");
+        inputDo.setAttribute("value", "commentEditForm-submit");
+        inputDo.hidden = true;
+    
+        //hiden input comment ID
+        let inputC = document.createElement('input');
+        inputC.setAttribute("name", "comment_id");
+        inputC.setAttribute("value", com);
+        inputC.hidden = true;
+
+        //hiden input action comment 
+        let inputA = document.createElement('input');
+        inputA.setAttribute("name", "edit");
+        inputA.setAttribute("value", "comment");
+        inputA.hidden = true;
+
+        //input edited comment
+        let inputCedit = document.createElement('textArea');
+        inputCedit.setAttribute("name", "content");
+        inputCedit.value = commentTargetP.innerText;
+
+        //submit
+        let inputSubmit = document.createElement('input');
+        inputSubmit.setAttribute("type", "submit");
+        inputSubmit.setAttribute("name", "_submit");
+        inputSubmit.setAttribute("class", "btn btn-primary");
+        inputSubmit.setAttribute("value", "Edit Comment");
+
+        form.appendChild(inputA);
+        form.appendChild(inputC);
+        form.appendChild(inputDo);
+        form.appendChild(inputCedit);
+        form.appendChild(inputSubmit);
+
+        commentTargetP.innerText = '';
+        document.getElementById(com).appendChild( form);
+  
     }
 
 </script>

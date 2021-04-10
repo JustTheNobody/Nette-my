@@ -49,7 +49,7 @@ class BlogModel
                 WHERE article_id = $id"
             );
 
-            $row[0]->created_at = $row[0]->created_at->format('d-m-Y');
+            $row[0]->created_at = $row[0]->created_at->format('d.m.Y');
             return $row;
         }
     }
@@ -57,7 +57,10 @@ class BlogModel
     //get Blog by id
     public function getBlog($id)
     {
-        return $this->database->table(self::ARTICLE_TABLE_NAME)->where(self::ARTICLE_COLUMN_ID, $id)->fetch();
+        //return $this->database->table(self::ARTICLE_TABLE_NAME)->where(self::ARTICLE_COLUMN_ID, $id)->fetch();
+        return  (array)$this->database
+            ->table(self::ARTICLE_TABLE_NAME)
+            ->fetchAssoc('article_id', $id);
     }
 
     /**
@@ -114,13 +117,20 @@ class BlogModel
      */
     public function updateBlog(object $values)
     {
-        $query = $this->database->query(
-            'UPDATE articles SET', [
-            'title' => $values['title'],
-            'content' => $values['content']
-            ], 'WHERE article_id = ?', $values['article_id']
-        );
-      
+        if ($values['edit'] == "article") {
+            $query = $this->database->query(
+                'UPDATE articles SET', [
+                'title' => $values['title'],
+                'content' => $values['content']
+                ], 'WHERE article_id = ?', $values['article_id']
+            );
+        } else {
+            $query = $this->database->query(
+                'UPDATE comments SET', [
+                'content' => $values['content']
+                ], 'WHERE comment_id = ?', $values['comment_id']
+            );
+        }
         return ($query->getRowCount() !== 1) ? false : true;
     }
 
@@ -157,8 +167,9 @@ class BlogModel
         if ($rowComment) {
             return $output = self::relations($row, $rowComment);
         } else {
-            foreach ($row as &$item) {
+            foreach ($row as &$item) {                              
                 $item = (array)$item;
+                $item['created_at'] = $item['created_at']->format('d.m.Y');
             }
             return $row;
         }
@@ -168,7 +179,7 @@ class BlogModel
     {
                
         foreach ($rowComment as $rowComm) {
-            $rowComm->created_at = $rowComm->created_at->format('d-m-Y'); 
+            $rowComm->created_at = $rowComm->created_at->format('d.m.Y'); 
             $newRow[] = (array) $rowComm;
         }
 
@@ -193,7 +204,7 @@ class BlogModel
         $referencesR = [];
         foreach ($row as &$rEntry) {
             $rEntry['comments'] = [];
-            $rEntry['created_at'] = $rEntry['created_at']->format('d-m-Y'); 
+            $rEntry['created_at'] = $rEntry['created_at']->format('d.m.Y'); 
             $referencesR[$rEntry['article_id']] = (array)$rEntry;
         }             
           
