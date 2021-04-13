@@ -15,14 +15,12 @@
     <div class="details">
         <div class="section1">
             <h1>{$reference['title']}</h1>
-            {if (isset($role) && $role != "guest")}
-                {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
+                {if ($user->getIdentity() != null && $role['role'] == 'admin')} 
                     <span>
                         <a n:href="Portfolio:reference, $category, $reference['portfolio_id'], 'edit'=>'edit'">Edit</a>
                         <a class="delete" n:href="delete! $reference['portfolio_id']">Delete</a>
                     </span> 
                 {/if}
-            {/if}
             <div class="description">
                 {$reference['description']}
             </div>

@@ -1,14 +1,12 @@
 {block content}
-    <div class="add">  
-        {if (isset($role) && $role != "guest")}      
-            {if ($user->getIdentity()->getID() && $role['role'] == 'admin')}         
+    <div class="add">       
+            {if ($user->getIdentity() != null && $role['role'] == 'admin')}         
                     <ul>
                         <li><a n:href="Setting:default, [actions=>web]">Add Web</a></li>
                         <li><a n:href="Setting:default, [actions=>graphic]">Add Graphic</a></li>
                         <li><a n:href="Setting:default, [actions=>photography]">Add Photography</a> </li>
                     </ul>        
             {/if} 
-        {/if} 
         <h1 n:block=title>Portfolio</h1>
         <div class="portfolioMenu">
             <span><a href="#web">Web sites</a></span>

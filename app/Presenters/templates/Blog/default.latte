@@ -3,7 +3,7 @@
     <div id="banner">
         <h1 n:block=title>Blog archive</h1>
     </div>
-    {if (isset($role) && $role != "guest")}
+    {if ($user->getIdentity() != null)}
         <div class="addArticle">
             <div class="button">
                 <a n:href="Blog:add">Add Blog</a>
