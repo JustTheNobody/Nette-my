@@ -50,7 +50,7 @@ class FileModel
         $newName = time() . "." . $ext;
 
         if ($category != "avatar") {
-            $fileSavePath = self::FILE_DIR .  "/" . $category . "/" . $newName;
+            $fileSavePath = self::FILE_DIR .  "/" . lcfirst($category) . "/" . $newName;
         } else {
 
             $targetDir = self::FILE_DIR . "/_users/" . $this->user->testUser->getIdentity()->getID() . "/avatar/";
@@ -77,7 +77,7 @@ class FileModel
 
     public function deleteFile($fileName, $category)
     {
-        $targetFile = self::FILE_DIR . "/$category/" . $fileName;
+        $targetFile = self::FILE_DIR . "/".lcfirst($category)."/" . $fileName;
         FileSystem::delete($targetFile);
     }
 }

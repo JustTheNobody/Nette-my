@@ -10,7 +10,10 @@ use App\Models\UserModel;
 use App\Models\AdminModel;
 use Nette\Utils\ArrayHash;
 use App\Forms\SettingsForm;
+use App\Forms\PortfolioForm;
 use Nette\Security\Passwords;
+use app\Models\PortfolioModel;
+use App\Models\StatisticModel;
 use Nette\Application\UI\Presenter;
 
 final class SettingPresenter extends Presenter //implements Authorizator
@@ -18,28 +21,31 @@ final class SettingPresenter extends Presenter //implements Authorizator
     public Passwords $passwords;
     public UserModel $user;
     public SettingsForm $sform;
-    public AdminForm $aform;
-    private AdminModel $admin;
+    public PortfolioForm $pform;
+    protected PortfolioModel $portfolio;
+    public StatisticModel $statistic;
 
     public $value = [];
   
     public function __construct(
         UserModel $user, 
+        PortfolioModel $portfolio,
         Passwords $passwords,
         SettingsForm $sform,
-        AdminForm $aform,
-        AdminModel $admin
+        PortfolioForm $pform,
+        StatisticModel $statistic
     ) {
         $this->user = $user;
+        $this->portfolio = $portfolio;
         $this->passwords = $passwords;
         $this->sform = $sform;
-        $this->aform = $aform;
-        $this->admin = $admin;
-
+        $this->pform = $pform;
+        $this->statistic = $statistic;
     }
 
     public function beforeRender()
     {
+        $this->statistic->saveStatistic();
         if (!$this->user->checkAuth()) {
             $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
             $this->redirect('Login:default');
@@ -168,24 +174,29 @@ final class SettingPresenter extends Presenter //implements Authorizator
        
     protected function createComponentWebForm()
     {        
-        $form = $this->aform->renderForm();
-        $form->form['category']->setDefaultValue('web');            
+        $form = $this->pform->renderForm([]);
+        $form->form['category']->setDefaultValue('web');  
+
         $form->onSuccess[] = [$this, 'formAdminSucces'];
         return $form;
     }
 
     protected function createComponentGraphicForm()
-    {        
-        $form = $this->aform->renderForm();
-        $form->form['category']->setDefaultValue('graphic');            
+    {     
+        $subCategorylist =  $this->portfolio->getSubCategories('graphic');
+        $form = $this->pform->renderForm($subCategorylist);
+        $form->form['category']->setDefaultValue('graphic');    
+        
+
         $form->onSuccess[] = [$this, 'formAdminSucces'];
         return $form;
     }
 
     protected function createComponentPhotographyForm()
     {        
-        $form = $this->aform->renderForm();
-        $form->form['category']->setDefaultValue('Photography');            
+        $form = $this->pform->renderForm([]);
+        $form->form['category']->setDefaultValue('Photography'); 
+
         $form->onSuccess[] = [$this, 'formAdminSucces'];
         return $form;
     }
@@ -194,13 +205,13 @@ final class SettingPresenter extends Presenter //implements Authorizator
     {   
         $values = $this->user->request->getPost();
         $file = $this->user->request->getFile('file');
-        $row = $this->admin->saveAdd($values, $file);
+        $row = $this->portfolio->saveAdd($values, $file);
 
         ($row && is_int($row))? 
         $this->flashMessage("Your ". $values['category']." has not been added!", 'fail') : 
         $this->flashMessage("Your ". $values['category']." has been added.", 'success');
 
-        $this->redirect('Setting:default');  
+        $this->redirect('Portfolio:default');  
     }
 
 }

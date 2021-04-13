@@ -1,15 +1,21 @@
 {block content}
 <h3 n:ifset=$result>Welcome {$result}</h3>
 <div class="divCenter" id="content">
+        <div>
+            
+        </div>
     {if $portfolio}
         <h2>The last {$portfolio['category']} Work</h2>
-        <div class="portfolio">
-            <div>{$portfolio['title']}</div>
+        <div class="portfolioHome">
             <div>{$portfolio['description']}</div>
             <div class="img">
-                <img src="/storage/{$portfolio['category']}/{$portfolio['img']}" alt="portfolio">
-            </div>
-            <div>{$portfolio['content']}</div>            
+                <a n:href="Portfolio:default">
+                    <div>
+                        <span>My Portfolio</span>
+                    </div>
+                    <img src="/storage/{lcfirst($portfolio['category'])}/{$portfolio['img']}" alt="portfolio">
+                </a>
+            </div>          
         </div>         
         <div class="button"><a n:href="Portfolio:default">My Portfolio</a></div>
     {/if}

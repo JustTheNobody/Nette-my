@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Models\UserModel;
-use Nette\Utils\ArrayHash;
-use App\Forms\BlogFactory;
 use app\Models\BlogModel;
+use App\Models\UserModel;
+use App\Forms\BlogFactory;
+use Nette\Utils\ArrayHash;
+use App\Models\StatisticModel;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Presenter;
 use Nette\Forms\Controls\HiddenField;
@@ -42,6 +43,7 @@ final class BlogPresenter extends Presenter
     public int $id = 0;
     
     public BlogFactory $forms;
+    public StatisticModel $statistic;
 
      /**
      * Construct with default Blog id
@@ -52,24 +54,36 @@ final class BlogPresenter extends Presenter
         string $defaultBlogId = null,
         BlogModel $blogModel,
         UserModel $user,
-        BlogFactory $forms
+        BlogFactory $forms,
+        StatisticModel $statistic
     ) {
         parent::__construct();
         $this->defaultBlogId = $defaultBlogId;
         $this->blogModel = $blogModel;
         $this->user = $user;
-        $this->forms = $forms;        
+        $this->forms = $forms; 
+        $this->statistic = $statistic;       
     }
 
     public function beforeRender()
     {
+        $this->statistic->saveStatistic();
         $this->template->title = 'blog';
+        if (!$this->user->checkAuth()) {
+            $this->template->role['role'] = "guest";
+        }
+        
+    } 
+    
+    private function check()
+    {
+        //check if loged in -> if not redirect
         if (!$this->user->checkAuth()) {
             $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
             $this->redirect('Login:default');
             exit;
         }
-    }    
+    }
 
     /**
      * Read the Default Blog template.
@@ -85,13 +99,17 @@ final class BlogPresenter extends Presenter
             $this->flashMessage('There are not any blogs in here yet.', 'fail');
         }
 
-        $this->template->role = $this->getUser()->getIdentity()->roles;
+        if ($this->user->checkAuth()) {
+            $this->template->role = $this->getUser()->getIdentity()->roles;
+        }
+        
         $this->template->blog = $blog; // Send to template.
         $this->template->title = 'blog';
     }
 
     public function handleDelete($id)
     {
+        $this->check();
         $item = explode('_', $id);
         $result = $this->blogModel->removeBlog($id);
 
@@ -107,8 +125,7 @@ final class BlogPresenter extends Presenter
      */
     public function renderAdd()
     {
-        //check if loged in -> if not redirect
-        $this->user->checkAuth();
+        $this->check();
         $this->template->title = 'blog';
     }
 
@@ -139,6 +156,7 @@ final class BlogPresenter extends Presenter
      */
     public function renderEdit($blog)
     {   
+        $this->check();
         $this->id = (int)$blog;
         $this->blogEdit = $this->blogModel->getBlog($this->id);
         $this->template->blog = (int)$this->blogEdit; // Send to template.

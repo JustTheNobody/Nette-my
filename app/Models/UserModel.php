@@ -23,7 +23,7 @@ class UserModel
     FILE_DIR = WWW_DIR . '/storage';
 
     public Explorer $database;
-    private Passwords $passwords;
+    public Passwords $passwords;
     public User $testUser;
     public Request $request;
 
@@ -48,12 +48,15 @@ class UserModel
         if (!$row) {
             //throw new AuthenticationException('User not found.');
             //just for user fendly output, I'm sure that is the best practice
+            
             return ['status' => 'fail', 'error' => 'email'];
         }
 
         if (!$this->passwords->verify($password, $row->passwords)) {
             //throw new AuthenticationException('Invalid password.');
-            //just for user fendly output, I'm sure that is the best practice
+            
+            //if bad password => record it by user_id
+            
             return ['status' => 'fail', 'error' => 'password'];
         }
 
@@ -62,11 +65,9 @@ class UserModel
             new SimpleIdentity(
                 $row->id,
                 ['role' => $row->role],
-                [
-                    'name' => $row->firstname,
-                    'email' => $email,
-                    'avatar' => $row->avatar
-                ]
+                ['name' => $row->firstname,
+                 'email' => $email,
+                 'avatar' => $row->avatar]
             )
         );
         

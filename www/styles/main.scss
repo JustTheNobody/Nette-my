@@ -55,6 +55,7 @@ h3 {
 }
 
 nav {
+    box-shadow: 0px 3px 5px 0px #00000030;
     .container-fluid {
         max-width: 1200px;
         margin: 0 auto;
@@ -166,58 +167,76 @@ section {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        .aboutWrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            .aboutText {
+                margin-top: 50px;
+                margin-left: 20px;
+                width: 45%;
+            }
+            .aboutList {
+                margin-left: 100px;
+            }
+        }
         .portfolio {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            align-self: center;
             padding: 10px;
             padding-left: 50px;
             margin-bottom: 20px;
+            max-width: 600px;
             h3 {
                 margin-left: 30px;
             }
-            .img {
-                position: relative;
-                width: 100%;
-                height: auto;
-                img {
-                    width: 100%;
-                    height: auto;
-                }
-            }
-            .grupWrap {
+            .details {
                 display: flex;
-                flex-wrap: wrap;
-                flex-direction: row;
-                justify-content: center;
-                .itemWrap {
-                    width: 300px;
+                flex-direction: column;
+                width: 100%;
+                max-width: 600px;
+                align-self: center;
+                align-items: center;
+                .section1 {
                     display: flex;
                     flex-direction: column;
-                    margin: 10px;
-                    .img {
-                        position: relative;
-                        max-height: 300px;
-                        overflow: hidden;
-                        span {
-                            background: rgba(255, 255, 255, 0.534);
-                            border-radius: 10px;
-                            border: 1px solid rgba(255, 255, 255, 0.8);
-                            padding: 0 5px;
-                            position: absolute;
-                            right: 20px;
-                            top: 10px;
-                        }
-                    }
+                    margin: 20px 0;
+                    .content,
+                    .content {}
+                }
+                .img {
+                    display: flex;
+                    justify-content: center;
+                    position: relative;
+                    width: 100%;
+                    max-width: 500px;
+                    height: auto;
                     img {
-                        width: 300px;
+                        width: 100%;
+                        max-width: 500px;
                         height: auto;
                     }
-                    .title {
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-                        font-weight: bolder;
+                }
+            }
+        }
+        .add {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            ul {
+                margin: 0;
+                li {
+                    padding: 0 10px;
+                    font-size: 0.8rem;
+                    display: inline-block;
+                    a {
+                        text-decoration: none;
+                        &:hover,
+                        &:focus {
+                            color: rgba(0, 0, 0, .6);
+                            letter-spacing: 1px;
+                        }
                     }
                 }
             }
@@ -278,6 +297,112 @@ section {
                 }
             }
         }
+        .portfolioMenu {
+            float: right;
+            span {
+                margin: 0 10px;
+                a {
+                    text-decoration: none;
+                    &:hover,
+                    &:focus {
+                        color: rgba(0, 0, 0, 0.521);
+                        letter-spacing: 1px;
+                    }
+                }
+            }
+        }
+        .portfolioList {
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.144);
+            padding: 20px 0;
+            h3 {
+                color: rgba(0, 0, 0, 0.418);
+            }
+            .img {
+                width: 80%;
+                height: 300px;
+                overflow: hidden;
+                img {
+                    width: 100%;
+                    max-width: 500px;
+                    height: auto;
+                }
+            }
+            .line {
+                width: 50%;
+                height: 1px;
+                background: rgba(0, 0, 0, 0.144);
+            }
+            .grupWrap {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 40px;
+                .itemWrap {
+                    width: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    margin: 10px;
+                    .img {
+                        position: relative;
+                        max-height: 300px;
+                        overflow: hidden;
+                        span {
+                            background: rgba(255, 255, 255, 0.534);
+                            border-radius: 10px;
+                            border: 1px solid rgba(255, 255, 255, 0.8);
+                            padding: 0 5px;
+                            position: absolute;
+                            right: 20px;
+                            top: 10px;
+                        }
+                    }
+                    img {
+                        width: 300px;
+                        height: auto;
+                    }
+                    a {
+                        overflow: hidden;
+                        &:hover,
+                        &:focus {
+                            div {
+                                transform: translateY(0);
+                                span {
+                                    transform: translateY(0);
+                                }
+                            }
+                        }
+                        div {
+                            position: absolute;
+                            display: flex;
+                            justify-content: center;
+                            align-content: center;
+                            color: rgba(0, 0, 0, 0.7);
+                            font-size: 2rem;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(210, 105, 30, 0.5);
+                            transform: translateY(300px);
+                            span {
+                                transform: translateY(-600px);
+                            }
+                        }
+                        img {
+                            width: 100%;
+                            max-width: 500px;
+                            height: auto;
+                        }
+                    }
+                    .title {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
         .divCenter {
             display: flex;
             justify-content: center;
@@ -285,20 +410,6 @@ section {
             flex-direction: column;
             .section {
                 margin-top: 50px;
-            }
-            .portfolio {
-                width: 100%;
-                border: 1px solid rgba(0, 0, 0, 0.6);
-                .img {
-                    width: 80%;
-                    height: 300px;
-                    overflow: hidden;
-                }
-                img {
-                    width: 100%;
-                    max-width: 500px;
-                    height: auto;
-                }
             }
             div {
                 display: -webkit-box;
@@ -408,8 +519,9 @@ section {
                                 align-items: flex-end;
                             }
                             p {
+                                width: 100%;
                                 position: relative;
-                                padding-left: 10px;
+                                padding: 0 10px;
                                 &::before {
                                     position: absolute;
                                     content: '';
@@ -419,12 +531,57 @@ section {
                                     width: 1px;
                                     background: rgba(0, 0, 0, .7)
                                 }
+                                form {
+                                    width: 100%;
+                                    textArea {
+                                        width: 100%
+                                    }
+                                }
                             }
                         }
                     }
                     .commentBox {
                         margin: 30px;
                         margin-bottom: 0;
+                    }
+                }
+            }
+            .portfolioHome {
+                .img {
+                    overflow: hidden;
+                    height: 300px;
+                    position: relative;
+                    a {
+                        overflow: hidden;
+                        &:hover,
+                        &:focus {
+                            div {
+                                transform: translateY(0);
+                                span {
+                                    transform: translateY(0);
+                                }
+                            }
+                        }
+                        div {
+                            position: absolute;
+                            display: flex;
+                            justify-content: center;
+                            align-content: center;
+                            color: rgba(0, 0, 0, 0.7);
+                            font-size: 3rem;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(255, 255, 255, 0.562);
+                            transform: translateY(300px);
+                            span {
+                                transform: translateY(-600px);
+                            }
+                        }
+                        img {
+                            width: 100%;
+                            max-width: 500px;
+                            height: auto;
+                        }
                     }
                 }
             }
@@ -551,5 +708,20 @@ form {
                 border: 1px solid blue;
             }
         }
+    }
+}
+
+.quote {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 20px;
+    span {
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
+        color: rgba(0, 0, 0, 0.4);
     }
 }

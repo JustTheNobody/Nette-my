@@ -2,6 +2,7 @@
 
 namespace App\Forms;
 
+use App\Models\UserModel;
 use Nette\Utils\Validators;
 
 class ContactForm
@@ -11,10 +12,12 @@ class ContactForm
     FORM_MSG_EMAIL = 'invalid email address';
 
     public CustomFormFactory $forms;
+    public UserModel $user;
 
-    public function __construct(CustomFormFactory $forms)
+    public function __construct(UserModel $user, CustomFormFactory $forms)
     {
         $this->forms = $forms;
+        $this->user = $user;
     }
 
     public function renderForm()
@@ -25,20 +28,26 @@ class ContactForm
             ->addRule($form::MIN_LENGTH, 'Subject has to be minimum of %d letters', 5)
             ->setRequired(self::FORM_MSG_REQUIRED)
             ->setHtmlAttribute('class', 'form-control');
-        $form->addEmail('email', 'Email:')
-            ->setRequired(self::FORM_MSG_REQUIRED)
-            ->addRule($form::EMAIL)
-            ->addRule(
-                function ($item) {
-                    if (!Validators::isEmail($item->value)) {
-                        return false;
-                    }
-                    return true;
-                }, "This email is not valid"
-            )
-             // check unique record in form
-            ->setHtmlAttribute('class', 'form-control');
-
+        if (!$this->user->testUser->getIdentity()) {
+            $form->addEmail('email', 'Email:')
+                ->setRequired(self::FORM_MSG_REQUIRED)
+                ->addRule($form::EMAIL)
+                ->addRule(
+                    function ($item) {
+                        if (!Validators::isEmail($item->value)) {
+                            return false;
+                        }
+                        return true;
+                    }, "This email is not valid"
+                )
+                // check unique record in form
+                ->setHtmlAttribute('class', 'form-control');
+        } else {
+            $form->addEmail('email', 'Email:')
+                ->setDefaultValue($this->user->getEmailValue()) //$this->user->testUser->getIdentity()->email  ??
+                ->setHtmlAttribute('class', 'form-control')
+                ->setHtmlAttribute('readonly');
+        }
         $form->addTextArea('body', 'Body:')
             ->setHtmlAttribute('rows', 10)
             ->setHtmlAttribute('cols', 40)

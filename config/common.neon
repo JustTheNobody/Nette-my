@@ -24,12 +24,12 @@ services:
 
 	- Nette\Utils\ArrayHash	
 	
-	- App\Models\AdminModel
 	- App\Models\CustomFormModel
 	- App\Models\BlogModel
 	- App\Models\UserModel
 	- App\Models\FileModel
 	- App\Models\PortfolioModel
+	- App\Models\StatisticModel
 
 	- App\Forms\LoginFactory
 	- App\Forms\RegisterFactory
@@ -38,7 +38,6 @@ services:
 	- App\Forms\CustomFormFactory
 	- App\Forms\ContactForm
 	- App\Forms\SettingsForm
-	- App\Forms\AdminForm
 	- App\Forms\PortfolioForm
 
 	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])

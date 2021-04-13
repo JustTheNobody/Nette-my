@@ -3,12 +3,14 @@
     <div id="banner">
         <h1 n:block=title>Blog archive</h1>
     </div>
-    <div class="addArticle">
-        <div class="button">
-            <a n:href="Blog:add">Add Blog</a>
+    {if (isset($role) && $role != "guest")}
+        <div class="addArticle">
+            <div class="button">
+                <a n:href="Blog:add">Add Blog</a>
+            </div>
         </div>
-    </div>
-    <div>  
+    {/if}
+    <div> 
         {if (is_array($blog))}
             {foreach $blog as $value}
                 {var $x = 0 }

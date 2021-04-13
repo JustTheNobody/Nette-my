@@ -30,6 +30,11 @@ class PortfolioForm
         $form->addHidden('oldImgName')
             ->setValue(isset($values)? lcfirst($values['img']): '');
     
+        if (isset($values) && $values['category'] == 'graphic') {
+            $form->addSelect('sub_category', 'Sub Category') 
+                ->setHtmlAttribute('class', 'form-control');
+        }
+
         $form->addText('title', 'Title')
             ->setValue(isset($values)?$values['title']: '')
             ->setHtmlAttribute('class', 'form-control');
@@ -46,6 +51,46 @@ class PortfolioForm
 
         $form->addSubmit('submit', 'Update')
             ->setHtmlAttribute('class', 'btn btn-primary');
+        return $form;
+    }
+
+    public function renderForm($subCategorylist)
+    {
+        $form = $this->forms->create();
+
+        $form->addHidden('category')
+            ->setHtmlAttribute('class', 'form-control')
+            ->setHtmlAttribute('readonly');
+
+        if (!empty($subCategorylist)) {
+            $form->addSelect('sub_category', 'Sub Category', $subCategorylist)
+                ->setHtmlAttribute('class', 'form-control'); 
+        }
+                   
+        $form->addText('title', 'Title:')
+            ->setHtmlAttribute('class', 'form-control')
+            ->setRequired(self::FORM_MSG_REQUIRED);
+        $form->addText('description', 'Description:')
+            ->setHtmlAttribute('class', 'form-control')
+            ->setRequired(self::FORM_MSG_REQUIRED);
+        if (empty($subCategorylist)) {
+            $form->addTextArea('content', 'Content:')
+                ->setHtmlAttribute('rows', 10)
+                ->setHtmlAttribute('cols', 40)
+                ->setHtmlAttribute('class', 'form-control')
+                ->setRequired(self::FORM_MSG_REQUIRED);       
+        } else {
+            $form->addHidden('content');
+        }
+        $form->addUpload('file', 'Choose file:')
+            ->addRule($form::IMAGE, 'Avatar musí být JPEG, PNG, GIF or WebP.')
+            ->addRule($form::MAX_FILE_SIZE, 'Maximální velikost je 1 MB.', 1024 * 1024)
+            ->setHtmlAttribute('onchange', 'previewFile(this)')
+            ->setRequired(self::FORM_MSG_REQUIRED);
+
+        $form->addSubmit('submit', 'Add')
+            ->setHtmlAttribute('class', 'btn btn-primary');   
+                     
         return $form;
     }
 

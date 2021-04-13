@@ -1,16 +1,27 @@
 {block content}
-    <h1 n:block=title>Portfolio</h1>
-    <div class="portfolio">
+    <div class="add">  
+        {if (isset($role) && $role != "guest")}      
+            {if ($user->getIdentity()->getID() && $role['role'] == 'admin')}         
+                    <ul>
+                        <li><a n:href="Setting:default, [actions=>web]">Add Web</a></li>
+                        <li><a n:href="Setting:default, [actions=>graphic]">Add Graphic</a></li>
+                        <li><a n:href="Setting:default, [actions=>photography]">Add Photography</a> </li>
+                    </ul>        
+            {/if} 
+        {/if} 
+        <h1 n:block=title>Portfolio</h1>
+        <div class="portfolioMenu">
+            <span><a href="#web">Web sites</a></span>
+            <span><a href="#graphic">Graphic design</a></span>
+            <span><a href="#photography">Photography</a></span>
+        </div>
+    </div>
+    <div class="portfolioList">
         {if $references}
             {foreach $references as $key => $value}
                 {if $key == 'web'}
                     <div>
-                        <h3>
-                            Web solutions
-                            {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
-                                <a n:href="Setting:default, [actions=>web]">Add Web</a>
-                            {/if}
-                        </h3>
+                        <h3 id="web">Recent Web work</h3>
                     </div>
                     <div class="grupWrap">
                         {foreach $value as $portfolio}
@@ -18,13 +29,9 @@
                         {/foreach}
                     </div>
                 {/if}
+                <div class="line"></div>
                 {if $key == 'graphic'}
-                    <h3>
-                        Graphic
-                        {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
-                            <a n:href="Setting:default, [actions=>graphic]">Add Graphic</a>   
-                        {/if} 
-                    </h3>
+                    <h3 id="graphic">Graphic</h3>
                     <div class="grupWrap">
                         {foreach $value as $portfolio}
                             {include 'item.include.latte', portfolio: $portfolio, key: $key}
@@ -32,13 +39,7 @@
                     </div>
                 {/if}
                 {if $key == 'photography'}
-                    <h3>
-                        Photography
-                        {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
-                            <a n:href="Setting:default, [actions=>photography]">Add Photography</a>
-                        {/if}
-                    </h3>
-                    
+                    <h3 id="photography">Photography</h3>
                     <div class="grupWrap">
                         {foreach $value as $portfolio}
                             {include 'item.include.latte', portfolio: $portfolio, key: $key}

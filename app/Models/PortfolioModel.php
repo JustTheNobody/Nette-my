@@ -25,7 +25,7 @@ class PortfolioModel
         FileModel $file
     ) {
         $this->database = $database; 
-        $this->file = $file;      
+        $this->file = $file;    
     }
 
     public function getLast()
@@ -63,8 +63,8 @@ class PortfolioModel
     public function getReferences()
     {
         $rows = $this->database->fetchAll('SELECT * FROM portfolio ORDER BY category_id');
-        $rowCategory = $this->database->fetchAll('SELECT * FROM category');
-  
+        $rowCategory = $this->database->fetchAll('SELECT * FROM category ORDER BY category');
+
         if (empty($rows)) {
             return false;
         }
@@ -93,6 +93,7 @@ class PortfolioModel
                 }                                
             }
         ); 
+
         return $newP;
     }
 
@@ -137,5 +138,52 @@ class PortfolioModel
         }
               
         return ($query->getRowCount() !== 1) ? false : true;
+    }
+
+    public function getSubCategories($category)
+    {
+        //where('sub_category != "" AND category='.$category)
+        $row =  $this->database->table('category')->where('sub_category != "main"')->where('category=?', $category)->fetchAssoc('sub_category');
+        $subCategorylist['main'] = 'Select';
+        foreach ($row as $key =>$value) {
+            $subCategorylist[$key] = ucfirst($key);
+        }
+        
+        return $subCategorylist;
+    }
+
+    public function saveAdd($values, $file)
+    {
+
+        // 1 - get the file name to be passed to DB -> or rename based on timestamp?
+        // 2 - upload file to storage folder based on ['types']
+        $imgName = $this->file->upload($file, $values['category']);
+
+        if (\is_string($imgName)) {
+            
+            $subQuery = $this->database->table('category')->select('category_id')->where('category =?', $values['category'])->fetchAssoc('category_id');
+
+            // 3 - save 2 Db based on ['types']
+            $this->database->query(
+                'INSERT INTO portfolio ?', [
+                'title' => $values['title'],
+                'description' => $values['description'],
+                'content' => $values['content'],
+                'img' => $imgName,
+                'category_id' => array_key_first($subQuery)]
+            );
+
+            //old ->  $this->database->fetchField('SELECT category_id FROM category WHERE category = ? AND sub_category= ?', $values['category'], $values['sub_category'])
+//            $this->database->table('category')->where('sub_category !=', $values['sub_category'])->where('category=?', $values['category'])->fetchAssoc('sub_category')->fetchField('category_id');
+
+
+
+
+            // return auto-increment of the inserted row
+            return $this->database->getInsertId();
+
+        } else {
+            return false;            
+        }     
     }
 }

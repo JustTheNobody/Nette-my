@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace app\Models;
 
-use DateTime;
-use stdClass;
+use App\Models\EmailModel;
 use Nette\SmartObject;
-use Nette\Utils\Arrays;
 use Nette\Utils\ArrayHash;
-use Nette\Database\Explorer;
 
 class BlogModel
 {
@@ -25,26 +22,23 @@ class BlogModel
     public string $content = '';
     public $artId = 0;
     public $comId = 0;
-    private $user;
+    protected $user;
 
-    private $database;
-
-    public function __construct(Explorer $database, UserModel $user)
+    public function __construct(UserModel $user)
     {
-        $this->database = $database;
         $this->user = $user;        
     }
 
     //get Blog with bigest ID if there any Blog at all
     public function getLast()
     {
-        $maxId = $this->database->fetchAll('SELECT article_id FROM articles');
+        $maxId = $this->user->database->fetchAll('SELECT article_id FROM articles');
 
         if (empty($maxId)) {
             return [];
         } else {
             $id = $maxId[count($maxId)-1]->article_id;
-            $row = $this->database->fetchAll(
+            $row = $this->user->database->fetchAll(
                 "SELECT * FROM articles
                 WHERE article_id = $id"
             );
@@ -58,7 +52,7 @@ class BlogModel
     public function getBlog($id)
     {
         //return $this->database->table(self::ARTICLE_TABLE_NAME)->where(self::ARTICLE_COLUMN_ID, $id)->fetch();
-        return  (array)$this->database
+        return  (array)$this->user->database
             ->table(self::ARTICLE_TABLE_NAME)
             ->fetchAssoc('article_id', $id);
     }
@@ -72,7 +66,7 @@ class BlogModel
         $this->title = $blog->title;
         $this->content = $blog->content;
 
-        $this->database->query(
+        $this->user->database->query(
             'INSERT INTO articles ?', [ 
             'title' => $this->title,
             'content' => $this->content,
@@ -80,7 +74,11 @@ class BlogModel
         );
 
         // it return's auto-increment of the inserted blog
-        $id = $this->database->getInsertId();
+        $id = $this->user->database->getInsertId();
+
+        //send email 
+        $emailS = new EmailModel;
+        ($id > 0)?? $emailS->sendBlogPost($blog, 'article');
 
         return ($id > 0) ? true : false;
     }
@@ -94,17 +92,17 @@ class BlogModel
         $this->artId = intval($item[1]);
 
         if ($item[0] == 'comment') {
-            $query = $this->database->query(
+            $query = $this->user->database->query(
                 'DELETE FROM comments WHERE ?', [
                 'comment_id' => $this->artId]
             );
         } else {
             //remove Article & comments
-            $query = $this->database->query(
+            $query = $this->user->database->query(
                 'DELETE FROM articles WHERE ?', [
                 self::ARTICLE_COLUMN_ID => $this->artId]
             );
-            $query1 = $this->database->query(
+            $this->user->database->query(
                 'DELETE FROM comments WHERE ?', [
                 'article_id' => $this->artId]
             );
@@ -118,14 +116,14 @@ class BlogModel
     public function updateBlog(object $values)
     {
         if ($values['edit'] == "article") {
-            $query = $this->database->query(
+            $query = $this->user->database->query(
                 'UPDATE articles SET', [
                 'title' => $values['title'],
                 'content' => $values['content']
                 ], 'WHERE article_id = ?', $values['article_id']
             );
         } else {
-            $query = $this->database->query(
+            $query = $this->user->database->query(
                 'UPDATE comments SET', [
                 'content' => $values['content']
                 ], 'WHERE comment_id = ?', $values['comment_id']
@@ -141,7 +139,7 @@ class BlogModel
         $this->artId = $values->article_id;
         $this->comId = $values->comment_id;    
 
-            $this->database->query(
+            $this->user->database->query(
                 'INSERT INTO comments ?', [ 
                 'article_id' => $this->artId,
                 'parent_id' => $this->comId,
@@ -149,16 +147,20 @@ class BlogModel
                 'user_id' => $this->user->testUser->getId(),]
             );
         // it return's auto-increment of the inserted blog
-        $id = $this->database->getInsertId();
+        $id = $this->user->database->getInsertId();
 
+        //send email 
+        $emailS = new EmailModel;
+        ($id > 0)?? $emailS->sendBlogPost($values, 'comment');
+        
         return ($id > 0) ? true : false;
     }
 
     //get all Blog -> display one at home page rest in Blog page
     public function getBlogs()
     {
-        $row = $this->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
-        $rowComment = $this->database->fetchAll('SELECT * FROM comments ORDER BY parent_id DESC');
+        $row = $this->user->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
+        $rowComment = $this->user->database->fetchAll('SELECT * FROM comments ORDER BY parent_id DESC');
      
         if (empty($row)) {
             return false;

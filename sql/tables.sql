@@ -11,6 +11,7 @@ CREATE TABLE `users` (
   `role` varchar(11) NOT NULL DEFAULT `user`,
   `avatar` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `email_confirm` tinyint DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -48,6 +49,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
     `category_id`  int(11) NOT NULL AUTO_INCREMENT,
     `category`       varchar(20) COLLATE utf8_czech_ci DEFAULT NULL,
+    `sub_category`   varchar(20) COLLATE utf8_czech_ci DEFAULT NULL,
     PRIMARY KEY (`category_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
 
@@ -75,4 +77,17 @@ CREATE TABLE `statistic` (
     `page`       varchar(25) COLLATE utf8_czech_ci NOT NULL,
     `count`     int(11) NOT NULL,
     PRIMARY KEY (`statistic_id`)      
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
+
+-- ----------------------------
+-- Table structure for `login `
+-- ----------------------------
+DROP TABLE IF EXISTS `login`;
+CREATE TABLE `login` (
+    `id` int(11) NOT NULL, -- login->id = users->id
+    `count`  tinyint NOT NULL,  --bad logins count => 5+ = block
+    `blocked` tinyint DEFAULT NULL,
+    `blocked_from` timestamp NULL,
+    `last` timestamp NULL, --last loged in date
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;

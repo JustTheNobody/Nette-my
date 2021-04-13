@@ -1,9 +1,8 @@
 {block content}
-
 {if $edit}
     {control editPortfolioForm}
     <div>
-        <img src="/storage/{$category}/{$reference['img']}" id="previewImg" alt="portfolio">
+        <img src="/storage/{lcfirst($category)}/{$reference['img']}" id="previewImg" alt="portfolio">
     </div>
     {block scripts}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -11,24 +10,31 @@
     {/block}
 
 {else}
-<div class="portfolio">
-    <h3>Portfolio {$category}</h3>
-    <h1>{$reference['title']}</h1>
-    {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
-        <span>
-            <a n:href="Portfolio:reference, $category, $reference['portfolio_id'], 'edit'=>'edit'">Edit</a>
-            <a class="delete" n:href="delete! $reference['portfolio_id']">Delete</a>
-        </span> 
-    {/if}
-    <div>
-        {$reference['description']}
-    </div>
-    <div>
-        {$reference['content']}
-    </div>
-    <div class="img">
-        <img src="/storage/{$category}/{$reference['img']}" alt="portfolio">
-    </div>    
+<h3>Portfolio {$category}</h3>
+<div class="portfolio">    
+    <div class="details">
+        <div class="section1">
+            <h1>{$reference['title']}</h1>
+            {if (isset($role) && $role != "guest")}
+                {if ($user->getIdentity()->getID() && $role['role'] == 'admin')} 
+                    <span>
+                        <a n:href="Portfolio:reference, $category, $reference['portfolio_id'], 'edit'=>'edit'">Edit</a>
+                        <a class="delete" n:href="delete! $reference['portfolio_id']">Delete</a>
+                    </span> 
+                {/if}
+            {/if}
+            <div class="description">
+                {$reference['description']}
+            </div>
+            <div class="content">
+                {$reference['content']}
+            </div>
+        </div>          
+        <div class="img">
+            <img src="/storage/{lcfirst($category)}/{$reference['img']}" alt="portfolio">
+        </div>
+    </div> 
+    <a n:href="Portfolio:default">Back</a>   
 </div>
-<a n:href="Portfolio:default">Back</a>
+
 {/if}

@@ -7,6 +7,7 @@ namespace App\Presenters;
 use App\Models\UserModel;
 use Nette\Utils\ArrayHash;
 use App\Forms\LoginFactory;
+use App\Models\StatisticModel;
 use Nette\Security\UserStorage;
 use Nette\Application\UI\Presenter;
 
@@ -16,15 +17,21 @@ final class LoginPresenter extends Presenter //implements Authorizator
     public UserModel $user;
     public LoginFactory $forms;
     public $userName;
+    public StatisticModel $statistic;
 
-    public function __construct(UserModel $user, LoginFactory $forms)
-    {
+    public function __construct(
+        UserModel $user,
+        LoginFactory $forms,
+        StatisticModel $statistic
+    ) {
         $this->user = $user;
         $this->forms = $forms;
+        $this->statistic = $statistic;
     }
 
     public function renderDefault()
     {
+        $this->statistic->saveStatistic();
         $this->template->title = 'login';
     }
 

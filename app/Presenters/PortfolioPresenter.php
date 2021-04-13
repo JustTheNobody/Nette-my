@@ -8,33 +8,55 @@ use App\Models\UserModel;
 use Nette\Utils\ArrayHash;
 use App\Forms\PortfolioForm;
 use app\Models\PortfolioModel;
+use App\Models\StatisticModel;
 use Nette\Application\UI\Presenter;
 
 final class PortfolioPresenter extends Presenter
 {
-    private PortfolioModel $portfolio;
-    public UserModel $users;
+    protected PortfolioModel $portfolio;
+    public UserModel $user;
     public PortfolioForm $pForm;
     public $values;
+    public StatisticModel $statistic;
+    public $role = '';
 
     public function __construct(
-        UserModel $users,
+        UserModel $user,
         PortfolioModel $portfolio,
-        PortfolioForm $pForm
+        PortfolioForm $pForm,
+        StatisticModel $statistic
     ) {
-        $this->users = $users;
+        $this->user = $user;
         $this->portfolio = $portfolio;  
-        $this->pForm = $pForm;  
+        $this->pForm = $pForm; 
+        $this->statistic = $statistic; 
     }
 
     public function beforeRender()
     {
+        $this->statistic->saveStatistic();
         $this->template->title = 'portfolio'; 
-        $this->template->role = $this->getUser()->getIdentity()->roles;   
+        if (!$this->user->checkAuth()) {
+            $this->template->role = "guest";
+        }
+    }
+
+    private function check()
+    {
+        //check if loged in -> if not redirect
+        if (!$this->user->checkAuth()) {
+            $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
+            $this->redirect('Login:default');
+            exit;
+        }
     }
 
     public function renderDefault(array $value)
-    {        
+    {    
+
+        if ($this->user->checkAuth()) {
+            $this->template->role = $this->getUser()->getIdentity()->roles;
+        } 
         //get all
         $this->template->references = $this->portfolio->getReferences();
 
@@ -55,7 +77,8 @@ final class PortfolioPresenter extends Presenter
     }
 
     public function handleDelete($id, $img, $category)
-    {     
+    {    
+        $this->check(); 
         $result = $this->portfolio->remove($id, $img, $category);
 
         ($result)?

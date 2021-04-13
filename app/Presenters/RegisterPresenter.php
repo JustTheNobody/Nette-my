@@ -7,28 +7,28 @@ namespace App\Presenters;
 use App\Models\UserModel;
 use Nette\Utils\ArrayHash;
 use App\Forms\RegisterFactory;
-use Nette\Security\Passwords;
+use App\Models\StatisticModel;
 use Nette\Application\UI\Presenter;
 
 final class RegisterPresenter extends Presenter
 {
-    public Passwords $passwords;
     public UserModel $users;
     public RegisterFactory $forms;
+    public StatisticModel $statistic;
 
     public function __construct(
-        UserModel $users, 
-        Passwords $passwords, 
-        RegisterFactory $forms
-    )
-    {
+        UserModel $users,  
+        RegisterFactory $forms,
+        StatisticModel $statistic
+    ) {
         $this->users = $users;
-        $this->passwords = $passwords;
         $this->forms = $forms;
+        $this->statistic = $statistic;
     }
 
     public function beforeRender()
     {
+        $this->statistic->saveStatistic();
         $this->template->title = 'register';
     }
 
@@ -46,7 +46,7 @@ final class RegisterPresenter extends Presenter
     public function RegisterFormSuccessed(ArrayHash $values)
     {
         //hash the password
-        $values->password = $this->passwords->hash($values->password);
+        $values->password = $this->users->passwords->hash($values->password);
 
         $userId = $this->users->registerUser($values);
         if ($userId) {
