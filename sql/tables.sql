@@ -91,3 +91,16 @@ CREATE TABLE `login` (
     `last` timestamp NULL, --last loged in date
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
+
+-- ----------------------------
+-- Table structure for `email`
+-- ----------------------------
+DROP TABLE IF EXISTS `email`;
+CREATE TABLE `email` (
+    `email_id`  int(11) NOT NULL AUTO_INCREMENT,
+    `message`       varchar(255) COLLATE utf8_czech_ci NOT NULL,
+    `subject`       varchar(25) COLLATE utf8_czech_ci NOT NULL,
+    `from`     varchar(255) COLLATE utf8_czech_ci NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (`email_id`)      
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;

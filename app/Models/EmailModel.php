@@ -4,32 +4,44 @@ namespace App\Models;
 
 use Nette\Mail\Message;
 use Nette\Mail\SmtpMailer;
+use Nette\Database\Explorer;
 use Nette\Mail\FallbackMailer;
 use Nette\Mail\SendmailMailer;
 
 class EmailModel
 {
-    public Message $mail;
-    public SendmailMailer $mailer;
+    protected Explorer $database;
 
-    public function __construct()
+    public function __construct(Explorer $database) 
     {
-        $this->mail = new Message;
-        $this->mailer = new SendmailMailer;
+        $this->database = $database;
     }
 
     public function sendFromWeb($values)
     {
-        $this->mail
+        $this->database->query(
+            'INSERT INTO email ?', [
+            'from' => $values['email'],
+            'message' => $values['body'],
+            'subject' => $values['subject']]
+        );
+        // return auto-increment of the inserted row
+        $messageId =  $this->database->getInsertId();
+
+        $mail1 = new Message;
+        $mail1
             ->setFrom($values['email'])
             ->addTo('martin.maly.1977@gmail.com')
             ->setSubject($values['subject'])
             ->setHtmlBody(
                 "<h2 style='color:red'>Test Email form localhost</h2>
                  <br>
-                 <p>".$values['body']."</p>"
+                 <p>".$values['body']."</p>
+                 <br>Message saved to DB, the record id is: " . $messageId
             );
-        $this->mailer->send($this->mail);  
+
+        $mailer1 = new SendmailMailer;
+        $mailer1->send($mail1);  
         
         $this->sendAutomaticReply($values);
         return;
@@ -37,7 +49,8 @@ class EmailModel
 
     public function sendAutomaticReply($values)
     {
-        $this->mail
+        $mail2 = new Message;
+        $mail2
             ->setFrom('automatic_reply@martinm.cz')
             ->addTo($values['email'])
             ->setSubject($values['subject'])
@@ -50,13 +63,15 @@ class EmailModel
                 <p>With regards</p>
                 <p style='color:blue'>Martin</p>"
             );
-        $this->mailer->send($this->mail);
+        $mailer2 = new SendmailMailer;
+        $mailer2->send($mail2);
         return;
     }
 
     public function sendBlogPost($values, $type)
     {
-        $this->mail
+        $mail = new Message;
+        $mail
             ->setFrom('automatic@martinm.cz')
             ->addTo('martin.maly.1977@gmail.com')
             ->setSubject('New Blog Posted!')
@@ -71,7 +86,8 @@ class EmailModel
                 <br>
                 <p style='color:blue'>Martin</p>"
             );
-        $this->mailer->send($this->mail);
+        $mailer = new SendmailMailer;
+        $mailer->send($mail);
         return;
     }
 }

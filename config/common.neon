@@ -30,6 +30,7 @@ services:
 	- App\Models\FileModel
 	- App\Models\PortfolioModel
 	- App\Models\StatisticModel
+	- App\Models\EmailModel
 
 	- App\Forms\LoginFactory
 	- App\Forms\RegisterFactory

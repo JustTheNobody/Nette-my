@@ -6,14 +6,11 @@ namespace App\Presenters;
 
 use Tracy\Debugger;
 use Nette\Http\Request;
-use Nette\Mail\Message;
 
 use App\Forms\ContactForm;
 use App\Models\EmailModel;
 use App\Models\StatisticModel;
-use Nette\Mail\SendmailMailer;
 use Nette\Application\UI\Presenter;
-use Tracy\Bridges\Nette\MailSender;
 
 final class ContactPresenter extends Presenter
 {
@@ -21,15 +18,18 @@ final class ContactPresenter extends Presenter
     public ContactForm $form;
     public Request $request;
     public StatisticModel $statistic;
+    public EmailModel $mail;
 
     public function __construct(
         ContactForm $form,
         Request $request,
-        StatisticModel $statistic
+        StatisticModel $statistic,
+        EmailModel $mail
     ) {
         $this->form = $form;
         $this->request = $request;
         $this->statistic = $statistic;
+        $this->mail = $mail;
     }
 
     public function beforeRender()
@@ -55,8 +55,7 @@ final class ContactPresenter extends Presenter
     {
         try {
             //mail from web
-            $mail = new EmailModel;
-            $mail->sendFromWeb($this->request->getPost());
+            $this->mail->sendFromWeb($this->request->getPost());
             
         } catch (\Exception $e) {
             $contactForm->addError($e->getMessage());
