@@ -56,7 +56,14 @@ class PortfolioModel
             "SELECT * FROM portfolio
             WHERE portfolio_id = ?", $id
         );
-   
+        $rowSub = $this->database->fetchAll(
+            "SELECT * FROM category
+            WHERE category_id = ?", $row[0]->category_id
+        );
+
+        $row[0]->sub_category = $rowSub[0]->sub_category;
+        $row[0]->category = $rowSub[0]->category;
+
         return (array)$row[0];
     }
 
@@ -88,12 +95,12 @@ class PortfolioModel
                 foreach ($rowCategory as $cat) {
                     if ($cat->category_id == $category['category_id']) { 
                         $category['category'] = $cat->category;
+                        $category['sub_category'] = $cat->sub_category;
                         $newP[$cat->category][] = $category;                        
                     }                    
                 }                                
             }
         ); 
-
         return $newP;
     }
 
@@ -108,16 +115,22 @@ class PortfolioModel
         return ($query->getRowCount() !== 1) ? false : true;
     }
 
-    public function save($value)
+    public function save($value, $file)
     {
-
+        if ($value['sub_category'] != $value['sub_category_old']) {
+            $this->database->query(
+                'UPDATE category SET', [
+                'sub_category' => $value['sub_category']
+                ], 'WHERE category_id = ?', $this->database->fetchField('SELECT category_id FROM portfolio WHERE portfolio_id =?', $value['portfolio_id'])
+            );
+        }
         //check if there is new img  2 upload
-        if ($value['img']->hasFile()) {
+        if ($file != null) {
 
             //delete the old img from folder!  fileName + filePAth
             $this->file->deleteFile($value['oldImgName'], $value['category']);
 
-            $newName = $this->file->upload($value['img'], $value['category']);
+            $newName = $this->file->upload($file, $value['category']);
 
             $query = $this->database->query(
                 'UPDATE portfolio SET', [

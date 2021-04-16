@@ -131,6 +131,32 @@ nav {
 
 .errorPage {
     padding-top: 50px;
+    .errorPageWrapper {
+        h1 {
+            width: 100%;
+            display: block;
+            text-align: right;
+        }
+        .errorPageP {
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            p {
+                margin: 0;
+                padding: 0;
+                font-size: 1.2rem;
+                border-bottom: 1px solid rgba(0, 0, 0, .6);
+                border-top: 1px solid rgba(0, 0, 0, .6);
+            }
+        }
+        .errorPagemonkey {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            //border-bottom: 1px solid rgba(0, 0, 0, .6);
+        }
+    }
 }
 
 .errorPage {
@@ -494,6 +520,17 @@ section {
                             }
                         }
                     }
+                    .aprove {
+                        position: relative;
+                        background: darkred;
+                        color: white;
+                        margin-bottom: 10px;
+                        div {
+                            position: absolute;
+                            left: -40px;
+                            color: darkgreen;
+                        }
+                    }
                     .titleBox {
                         position: relative;
                         background: chocolate;
@@ -501,7 +538,8 @@ section {
                         z-index: 9;
                     }
                     .content,
-                    .title {
+                    .title,
+                    .created_at {
                         padding: 10px 20px;
                     }
                     .commentList {

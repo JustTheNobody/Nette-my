@@ -1,0 +1,9 @@
+{foreach $emails as $key => $val}
+    <div class="emailMessages">
+        <p>receved: {$val->created_at}</p>
+        <p>From: {$val->from}</p>
+        <p>Subject: {$val->subject}</p>
+        <p>Message: {$val->message}</p> 
+        <a n:href="delete! $val->email_id">delete</a>
+    </div>
+{/foreach}

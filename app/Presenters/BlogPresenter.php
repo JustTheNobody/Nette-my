@@ -138,17 +138,16 @@ final class BlogPresenter extends Presenter
 
     public function blogFormSucceeded(ArrayHash $values)
     {
-        $result = $this->blogModel->saveBlog($values);
-
-        if ($result) {
-            //redirect 2 userPage
-            $this->flashMessage('Blog has been saved.', 'success');
-            $this->redirect('Blog:default');
+        if ($this->blogModel->saveBlog($values)) {
+            if ($this->user->testUser->getIdentity()->getRoles()['role'] == 'admin') {
+                $this->flashMessage('Blog has been saved.', 'success');
+            } else {
+                $this->flashMessage('Blog has been saved and will be visible after approvement, thank you.', 'success');
+            }                        
         } else {
-            //redirect
             $this->flashMessage('Sorry, there was a unexpected error in saving the Blog.', 'fail');
-            $this->redirect('Blog:add');
-        }
+        }  
+        $this->redirect('Blog:default');
     }
 
     /**
@@ -178,9 +177,7 @@ final class BlogPresenter extends Presenter
 
     public function editFormSucceeded(ArrayHash $blog)
     {
-        $result = $this->blogModel->updateBlog($blog);
-
-        if ($result) {
+        if ($this->blogModel->updateBlog($blog)) {
             //redirect 2 userPage
             $this->status = "success";
             $this->flashMessage('Blog has been updated.', 'success');
@@ -201,10 +198,16 @@ final class BlogPresenter extends Presenter
 
     public function commentFormSucceeded(ArrayHash $values)
     {
-        ($this->blogModel->commentBlog($values))? 
-        $this->flashMessage('Your comment has been added.', 'success'):
-        $this->flashMessage('Sorry, there was a problem, your comment is not added.', 'fail');
-        $this->redirect('Blog:default');
+        if ($this->blogModel->commentBlog($values)) {
+            if ($this->user->testUser->getIdentity()->getRoles()['role'] == 'admin') {
+                $this->flashMessage('Your comment has been added.', 'success');
+            } else {
+                $this->flashMessage('Your comment has been added and will be visible after approvement, thank you.', 'success');
+            }                        
+        } else {
+            $this->flashMessage('Sorry, there was a problem, your comment is not added.', 'fail');
+        }  
+        $this->redirect('Blog:default');          
     }
     
     protected function createComponentCommentEditForm()
@@ -221,4 +224,10 @@ final class BlogPresenter extends Presenter
         $this->flashMessage('Sorry, there was a problem, your comment has not been updated.', 'fail');
         $this->redirect('Blog:default');
     }
+
+    public function handleAprove($item, $id)
+    {
+        $this->blogModel->aprove($item, $id);
+    }
+
 }

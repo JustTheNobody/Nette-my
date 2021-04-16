@@ -7,7 +7,7 @@
                     <div class="button">
                         <a class="change add" id="{$value[$i]['article_id']}" onClick="comment({$value[$i]['article_id']}, {$value[$i]['comment_id']})">Add</a>
                     </div>
-                    {if ($value[$i]['user_id'] == $user->getIdentity()->getID() || 'admin' == $role['role'])}
+                    {if $value[$i]['user_id'] == $user->getIdentity()->getID() || $user->getIdentity()->getRoles()[role] == 'admin'}
                     <div class="button">
                         <a class="change edit" onClick="commentEdit({$value[$i]['comment_id']}, {$value[$i]['article_id']})">Edit</a>
                     </div>
@@ -16,6 +16,12 @@
                     </div>
                     {/if}
                 </div>                
+            {/if}
+            {if $value[$i]['aproved'] != 1 && $user->getIdentity()->getRoles()[role] == 'admin'}
+                <div class="aprove">
+                    <div>New</div>
+                    <a class="aprove" n:href="aprove! comments,$value[$i]['comment_id']">Aprove?</a>
+                </div>
             {/if}
             <p id="{$value[$i]['comment_id']}">
                 {$value[$i]['content']}

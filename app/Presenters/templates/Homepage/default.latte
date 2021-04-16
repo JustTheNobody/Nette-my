@@ -24,9 +24,9 @@
             <h2>The last added Blog</h2>
             <div class="article">
             {foreach $blog[0] as $key => $value}
-                {if ($key == "article_id" || $key == "user_id")}
+                {if ($key == "article_id" || $key == "user_id" || $key == "aproved")}
                 {else}
-                <div class="titleBox">{$key}:</div>
+                <div class="titleBox">{($key == "created_at")?'Date': ucfirst($key)}:</div>
                 <div class="{$key}"> {$value}</div>
                 {/if}
             {/foreach}

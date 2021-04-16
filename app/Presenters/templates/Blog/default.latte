@@ -21,7 +21,7 @@
                             <div class="button">
                                 <a class="edit" id="art_{$value['article_id']}" onClick="comment({$value['article_id']}, '')">Add</a>
                             </div>
-                            {if ($value['user_id'] == $user->getIdentity()->getID() || 'admin' == $role['role'])}
+                            {if $value['user_id'] == $user->getIdentity()->getID() || $user->getIdentity()->getRoles()[role] == 'admin'}
                                 <div class="button">
                                     <a class="edit" n:href="Blog:edit $value['article_id']">Edit</a>
                                 </div>
@@ -38,6 +38,12 @@
                             </form>
                         </div>                        
                     {/if}
+                        {if $value['aproved'] != 1 && $user->getIdentity()->getRoles()[role] == 'admin'}
+                            <div class="aprove">
+                                <div>New</div>
+                                <a class="aprove" n:href="aprove! articles, $value['article_id']">Aprove?</a>
+                            </div>
+                        {/if}
                         <div class="titleBox">Title:</div>
                         <div class="title"> {$value['title']}</div>
                         <div class="titleBox">Content:</div>

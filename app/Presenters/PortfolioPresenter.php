@@ -69,6 +69,7 @@ final class PortfolioPresenter extends Presenter
         $this->template->reference = $this->portfolio->getOne($item);
 
         $this->values = $this->template->reference;
+
         $this->values['category'] = $category;
 
         $this->template->category = ucfirst($category);
@@ -89,18 +90,18 @@ final class PortfolioPresenter extends Presenter
     }
 
     protected function createComponentEditPortfolioForm()
-    {
-
+    {      
         $form = $this->pForm->renderEditPortfolioForm($this->values);
 
         $form->onSuccess[] = [$this, 'formSucces'];
         return $form;
     }
 
-    public function formSucces(ArrayHash $values)
+    public function formSucces()
     {   
-        
-        $row = $this->portfolio->save($values);
+        $values = $this->user->request->getPost();
+        $file = $this->user->request->getFile('img');
+        $row = $this->portfolio->save($values, $file);
 
         ($row && is_int($row))? 
         $this->flashMessage("Portfolio has not been updated!", 'fail') : 

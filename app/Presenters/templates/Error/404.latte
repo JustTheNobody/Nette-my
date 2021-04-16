@@ -1,12 +1,18 @@
 {block content}
 
 <div class="divCenter errorPage" id="content">
-    <h1 n:block=title>
-        Page Not Found
-        <span>error 404</span>
-    </h1>
+    <div class="errorPageWrapper">
+        <h1 n:block=title>
+            Page Not Found
+            <span>error 404</span>
+        </h1>
+        <div class="errorPagemonkey">
+            <img src="/img/monkey.png" alt="404">
+        </div>
+        <div class="errorPageP">
+            
+            <p>The page you requested could not be found. <br>
+            It is possible that the address is incorrect, or that the page no longer exists.</p>
+        </div>
     <div>
-        <p>The page you requested could not be found. It is possible that the address is
-            incorrect, or that the page no longer exists.</p>
-    </div>
 </div>

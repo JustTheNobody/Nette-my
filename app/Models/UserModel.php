@@ -156,4 +156,13 @@ class UserModel
             ->getRowCount();
         return $result;
     }
+
+    public function getEmails()
+    {
+        $emails = $this->database->fetchAll('SELECT * FROM email');
+        foreach ($emails as &$key) {
+            $key->created_at = $key->created_at->format('d.m.Y');            
+        }
+        return (array)$emails;
+    }
 }

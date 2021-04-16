@@ -11,19 +11,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="nav-main navbar-nav me-auto mb-2 mb-lg-0 ">
             <li class="nav-item">
-                <a class="nav-link {if $title == 'home'}active{/if}" aria-current="page" href="/">Home</a>
+                <a class="nav-link {if isset($title) && $title == 'home'}active{/if}" aria-current="page" href="/">Home</a>
             </li> 
             <li class="nav-item">
-                <a class="nav-link {if $title == 'about'}active{/if}" aria-current="page" href="/about">About</a>
+                <a class="nav-link {if isset($title) && $title == 'about'}active{/if}" aria-current="page" href="/about">About</a>
             </li> 
             <li class="nav-item">
-                <a class="nav-link {if $title == 'portfolio'}active{/if}" aria-current="page" href="/portfolio">Portfolio</a>
+                <a class="nav-link {if isset($title) && $title == 'portfolio'}active{/if}" aria-current="page" href="/portfolio">Portfolio</a>
             </li> 
             <li class="nav-item">
-                <a class="nav-link {if $title == 'blog'}active{/if}" aria-current="page" href="/blog">Blog</a>
+                <a class="nav-link {if isset($title) && $title == 'blog'}active{/if}" aria-current="page" href="/blog">Blog</a>
             </li>  
             <li class="nav-item">
-                <a class="nav-link {if $title == 'contact'}active{/if}" aria-current="page" href="/contact">Contact</a>
+                <a class="nav-link {if isset($title) && $title == 'contact'}active{/if}" aria-current="page" href="/contact">Contact</a>
             </li>  
         </ul>  
         {if isset($user->getIdentity()->name) } 
@@ -53,10 +53,10 @@
 
         <ul class="navbar-nav le-auto mb-2 mb-lg-0">
             <li class="nav-item">
-            <a class="nav-link {if $title == 'login'}active{/if}" aria-current="page" href="/login">Login</a>
+            <a class="nav-link {if isset($title) && $title == 'login'}active{/if}" aria-current="page" href="/login">Login</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link {if $title == 'register'}active{/if}" href="/register">Register</a>
+            <a class="nav-link {if isset($title) && $title == 'register'}active{/if}" href="/register">Register</a>
             </li>            
         </ul> 
         {/if}   

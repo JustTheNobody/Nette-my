@@ -1,6 +1,6 @@
 {block content}
     <div class="add">       
-            {if ($user->getIdentity() != null && $role['role'] == 'admin')}         
+            {if $user->getIdentity() != null && $user->getIdentity()->getRoles()['role'] == 'admin'}         
                     <ul>
                         <li><a n:href="Setting:default, [actions=>web]">Add Web</a></li>
                         <li><a n:href="Setting:default, [actions=>graphic]">Add Graphic</a></li>

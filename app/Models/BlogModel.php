@@ -23,16 +23,18 @@ class BlogModel
     public $artId = 0;
     public $comId = 0;
     protected $user;
+    public EmailModel $emailS;
 
-    public function __construct(UserModel $user)
+    public function __construct(UserModel $user, EmailModel $emailS)
     {
-        $this->user = $user;        
+        $this->user = $user; 
+        $this->emailS = $emailS;
     }
 
     //get Blog with bigest ID if there any Blog at all
     public function getLast()
     {
-        $maxId = $this->user->database->fetchAll('SELECT article_id FROM articles');
+        $maxId = $this->user->database->fetchAll('SELECT article_id FROM articles WHERE aproved = 1');
 
         if (empty($maxId)) {
             return [];
@@ -70,15 +72,16 @@ class BlogModel
             'INSERT INTO articles ?', [ 
             'title' => $this->title,
             'content' => $this->content,
-            'user_id' => $this->user->testUser->getId(),]
+            'user_id' => $this->user->testUser->getId(),
+            'aproved' => ($this->user->testUser->getIdentity()->getRoles()['role'] == 'admin')? 1:null
+            ]
         );
 
         // it return's auto-increment of the inserted blog
         $id = $this->user->database->getInsertId();
 
         //send email 
-        $emailS = new EmailModel;
-        ($id > 0)?? $emailS->sendBlogPost($blog, 'article');
+        ($id > 0)?? $this->emailS->sendBlogPost($blog, 'article');
 
         return ($id > 0) ? true : false;
     }
@@ -144,30 +147,34 @@ class BlogModel
                 'article_id' => $this->artId,
                 'parent_id' => $this->comId,
                 'content' => $this->content,
-                'user_id' => $this->user->testUser->getId(),]
+                'user_id' => $this->user->testUser->getId(),
+                'aproved' => ($this->user->testUser->getIdentity()->getRoles()['role'] == 'admin')? 1:null]
             );
         // it return's auto-increment of the inserted blog
         $id = $this->user->database->getInsertId();
 
-        //send email 
-        $emailS = new EmailModel;
-        ($id > 0)?? $emailS->sendBlogPost($values, 'comment');
-        
         return ($id > 0) ? true : false;
     }
 
     //get all Blog -> display one at home page rest in Blog page
     public function getBlogs()
     {
-        $row = $this->user->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
-        $rowComment = $this->user->database->fetchAll('SELECT * FROM comments ORDER BY parent_id DESC');
-     
+        if ($this->user->testUser->getIdentity()) {
+            if ($this->user->testUser->getIdentity()->getRoles()['role'] == 'admin') {
+                $row = $this->user->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
+                $rowComment = $this->user->database->fetchAll('SELECT * FROM comments ORDER BY parent_id DESC');
+            }            
+        } else {
+            $row = $this->user->database->fetchAll('SELECT * FROM articles WHERE aproved = 1 ORDER BY article_id DESC');
+            $rowComment = $this->user->database->fetchAll('SELECT * FROM comments WHERE aproved = 1 ORDER BY parent_id DESC');
+        }
+
         if (empty($row)) {
             return false;
         }
         //sort by article's comments
         if ($rowComment) {
-            return $output = self::relations($row, $rowComment);
+            return self::relations($row, $rowComment);
         } else {
             foreach ($row as &$item) {                              
                 $item = (array)$item;
@@ -218,5 +225,19 @@ class BlogModel
             }
         );     
         return $referencesR;
+    }
+
+    public function aprove($item, $id)
+    {
+        //get the last char off
+        $helpItem = substr($item, 0, -1);
+
+        $query = $this->user->database->query(
+            'UPDATE ' . $item . ' SET', [
+            'aproved' => 1
+            ], 'WHERE '.$helpItem.'_id = ?', $id
+        );
+    
+        return ($query->getRowCount() !== 1) ? false : true; 
     }
 }

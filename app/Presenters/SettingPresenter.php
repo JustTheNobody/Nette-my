@@ -69,11 +69,10 @@ final class SettingPresenter extends Presenter //implements Authorizator
                     return;
                 } 
             }
-            if ($value['actions'] == "delete") {
-                $this->template->value = 'delete';                
-            }
-            // Předání výsledku do šablony
-            $this->template->value = $value['actions'];
+            if ($value['actions'] == "emails") {
+                $this->template->emails = $this->user->getEmails();                
+            } 
+            $this->template->value = $value['actions'];            
         } 
 
         foreach($value as $key => $val)
@@ -212,6 +211,23 @@ final class SettingPresenter extends Presenter //implements Authorizator
         $this->flashMessage("Your ". $values['category']." has been added.", 'success');
 
         $this->redirect('Portfolio:default');  
+    }
+
+    public function handleDelete($id)
+    {
+        echo '<pre>';
+        print_r("deleting message with ID: ".$id);
+        echo '</pre>';
+        exit;
+        $this->check();
+        $item = explode('_', $id);
+        $result = $this->blogModel->removeBlog($id);
+
+        ($result)?
+            $this->flashMessage("$item[0] has been deleted.", 'success'):
+            $this->flashMessage("Sorry, there was a unexpected error in deleting the $item[0].", 'fail');
+        
+        $this->redirect('Blog:default');
     }
 
 }

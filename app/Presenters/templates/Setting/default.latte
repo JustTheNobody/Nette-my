@@ -13,7 +13,7 @@
                 <li><a n:href="Setting:default, [actions=>email]">Email</a></li>
                 <li><a n:href="Setting:default, [actions=>avatar, file=>'']">Avatar</a></li>
             </ul>
-            {if ($user->getIdentity()->getID() && !$role['role'] == 'admin')} 
+            {if ($user->getIdentity()->getID() && $user->getIdentity()->getRoles()['role'] != 'admin')} 
                 Delete Account
                 <ul>
                     <li><a n:href="Setting:default, [actions=>delete]">Delete Account</a></li>
@@ -59,11 +59,14 @@
                     <h4>Portfolio <span>Add Photography</span></h4>
                     {control photographyForm}
                     <img id="previewImg" alt="" >
+                {case emails}
+                    <h4>Emails <span>count: {count($emails)}</span></h4>
+                    {include 'emails.include.latte', value: $emails} 
                 {default}            
             {/switch}
         {/if}
     </div>
-    {if ($user->getIdentity()->getID() && $role['role'] == 'admin')}    
+    {if ($user->getIdentity()->getID() && $user->getIdentity()->getRoles()['role'] == 'admin')}    
         <div class="adminSide">
             <h3>Admin Site</h3>
             <div>
@@ -72,6 +75,10 @@
                     <li><a n:href="Setting:default, [actions=>web]">Add Web</a></li>
                     <li><a n:href="Setting:default, [actions=>graphic]">Add Graphic</a></li>
                     <li><a n:href="Setting:default, [actions=>photography]">Add Photography</a></li>
+                </ul> 
+                Emails
+                <ul>
+                    <li><a n:href="Setting:default, [actions=>emails]">List</a></li>
                 </ul>                
             </div>
         </div>

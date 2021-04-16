@@ -5,33 +5,40 @@ namespace App\Forms;
 use App\Models\UserModel;
 use Nette\Utils\Validators;
 
+use app\Models\PortfolioModel;
 use Nette\Security\UserStorage;
 
 class PortfolioForm
 {
+    
     const
     FORM_MSG_REQUIRED = 'this field is required';
 
     public CustomFormFactory $forms;
+    public PortfolioModel $portfolio;
 
-    public function __construct(CustomFormFactory $forms)
+    public function __construct(CustomFormFactory $forms, PortfolioModel $portfolio)
     {
         $this->forms = $forms;
+        $this->portfolio = $portfolio;
     }
 
     public function renderEditPortfolioForm($values)
-    {        
+    {                
         $form = $this->forms->create();
 
         $form->addHidden('portfolio_id')
             ->setValue(isset($values)?$values['portfolio_id']: '');
         $form->addHidden('category')
             ->setValue(isset($values)? lcfirst($values['category']): '');
+        $form->addHidden('sub_category_old')
+            ->setValue(isset($values)? lcfirst($values['sub_category']): '');
         $form->addHidden('oldImgName')
             ->setValue(isset($values)? lcfirst($values['img']): '');
     
-        if (isset($values) && $values['category'] == 'graphic') {
-            $form->addSelect('sub_category', 'Sub Category') 
+        if (isset($values) && $values['category'] == 'graphic' && $values['sub_category'] != 'main') {
+            $form->addSelect('sub_category', 'Sub Category', $this->portfolio->getSubCategories('graphic'))
+                ->setDefaultValue($values['sub_category']) 
                 ->setHtmlAttribute('class', 'form-control');
         }
 

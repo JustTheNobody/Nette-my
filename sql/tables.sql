@@ -24,6 +24,7 @@ CREATE TABLE `articles` (
     `user_id`  int(11) NOT NULL, 
     `title`       varchar(255) COLLATE utf8_czech_ci DEFAULT NULL,
     `content`     text COLLATE utf8_czech_ci,
+    `aproved` tinyint DEFAULT NULL,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`article_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;
@@ -38,6 +39,7 @@ CREATE TABLE `comments` (
     `parent_id` int(11) NOT NULL DEFAULT '-1',
     `user_id`  int(11) NOT NULL, 
     `content`     text COLLATE utf8_czech_ci,
+    `aproved` tinyint DEFAULT NULL,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`comment_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8 COLLATE = utf8_czech_ci;

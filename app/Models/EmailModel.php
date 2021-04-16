@@ -10,23 +10,23 @@ use Nette\Mail\SendmailMailer;
 
 class EmailModel
 {
-    protected Explorer $database;
+    protected UserModel $user;
 
-    public function __construct(Explorer $database) 
+    public function __construct(UserModel $user) 
     {
-        $this->database = $database;
+        $this->user = $user;
     }
 
     public function sendFromWeb($values)
     {
-        $this->database->query(
+        $this->user->database->query(
             'INSERT INTO email ?', [
             'from' => $values['email'],
             'message' => $values['body'],
             'subject' => $values['subject']]
         );
         // return auto-increment of the inserted row
-        $messageId =  $this->database->getInsertId();
+        $messageId =  $this->user->database->getInsertId();
 
         $mail1 = new Message;
         $mail1
@@ -72,7 +72,7 @@ class EmailModel
     {
         $mail = new Message;
         $mail
-            ->setFrom('automatic@martinm.cz')
+            ->setFrom('martin.maly.1977@gmail.com')
             ->addTo('martin.maly.1977@gmail.com')
             ->setSubject('New Blog Posted!')
             ->setHtmlBody(

@@ -168,6 +168,43 @@ nav .container-fluid .user-nav li ul li a:hover, nav .container-fluid .user-nav 
   padding-top: 50px;
 }
 
+.errorPage .errorPageWrapper h1 {
+  width: 100%;
+  display: block;
+  text-align: right;
+}
+
+.errorPage .errorPageWrapper .errorPageP {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.errorPage .errorPageWrapper .errorPageP p {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.errorPage .errorPageWrapper .errorPagemonkey {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
 .errorPage {
   padding-top: 50px;
 }
@@ -721,6 +758,19 @@ section .container .divCenter div .article .editBox .button .delete:hover, secti
   font-weight: bolder;
 }
 
+section .container .divCenter div .article .aprove {
+  position: relative;
+  background: darkred;
+  color: white;
+  margin-bottom: 10px;
+}
+
+section .container .divCenter div .article .aprove div {
+  position: absolute;
+  left: -40px;
+  color: darkgreen;
+}
+
 section .container .divCenter div .article .titleBox {
   position: relative;
   background: chocolate;
@@ -729,7 +779,8 @@ section .container .divCenter div .article .titleBox {
 }
 
 section .container .divCenter div .article .content,
-section .container .divCenter div .article .title {
+section .container .divCenter div .article .title,
+section .container .divCenter div .article .created_at {
   padding: 10px 20px;
 }
 
