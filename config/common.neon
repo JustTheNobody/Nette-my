@@ -4,7 +4,7 @@ parameters:
 
 application:
 	errorPresenter: Error
-	catchExceptions: yes
+	#catchExceptions: yes
 	mapping:
 		*: App\*Module\Presenters\*Presenter
 
@@ -17,7 +17,6 @@ di:
 	export:
 		parameters: no
 		tags: no
-
 
 services:
 	- App\Router\RouterFactory::createRouter
@@ -40,5 +39,6 @@ services:
 	- App\Forms\ContactForm
 	- App\Forms\SettingsForm
 	- App\Forms\PortfolioForm
+
 
 	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])

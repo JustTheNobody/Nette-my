@@ -1,11 +1,8 @@
 {block content}
 
 <div class="settingWrapper">
-    <h2>
-        Setting page
-        <span>{(isset($value))? "Change ".$value : ''}</span>
-    </h2>
     <div class="settingSide">
+        <h4>Setting page</h4>
         <div>
             Change
             <ul>
@@ -62,13 +59,15 @@
                 {case emails}
                     <h4>Emails <span>count: {count($emails)}</span></h4>
                     {include 'emails.include.latte', value: $emails} 
+                {case statistic}
+                    {include 'statistic.include.latte'} 
                 {default}            
             {/switch}
         {/if}
     </div>
     {if ($user->getIdentity()->getID() && $user->getIdentity()->getRoles()['role'] == 'admin')}    
-        <div class="adminSide">
-            <h3>Admin Site</h3>
+        <div class="settingSide">
+            <h4>Admin Site</h4>
             <div>
                 Add to Portfolio
                 <ul>
@@ -76,9 +75,10 @@
                     <li><a n:href="Setting:default, [actions=>graphic]">Add Graphic</a></li>
                     <li><a n:href="Setting:default, [actions=>photography]">Add Photography</a></li>
                 </ul> 
-                Emails
+                Show
                 <ul>
-                    <li><a n:href="Setting:default, [actions=>emails]">List</a></li>
+                    <li><a n:href="Setting:default, [actions=>emails]">Email List</a></li>
+                    <li><a n:href="Setting:default, [actions=>statistic]">Site Statistic</a></li>
                 </ul>                
             </div>
         </div>

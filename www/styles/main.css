@@ -259,7 +259,25 @@ section .container {
           justify-content: center;
 }
 
+section .container .referenceImg {
+  margin: 0 auto;
+}
+
+section .container .aboutMenu ul li {
+  display: inline-block;
+  padding: 0 5px;
+}
+
+section .container .aboutMenu ul li a {
+  text-decoration: none;
+}
+
+section .container .aboutMenu ul li a:hover, section .container .aboutMenu ul li a:focus {
+  color: rgba(0, 0, 0, 0.6);
+}
+
 section .container .aboutWrapper {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -269,6 +287,16 @@ section .container .aboutWrapper {
           flex-direction: row;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+@media only screen and (max-width: 1000px) {
+  section .container .aboutWrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 
 section .container .aboutWrapper .aboutText {
@@ -277,8 +305,22 @@ section .container .aboutWrapper .aboutText {
   width: 45%;
 }
 
+@media only screen and (max-width: 1000px) {
+  section .container .aboutWrapper .aboutText {
+    width: 100%;
+  }
+}
+
 section .container .aboutWrapper .aboutList {
-  margin-left: 100px;
+  width: 45%;
+  padding-left: 50px;
+}
+
+@media only screen and (max-width: 1000px) {
+  section .container .aboutWrapper .aboutList {
+    width: 100%;
+    margin-top: 50px;
+  }
 }
 
 section .container .portfolio {
@@ -385,16 +427,32 @@ section .container .settingWrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
 
+section .container .settingWrapper .settingSide {
+  width: 20%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+section .container .settingWrapper .settingSide h4 {
+  margin-bottom: 30px;
+}
+
 section .container .settingWrapper .settingMiddle {
+  width: 60%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -468,7 +526,8 @@ section .container .settingWrapper .settingMiddle .avatarFile img {
   height: auto;
 }
 
-section .container .settingWrapper .settingSide {
+section .container .settingWrapper .settingMiddle .stat {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -478,10 +537,44 @@ section .container .settingWrapper .settingSide {
           flex-direction: row;
 }
 
-section .container .settingWrapper .settingSide div:nth-of-type(1) {
-  padding: 10px;
-  margin: 20px 40px;
-  margin-top: 50px;
+section .container .settingWrapper .settingMiddle .stat div:first-child {
+  border-right: 1px solid rgba(0, 0, 0, 0.418);
+}
+
+section .container .settingWrapper .settingMiddle .stat .statPage {
+  width: 50%;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+section .container .settingWrapper .settingMiddle .stat .statPage div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+section .container .settingWrapper .settingMiddle .stat .statPage div span {
+  width: 50%;
+  display: block;
+  padding: 0 10px;
+  width: 30%;
+  text-align: left;
+}
+
+section .container .settingWrapper .settingMiddle .stat .statPage div span:first-of-type {
+  text-align: right;
+  border-right: 1px solid rgba(0, 0, 0, 0.418);
+}
+
+section .container .settingWrapper .settingMiddle .stat .statPage .even {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 section .container .portfolioMenu {
@@ -564,7 +657,7 @@ section .container .portfolioList .grupWrap .itemWrap .img {
 }
 
 section .container .portfolioList .grupWrap .itemWrap .img span {
-  background: rgba(255, 255, 255, 0.534);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.8);
   padding: 0 5px;
@@ -650,6 +743,119 @@ section .container .divCenter {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+section .container .divCenter .register {
+  margin-top: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+section .container .divCenter .register form {
+  margin: 10px;
+}
+
+section .container .divCenter .register div {
+  width: 100%;
+  padding: 20px 0;
+  margin-top: 20px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: #1e87d2;
+  color: white;
+}
+
+section .container .divCenter .register div a {
+  color: white;
+}
+
+section .container .divCenter .login {
+  height: 200px;
+  margin-top: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@media only screen and (max-width: 500px) {
+  section .container .divCenter .login {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: auto;
+    padding-top: 10px;
+  }
+}
+
+section .container .divCenter .login form {
+  margin: 0 20px;
+}
+
+@media only screen and (max-width: 500px) {
+  section .container .divCenter .login form {
+    margin-bottom: 20px;
+  }
+}
+
+section .container .divCenter .login form input {
+  width: 200px;
+}
+
+section .container .divCenter .login div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  background: #1e87d2;
+  color: white;
+}
+
+@media only screen and (max-width: 500px) {
+  section .container .divCenter .login div {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 20px 0;
+  }
+}
+
+section .container .divCenter .login div a {
+  color: white;
 }
 
 section .container .divCenter .section {
@@ -860,8 +1066,8 @@ section .container .divCenter .portfolioHome .img a:hover div, section .containe
 }
 
 section .container .divCenter .portfolioHome .img a:hover div span, section .container .divCenter .portfolioHome .img a:focus div span {
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
+  -webkit-transform: translateY(-50px);
+          transform: translateY(-50px);
 }
 
 section .container .divCenter .portfolioHome .img a div {
@@ -878,14 +1084,14 @@ section .container .divCenter .portfolioHome .img a div {
   font-size: 3rem;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.562);
+  background: rgba(255, 255, 255, 0.8);
   -webkit-transform: translateY(300px);
           transform: translateY(300px);
 }
 
 section .container .divCenter .portfolioHome .img a div span {
-  -webkit-transform: translateY(-600px);
-          transform: translateY(-600px);
+  -webkit-transform: translateY(-500px);
+          transform: translateY(-500px);
 }
 
 section .container .divCenter .portfolioHome .img a img {

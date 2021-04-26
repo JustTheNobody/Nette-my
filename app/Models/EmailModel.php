@@ -10,23 +10,23 @@ use Nette\Mail\SendmailMailer;
 
 class EmailModel
 {
-    protected UserModel $user;
+    protected Explorer $database;
 
-    public function __construct(UserModel $user) 
+    public function __construct(Explorer $database) 
     {
-        $this->user = $user;
+        $this->database = $database;
     }
 
     public function sendFromWeb($values)
     {
-        $this->user->database->query(
+        $this->database->query(
             'INSERT INTO email ?', [
             'from' => $values['email'],
             'message' => $values['body'],
             'subject' => $values['subject']]
         );
         // return auto-increment of the inserted row
-        $messageId =  $this->user->database->getInsertId();
+        $messageId =  $this->database->getInsertId();
 
         $mail1 = new Message;
         $mail1
@@ -85,6 +85,28 @@ class EmailModel
                 <br>" . $values->content . "</p>
                 <br>
                 <p style='color:blue'>Martin</p>"
+            );
+        $mailer = new SendmailMailer;
+        $mailer->send($mail);
+        return;
+    }
+
+    public function sendConfirmationLink($link, $email) 
+    {
+        $mail = new Message;
+        $mail
+            ->setFrom('dontreply@martinm.cz')
+            ->addTo($email)
+            ->setSubject('Confirm your email address for martinm.cz')
+            ->setHtmlBody(
+                "<h2 style='color:red'>Automatic msg from MartinM.cz</h2>
+                <br>                
+                <p>You have registered at martinm.cz 
+                <br>clic at the confirmation link to get all future features of the website:
+                <a href='".$link."' target='_blank'>".$link."</a>
+                <br>
+                <br>
+                <p style='color:blue'>Thanks Martin</p>"
             );
         $mailer = new SendmailMailer;
         $mailer->send($mail);

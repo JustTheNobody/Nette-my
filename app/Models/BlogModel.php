@@ -158,15 +158,13 @@ class BlogModel
 
     //get all Blog -> display one at home page rest in Blog page
     public function getBlogs()
-    {
-        if ($this->user->testUser->getIdentity()) {
-            if ($this->user->testUser->getIdentity()->getRoles()['role'] == 'admin') {
-                $row = $this->user->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
-                $rowComment = $this->user->database->fetchAll('SELECT * FROM comments ORDER BY parent_id DESC');
-            }            
-        } else {
+    {    
+        if (!$this->user->testUser->getIdentity() || $this->user->testUser->getIdentity()->getRoles()['role'] != 'admin') {
             $row = $this->user->database->fetchAll('SELECT * FROM articles WHERE aproved = 1 ORDER BY article_id DESC');
             $rowComment = $this->user->database->fetchAll('SELECT * FROM comments WHERE aproved = 1 ORDER BY parent_id DESC');
+        } else {            
+            $row = $this->user->database->fetchAll('SELECT * FROM articles ORDER BY article_id DESC');
+            $rowComment = $this->user->database->fetchAll('SELECT * FROM comments ORDER BY parent_id DESC');
         }
 
         if (empty($row)) {

@@ -4,8 +4,146 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81ea4c616b0896f9d2c269377ef44e60",
+    "content-hash": "45d914902dc7b14015a85751df562e84",
     "packages": [
+        {
+            "name": "contributte/di",
+            "version": "v0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/di.git",
+                "reference": "534fdb5e85b4ae01f8f848fc4b752deb8458ed7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/di/zipball/534fdb5e85b4ae01f8f848fc4b752deb8458ed7c",
+                "reference": "534fdb5e85b4ae01f8f848fc4b752deb8458ed7c",
+                "shasum": ""
+            },
+            "require": {
+                "nette/di": "~3.0.2",
+                "nette/utils": "^3.0.3",
+                "php": ">=7.2"
+            },
+            "conflict": {
+                "nette/di": "<3.0.0",
+                "nette/schema": "<1.1.0"
+            },
+            "require-dev": {
+                "nette/bootstrap": "~3.0.0",
+                "nette/robot-loader": "^3.0.4",
+                "ninjify/nunjuck": "^0.4",
+                "ninjify/qa": "^0.12",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-deprecation-rules": "^0.12",
+                "phpstan/phpstan-nette": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12"
+            },
+            "suggest": {
+                "nette/reflection": "to use AutoloadExtension[CompilerExtension]",
+                "nette/robot-loader": "to use AutoloadExtension[CompilerExtension]"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\DI\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Extra contrib to nette/di",
+            "homepage": "https://github.com/contributte/di",
+            "keywords": [
+                "dependency",
+                "inject",
+                "nette"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/di/issues",
+                "source": "https://github.com/contributte/di/tree/v0.5.1"
+            },
+            "time": "2020-12-26T17:02:42+00:00"
+        },
+        {
+            "name": "contributte/recaptcha",
+            "version": "v3.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/reCAPTCHA.git",
+                "reference": "aaafd81ae7ef795657a6db52a15e93d3ee9a9a40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/reCAPTCHA/zipball/aaafd81ae7ef795657a6db52a15e93d3ee9a9a40",
+                "reference": "aaafd81ae7ef795657a6db52a15e93d3ee9a9a40",
+                "shasum": ""
+            },
+            "require": {
+                "contributte/di": "^0.5.1",
+                "nette/forms": "^3.0.0",
+                "nette/utils": "^3.0.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "ninjify/nunjuck": "^0.4",
+                "ninjify/qa": "^0.12",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-deprecation-rules": "^0.12",
+                "phpstan/phpstan-nette": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12"
+            },
+            "suggest": {
+                "ext-openssl": "To make requests via https"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Contributte\\ReCaptcha\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
+                }
+            ],
+            "description": "Google reCAPTCHA for Nette - Forms",
+            "homepage": "https://github.com/contributte/reCAPTCHA",
+            "keywords": [
+                "Forms",
+                "captcha",
+                "google",
+                "nette",
+                "recaptcha"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/reCAPTCHA/issues",
+                "source": "https://github.com/contributte/reCAPTCHA/tree/v3.4.1"
+            },
+            "time": "2021-02-06T17:15:30+00:00"
+        },
         {
             "name": "latte/latte",
             "version": "v2.10.3",
@@ -1389,6 +1527,65 @@
                 "source": "https://github.com/nette/tracy/tree/v2.8.3"
             },
             "time": "2021-01-31T23:07:09+00:00"
+        },
+        {
+            "name": "uestla/recaptcha-control",
+            "version": "8.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uestla/ReCaptchaControl.git",
+                "reference": "9a1b14c674434218fa140f0126d1cb8c2e7f288c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/uestla/ReCaptchaControl/zipball/9a1b14c674434218fa140f0126d1cb8c2e7f288c",
+                "reference": "9a1b14c674434218fa140f0126d1cb8c2e7f288c",
+                "shasum": ""
+            },
+            "require": {
+                "nette/di": "^3.0",
+                "nette/forms": "^3.0",
+                "nette/http": "^3.0",
+                "nette/php-generator": "^3.0",
+                "nette/utils": "^3.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^7.2",
+                "latte/latte": "^2.5",
+                "nette/bootstrap": "^3.0",
+                "nette/tester": "^2.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.12.49",
+                "phpstan/phpstan-nette": "^0.12.9",
+                "tracy/tracy": "^2.6"
+            },
+            "suggest": {
+                "ext-curl": "Needed by the default ReCaptchaControl\\Http\\Requester\\CurlRequester.",
+                "guzzlehttp/guzzle": "Needed by ReCaptchaControl\\Http\\Requester\\GuzzleRequester."
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "reCAPTCHA control for Nette Framework forms",
+            "homepage": "https://github.com/uestla/ReCaptchaControl",
+            "keywords": [
+                "Forms",
+                "nette",
+                "recaptcha"
+            ],
+            "support": {
+                "issues": "https://github.com/uestla/ReCaptchaControl/issues",
+                "source": "https://github.com/uestla/ReCaptchaControl/tree/8.0.1"
+            },
+            "time": "2020-10-13T09:25:20+00:00"
         }
     ],
     "packages-dev": [

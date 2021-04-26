@@ -1,0 +1,27 @@
+<h3>Site statistic</h3>
+<div class="stat">    
+    <div class="statPage">
+        <h4>Pages</h4>
+            {var $i = 0}
+            {foreach $statistic_page as $page => $pageCount}
+                {var $class = ($i % 2 == 0)? 'even':'odd' }
+                <div class="{$class}">
+                    <span>{$page}</span>
+                    <span>{$pageCount}</span>
+                </div>
+                {var $i=$i+1}
+            {/foreach}
+    </div>
+    <div class="statPage">
+        <h4>Errors</h4>
+            {var $ii = 0}
+            {foreach $statistic_error as $error => $errorCount}
+                {var $class = ($ii % 2 == 0)? 'even':'odd' }
+                <div class="{$class}">
+                    <span>{$error}</span>
+                    <span>{$errorCount}</span>
+                </div>
+                {var $ii=$ii+1}
+            {/foreach}
+    </div>
+</div>

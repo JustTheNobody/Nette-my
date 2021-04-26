@@ -1,14 +1,12 @@
 {block content}
 {if $edit}
     {control editPortfolioForm}
-    <div>
+    <div class="referenceImg">
         <img src="/storage/{lcfirst($category)}/{$reference['img']}" id="previewImg" alt="portfolio">
     </div>
-    {block scripts}
+    
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="{$basePath}/js/pic-preview.js"></script>
-    {/block}
-
 {else}
 <h3>Portfolio {$category}</h3>
 <div class="portfolio">    
@@ -34,5 +32,4 @@
     </div> 
     <a n:href="Portfolio:default">Back</a>   
 </div>
-
 {/if}

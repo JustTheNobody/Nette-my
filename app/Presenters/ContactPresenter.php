@@ -45,14 +45,16 @@ final class ContactPresenter extends Presenter
 
     public function createComponentContactForm()
     {
+        
         $contactForm = $this->form->renderForm();
+        
         $contactForm->onSuccess[] = [$this, 'contactFormSucces'];
         return $contactForm;
 
     }
 
     public function contactFormSucces($contactForm)
-    {
+    {               
         try {
             //mail from web
             $this->mail->sendFromWeb($this->request->getPost());
@@ -66,5 +68,6 @@ final class ContactPresenter extends Presenter
         $this->flashMessage('Your message has been sended.', 'success'); 
         //$this->flashMessage('We have sended you a confirmation email.', 'info'); 
         $this->redirect('Homepage:default');  
+       
     }
 }

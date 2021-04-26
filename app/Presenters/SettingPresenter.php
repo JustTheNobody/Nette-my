@@ -72,6 +72,18 @@ final class SettingPresenter extends Presenter //implements Authorizator
             if ($value['actions'] == "emails") {
                 $this->template->emails = $this->user->getEmails();                
             } 
+            if ($value['actions'] == "statistic") {
+                if (!$this->user->checkAuth() || $this->user->testUser->getIdentity()->getRoles()['role'] != 'admin' ) {
+                    $this->flashMessage("Sorry, you have to be loged as administrator.", 'fail');
+                    $this->redirect('home:default');
+                }
+        
+                $statistic_page = $this->statistic->getPageStatistic();
+                $statistic_error = $this->statistic->getErrorStatistic();
+        
+                $this->template->statistic_page = $statistic_page;
+                $this->template->statistic_error = $statistic_error;
+            }
             $this->template->value = $value['actions'];            
         } 
 
@@ -215,10 +227,6 @@ final class SettingPresenter extends Presenter //implements Authorizator
 
     public function handleDelete($id)
     {
-        echo '<pre>';
-        print_r("deleting message with ID: ".$id);
-        echo '</pre>';
-        exit;
         $this->check();
         $item = explode('_', $id);
         $result = $this->blogModel->removeBlog($id);

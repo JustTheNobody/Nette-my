@@ -1,16 +1,34 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'cf2da8f5c6f28e44ceae9ca0627e0c53dd734dab',
     'name' => 'nette/web-project',
   ),
   'versions' => 
   array (
+    'contributte/di' => 
+    array (
+      'pretty_version' => 'v0.5.1',
+      'version' => '0.5.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '534fdb5e85b4ae01f8f848fc4b752deb8458ed7c',
+    ),
+    'contributte/recaptcha' => 
+    array (
+      'pretty_version' => 'v3.4.1',
+      'version' => '3.4.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'aaafd81ae7ef795657a6db52a15e93d3ee9a9a40',
+    ),
     'latte/latte' => 
     array (
       'pretty_version' => 'v2.10.3',
@@ -184,12 +202,12 @@
     ),
     'nette/web-project' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'cf2da8f5c6f28e44ceae9ca0627e0c53dd734dab',
     ),
     'symfony/thanks' => 
     array (
@@ -208,6 +226,15 @@
       array (
       ),
       'reference' => '342674bbf72365e8456de9855a8cd839ca695933',
+    ),
+    'uestla/recaptcha-control' => 
+    array (
+      'pretty_version' => '8.0.1',
+      'version' => '8.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9a1b14c674434218fa140f0126d1cb8c2e7f288c',
     ),
   ),
 );

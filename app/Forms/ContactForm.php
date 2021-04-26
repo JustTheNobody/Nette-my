@@ -20,8 +20,13 @@ class ContactForm
         $this->user = $user;
     }
 
-    public function renderForm()
+    public function colors()
     {
+        return ['', 'Blue', 'Red', 'Green'];
+    }
+
+    public function renderForm()
+    {        
         $form = $this->forms->create();
            
         $form->addText('subject', 'Subject:')
@@ -54,9 +59,13 @@ class ContactForm
             ->addRule($form::MIN_LENGTH, 'Name has to be minimum of %d letters', 10)
             ->setRequired(self::FORM_MSG_REQUIRED)
             ->setHtmlAttribute('class', 'form-control');
+        
+        $form->addSelect('phone', 'Select red box: ', $this->colors())
+            ->setRequired(self::FORM_MSG_REQUIRED)
+            ->setOmitted();
 
         $form->addSubmit('submit', 'Submit')
-            ->setHtmlAttribute('class', 'btn btn-primary');
+            ->setHtmlAttribute('class', 'btn btn-primary g-recaptcha');
 
         return $form;
     }

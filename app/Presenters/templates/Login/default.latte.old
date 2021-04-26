@@ -4,11 +4,9 @@
 </div>
 
 <div class="divCenter" id="content">
-    <div class="login">        
+    <div>
+        <h3 n:ifset=$result>{$result}</h3>
         {control loginForm}
-        <div>
-            Are you Not Registered?
-            <a href="/register"> Register HERE!</a>
-        </div>
+        <a href="/register">Are you Not Registered? Register HERE!</a>
     </div>
 </div>

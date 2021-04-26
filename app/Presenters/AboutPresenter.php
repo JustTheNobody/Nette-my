@@ -23,9 +23,9 @@ final class AboutPresenter extends Presenter
         $this->statistic->saveStatistic();
     }
 
-    public function renderDefault()
+    public function renderDefault($value)
     {
-        //
+        $this->template->value = $value; 
     }
 
 }

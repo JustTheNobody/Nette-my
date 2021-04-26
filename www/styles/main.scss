@@ -193,17 +193,48 @@ section {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        .referenceImg {
+            margin: 0 auto;
+        }
+        .aboutMenu {
+            ul {
+                li {
+                    display: inline-block;
+                    padding: 0 5px;
+                    a {
+                        text-decoration: none;
+                        &:hover,
+                        &:focus {
+                            color: rgba(0, 0, 0, .6)
+                        }
+                    }
+                }
+            }
+        }
         .aboutWrapper {
+            width: 100%;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
+            padding: 0 20px;
+            @media only screen and (max-width: 1000px) {
+                flex-direction: column;
+            }
             .aboutText {
                 margin-top: 50px;
                 margin-left: 20px;
                 width: 45%;
+                @media only screen and (max-width: 1000px) {
+                    width: 100%;
+                }
             }
             .aboutList {
-                margin-left: 100px;
+                width: 45%;
+                padding-left: 50px;
+                @media only screen and (max-width: 1000px) {
+                    width: 100%;
+                    margin-top: 50px;
+                }
             }
         }
         .portfolio {
@@ -270,10 +301,18 @@ section {
         .settingWrapper {
             width: 100%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: space-between;
-            .adminSide {}
+            .settingSide {
+                width: 20%;
+                display: flex;
+                flex-direction: column;
+                h4 {
+                    margin-bottom: 30px;
+                }
+            }
             .settingMiddle {
+                width: 60%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -312,14 +351,37 @@ section {
                         height: auto;
                     }
                 }
-            }
-            .settingSide {
-                display: flex;
-                flex-direction: row;
-                div:nth-of-type(1) {
-                    padding: 10px;
-                    margin: 20px 40px;
-                    margin-top: 50px;
+                .stat {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    div:first-child {
+                        border-right: 1px solid rgba(0, 0, 0, 0.418);
+                    }
+                    .statPage {
+                        width: 50%;
+                        padding: 10px 20px;
+                        text-align: center;
+                        div {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            span {
+                                width: 50%;
+                                display: block;
+                                padding: 0 10px;
+                                width: 30%;
+                                text-align: left;
+                            }
+                            span:first-of-type {
+                                text-align: right;
+                                border-right: 1px solid rgba(0, 0, 0, 0.418);
+                            }
+                        }
+                        .even {
+                            background: rgba(0, 0, 0, 0.1);
+                        }
+                    }
                 }
             }
         }
@@ -375,7 +437,7 @@ section {
                         max-height: 300px;
                         overflow: hidden;
                         span {
-                            background: rgba(255, 255, 255, 0.534);
+                            background: rgba(255, 255, 255, 0.8);
                             border-radius: 10px;
                             border: 1px solid rgba(255, 255, 255, 0.8);
                             padding: 0 5px;
@@ -434,6 +496,74 @@ section {
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            .register {
+                margin-top: 50px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border-radius: 10px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                form {
+                    margin: 10px;
+                }
+                div {
+                    width: 100%;
+                    padding: 20px 0;
+                    margin-top: 20px;
+                    border-bottom-right-radius: 10px;
+                    border-bottom-left-radius: 10px;
+                    background: #1e87d2;
+                    color: white;
+                    a {
+                        color: white;
+                    }
+                }
+            }
+            .login {
+                height: 200px;
+                margin-top: 50px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                border-radius: 10px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                @media only screen and (max-width: 500px) {
+                    flex-direction: column;
+                    height: auto;
+                    padding-top: 10px;
+                }
+                form {
+                    margin: 0 20px;
+                    @media only screen and (max-width: 500px) {
+                        margin-bottom: 20px;
+                    }
+                    input {
+                        width: 200px;
+                    }
+                }
+                div {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 100%;
+                    padding: 0 20px;
+                    border-bottom-right-radius: 10px;
+                    border-top-right-radius: 10px;
+                    background: #1e87d2;
+                    color: white;
+                    @media only screen and (max-width: 500px) {
+                        border-bottom-right-radius: 10px;
+                        border-bottom-left-radius: 10px;
+                        padding: 20px 0;
+                    }
+                    a {
+                        color: white;
+                    }
+                }
+            }
             .section {
                 margin-top: 50px;
             }
@@ -596,7 +726,7 @@ section {
                             div {
                                 transform: translateY(0);
                                 span {
-                                    transform: translateY(0);
+                                    transform: translateY(-50px);
                                 }
                             }
                         }
@@ -609,10 +739,10 @@ section {
                             font-size: 3rem;
                             width: 100%;
                             height: 100%;
-                            background: rgba(255, 255, 255, 0.562);
+                            background: rgba(255, 255, 255, 0.8);
                             transform: translateY(300px);
                             span {
-                                transform: translateY(-600px);
+                                transform: translateY(-500px);
                             }
                         }
                         img {

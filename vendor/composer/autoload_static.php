@@ -15,6 +15,11 @@ class ComposerStaticInit282f65bd5f240d12c712912b97f1835d
         array (
             'Symfony\\Thanks\\' => 15,
         ),
+        'C' => 
+        array (
+            'Contributte\\ReCaptcha\\' => 22,
+            'Contributte\\DI\\' => 15,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -25,6 +30,14 @@ class ComposerStaticInit282f65bd5f240d12c712912b97f1835d
         'Symfony\\Thanks\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/thanks/src',
+        ),
+        'Contributte\\ReCaptcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/recaptcha/src',
+        ),
+        'Contributte\\DI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/di/src',
         ),
         'App\\' => 
         array (
@@ -436,6 +449,17 @@ class ComposerStaticInit282f65bd5f240d12c712912b97f1835d
         'Nette\\Utils\\Strings' => __DIR__ . '/..' . '/nette/utils/src/Utils/Strings.php',
         'Nette\\Utils\\UnknownImageFileException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
         'Nette\\Utils\\Validators' => __DIR__ . '/..' . '/nette/utils/src/Utils/Validators.php',
+        'ReCaptchaControl\\Control' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Control.php',
+        'ReCaptchaControl\\DI\\Extension' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/DI/Extension.php',
+        'ReCaptchaControl\\Http\\IRequestDataProvider' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Http/IRequestDataProvider.php',
+        'ReCaptchaControl\\Http\\RequestDataProvider' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Http/RequestDataProvider.php',
+        'ReCaptchaControl\\Http\\Requester\\CurlRequester' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Http/Requester/CurlRequester.php',
+        'ReCaptchaControl\\Http\\Requester\\GuzzleRequester' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Http/Requester/GuzzleRequester.php',
+        'ReCaptchaControl\\Http\\Requester\\IRequester' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Http/Requester/IRequester.php',
+        'ReCaptchaControl\\Http\\Requester\\RequestException' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Http/Requester/RequestException.php',
+        'ReCaptchaControl\\Http\\Requester\\SimpleRequester' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Http/Requester/SimpleRequester.php',
+        'ReCaptchaControl\\Renderer' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Renderer.php',
+        'ReCaptchaControl\\Validator' => __DIR__ . '/..' . '/uestla/recaptcha-control/src/ReCaptchaControl/Validator.php',
         'Tester\\Assert' => __DIR__ . '/..' . '/nette/tester/src/Framework/Assert.php',
         'Tester\\AssertException' => __DIR__ . '/..' . '/nette/tester/src/Framework/AssertException.php',
         'Tester\\CodeCoverage\\Collector' => __DIR__ . '/..' . '/nette/tester/src/CodeCoverage/Collector.php',

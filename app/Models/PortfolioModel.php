@@ -17,7 +17,7 @@ class PortfolioModel
     PORTFOLIO_TABLE_NAME = 'portfolio',
     PORTFOLIO_COLUMN_ID = 'portfolio_id';
 
-    private Explorer $database;
+    protected Explorer $database;
     public FileModel $file;
 
     public function __construct(

@@ -3,12 +3,14 @@
     <div id="banner">
         <h1 n:block=title>Blog archive</h1>
     </div>
-    {if ($user->getIdentity() != null)}
+    {if ($user->getIdentity())}
+        {if ($user->getIdentity()->getRoles() !== 'guest')}
         <div class="addArticle">
             <div class="button">
                 <a n:href="Blog:add">Add Blog</a>
             </div>
         </div>
+        {/if}
     {/if}
     <div> 
         {if (is_array($blog))}
@@ -16,11 +18,13 @@
                 {var $x = 0 }
                 <div class="article">
                 {if is_array($value)}
-                    {if $user->getIdentity() != null}                        
-                        <div class="editBox">                            
+                    {if ($user->getIdentity())}                                          
+                        <div class="editBox"> 
+                            {if $user->getIdentity()->getRoles() != 'guest'}                                 
                             <div class="button">
                                 <a class="edit" id="art_{$value['article_id']}" onClick="comment({$value['article_id']}, '')">Add</a>
                             </div>
+                            {/if}
                             {if $value['user_id'] == $user->getIdentity()->getID() || $user->getIdentity()->getRoles()[role] == 'admin'}
                                 <div class="button">
                                     <a class="edit" n:href="Blog:edit $value['article_id']">Edit</a>
@@ -36,24 +40,24 @@
                                 <p><label n:name=content>Comment: <input n:name=content></label>
                                 <p><input n:name=submit class="btn btn-primary">
                             </form>
-                        </div>                        
-                    {/if}
+                        </div>                                                
                         {if $value['aproved'] != 1 && $user->getIdentity()->getRoles()[role] == 'admin'}
                             <div class="aprove">
                                 <div>New</div>
                                 <a class="aprove" n:href="aprove! articles, $value['article_id']">Aprove?</a>
                             </div>
                         {/if}
-                        <div class="titleBox">Title:</div>
-                        <div class="title"> {$value['title']}</div>
-                        <div class="titleBox">Content:</div>
-                        <div class="content"> {$value['content']}</div>
-                        <div class="titleBox">{$value['created_at']}</div> 
-                        <div class="commentList">
-                            {if isset($value['comments']) && !empty($value['comments'])} 
-                                {include 'blog.include.latte', value: $value['comments']}         
-                            {/if}  
-                        </div>                   
+                    {/if}                    
+                    <div class="titleBox">Title:</div>
+                    <div class="title"> {$value['title']}</div>
+                    <div class="titleBox">Content:</div>
+                    <div class="content"> {$value['content']}</div>
+                    <div class="titleBox">{$value['created_at']}</div> 
+                    <div class="commentList">
+                        {if isset($value['comments']) && !empty($value['comments'])} 
+                            {include 'blog.include.latte', value: $value['comments']}         
+                        {/if}  
+                    </div>                   
                 {/if}
                 </div>
             {/foreach}
