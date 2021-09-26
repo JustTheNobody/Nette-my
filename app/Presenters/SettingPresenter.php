@@ -89,7 +89,7 @@ final class SettingPresenter extends Presenter //implements Authorizator
 
         foreach($value as $key => $val)
         {
-            if($key == 'edit' || $key == 'delete') {
+            if ($key == 'edit' || $key == 'delete') {
                 //redirect to Portfolio page and displau edit otions on items
                 $this->redirect('Portfolio:default', $key);
                 $this->template->value = $val;
@@ -227,15 +227,37 @@ final class SettingPresenter extends Presenter //implements Authorizator
 
     public function handleDelete($id)
     {
-        $this->check();
+        if (!$this->user->checkAuth()) {
+            $this->flashMessage("You have to be loged in", 'fail');
+            $this->redirect('Login:default');
+            exit;
+        }
         $item = explode('_', $id);
-        $result = $this->blogModel->removeBlog($id);
+
+        //in case to delete diferent item add itemName_id in presenter
+        switch($item[0]) {
+        case "email":
+            $result = $this->user->emailModel->removeEmail($item[1]);
+            break;
+        default:
+            break;
+        }        
 
         ($result)?
             $this->flashMessage("$item[0] has been deleted.", 'success'):
             $this->flashMessage("Sorry, there was a unexpected error in deleting the $item[0].", 'fail');
         
-        $this->redirect('Blog:default');
+        $this->redirect('Setting:default');
+    }
+
+    public function handleResendEmailLink()
+    {
+        $this->user->sendEmailConfirm(
+            $this->user->testUser->getIdentity()->getId(),
+            $this->user->testUser->getIdentity()->getData()['email']
+        );
+        $this->presenter->flashMessage('We have sended you confirmation email, the link will expire in 1 hour', 'success');
+        $this->redirect('Setting:default');  
     }
 
 }

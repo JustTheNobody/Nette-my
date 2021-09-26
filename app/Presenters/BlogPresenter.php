@@ -74,16 +74,6 @@ final class BlogPresenter extends Presenter
         }
         
     } 
-    
-    private function check()
-    {
-        //check if loged in -> if not redirect
-        if (!$this->user->checkAuth()) {
-            $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
-            $this->redirect('Login:default');
-            exit;
-        }
-    }
 
     /**
      * Read the Default Blog template.
@@ -109,7 +99,11 @@ final class BlogPresenter extends Presenter
 
     public function handleDelete($id)
     {
-        $this->check();
+        if (!$this->user->checkAuth()) {
+            $this->flashMessage("You have to be loged in", 'fail');
+            $this->redirect('Login:default');
+            exit;
+        }
         $item = explode('_', $id);
         $result = $this->blogModel->removeBlog($id);
 
@@ -125,7 +119,11 @@ final class BlogPresenter extends Presenter
      */
     public function renderAdd()
     {
-        $this->check();
+        if (!$this->user->checkAuth()) {
+            $this->flashMessage("You have to be loged in", 'fail');
+            $this->redirect('Login:default');
+            exit;
+        }
         $this->template->title = 'blog';
     }
 
@@ -155,7 +153,11 @@ final class BlogPresenter extends Presenter
      */
     public function renderEdit($blog)
     {   
-        $this->check();
+        if (!$this->user->checkAuth()) {
+            $this->flashMessage("You have to be loged in", 'fail');
+            $this->redirect('Login:default');
+            exit;
+        }
         $this->id = (int)$blog;
         $this->blogEdit = $this->blogModel->getBlog($this->id);
         $this->template->blog = (int)$this->blogEdit; // Send to template.

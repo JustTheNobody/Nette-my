@@ -4,21 +4,21 @@ namespace App\Models;
 
 use stdClass;
 use Nette\Http\Request;
-use Nette\Security\User;
 /**
  * Commented out at lines 31 & 42, for the user frendly output msg
  */ 
+use Nette\Security\User;
 use App\Models\EmailModel;
 use Nette\Utils\FileSystem;
-use Nette\Database\Explorer;
 
+use Nette\Database\Explorer;
 use Nette\Security\Passwords;
-use Nette\Security\UserStorage;
+
 use Nette\Security\SimpleIdentity;
-use Nette\Security\AuthenticationException;
+use Nette\Utils\Random;
 
 class UserModel
-{
+{        
     const
     DEFAULT_AVATAR_DIR = IMG_DIR . '/avatar',
     FILE_DIR = WWW_DIR . '/storage';
@@ -106,11 +106,10 @@ class UserModel
 
     public function sendEmailConfirm($userId, $email)
     {
-        //1. generate the unique $link 4 user           
-        //length 32 char -> 28 77efc b5a65 6711f f9f83 33962 74514               
-        $partOne = bin2hex(random_bytes(16));
+        //1. generate the unique $link 4 user
+        $partOne = Random::generate(32, 'a-zA-Z0-9');
         //length 16 char -> 8 77efc b5a65 6711s
-        $partTwo = bin2hex(random_bytes(8));
+        $partTwo = Random::generate(16, 'a-zA-Z0-9');
         //count how many char is the $userId
         $userIdCount = strlen("$userId");
         $linkPart = $userIdCount . $partOne . $userId . $partTwo;
@@ -124,7 +123,6 @@ class UserModel
         );
         //send to user email address 
         $this->emailModel->sendConfirmationLink($link, $email);
-        //TODO
     }
 
     /**

@@ -12,6 +12,13 @@ application:
 session:
 	expiration: 14 days
 
+mail:
+	smtp: true  # use SmtpMailer instead of SendmailMailer
+	host: email.active24.com
+	port: 465
+	username: postmaster@martinm.cz
+	password: ehS5iF9CAQ
+	secure: ssl # possible values are ssl, tls or null
 
 di:
 	export:

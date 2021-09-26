@@ -6,6 +6,7 @@ namespace App\Presenters;
 
 use Nette;
 use App\Models\BlogModel;
+use App\Models\UserModel;
 use App\Models\PortfolioModel;
 use App\Models\StatisticModel;
 
@@ -16,16 +17,19 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
     protected PortfolioModel $portfolioModel;
     protected array $portfolio = [];
     public StatisticModel $statistic;
+    public UserModel $user;
 
     public function __construct(
         BlogModel $blogModel,
         PortfolioModel $portfolioModel,
-        StatisticModel $statistic
+        StatisticModel $statistic,
+        UserModel $user
     ) {
         //parent::__construct();
         $this->blogModel = $blogModel;
         $this->portfolioModel = $portfolioModel;
         $this->statistic = $statistic;
+        $this->user = $user;
     }
 
     //get last Article
@@ -41,5 +45,15 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
     {
         $this->template->blog = $this->lastBlog;
         $this->template->portfolio = $this->portfolio;
+    }
+
+    public function handleResendEmailLink()
+    {
+        $this->user->sendEmailConfirm(
+            $this->user->testUser->getIdentity()->getId(),
+            $this->user->testUser->getIdentity()->getData()['email']
+        );
+        $this->presenter->flashMessage('We have sended you confirmation email, the link will expire in 1 hour', 'success');
+        $this->redirect('Setting:default');  
     }
 }

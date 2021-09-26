@@ -9,6 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 	<link rel="stylesheet" href="/styles/main.css">
 
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.21/dist/css/uikit.min.css" />
+
+	<!-- UIkit JS -->
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.21/dist/js/uikit.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.21/dist/js/uikit-icons.min.js"></script>
+
 	<!-- Global reCAPTCHA v3 -->
 	<script src="https://www.google.com/recaptcha/api.js"></script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -17,7 +24,6 @@
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments); }
 		gtag('js', new Date());
-
 		gtag('config', 'G-6YE72DJ4S3');
 	</script>
 
@@ -40,13 +46,14 @@
 			{include 'footer.latte'}
 		</div>
 	</footer>
-		{block scripts}
-			<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
-			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-			<script src='includes/js/textarea.js'></script>
+	{block scripts}
+		<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+		<script src="/js/textarea.js"></script>
 
-			<script src="https://www.google.com/recaptcha/api.js"></script>
-		{/block}
-	
+		<script src="https://www.google.com/recaptcha/api.js"></script>
+
+		<script src="/js/lazyload.js"></script>
+	{/block}
 </body>
 </html>

@@ -41,16 +41,6 @@ final class PortfolioPresenter extends Presenter
         }
     }
 
-    private function check()
-    {
-        //check if loged in -> if not redirect
-        if (!$this->user->checkAuth()) {
-            $this->flashMessage('Sorry, it look like you are not loged in.', 'alert');
-            $this->redirect('Login:default');
-            exit;
-        }
-    }
-
     public function renderDefault(array $value)
     {    
 
@@ -79,7 +69,11 @@ final class PortfolioPresenter extends Presenter
 
     public function handleDelete($id, $img, $category)
     {    
-        $this->check(); 
+        if (!$this->user->checkAuth()) {
+            $this->flashMessage("You have to be loged in", 'fail');
+            $this->redirect('Login:default');
+            exit;
+        } 
         $result = $this->portfolio->remove($id, $img, $category);
 
         ($result)?

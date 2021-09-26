@@ -1,28 +1,41 @@
 {block content}
 <h3 n:ifset=$result>Welcome {$result}</h3>
 <div class="divCenter" id="content">
-        <div>
-            
+    {if $user->getIdentity() && $user->getIdentity()->getRoles()['role'] == 'guest'}
+        <div class="link">
+            <p>You haven't confirm your email address yet.</p>
+            <a n:href=':resendEmailLink!'>resend the Email confirmation link.</a>
         </div>
-    {if $portfolio}
-        <h2>The last {$portfolio['category']} Work</h2>
-        <div class="portfolioHome">
-            <div>{$portfolio['description']}</div>
-            <div class="img">
-                <a n:href="Portfolio:default">
-                    <div>
-                        <span>My Portfolio</span>
-                    </div>
-                    <img src="/storage/{lcfirst($portfolio['category'])}/{$portfolio['img']}" alt="portfolio">
-                </a>
-            </div>          
-        </div>         
-        <div class="button"><a n:href="Portfolio:default">My Portfolio</a></div>
-    {/if}
+    {/if}    
+    <div class="homeSectionOne">
+        {if $portfolio}
+            <div class="portfolioHomeWrap">
+                <h2>The last {$portfolio['category']} Work</h2>
+                <div class="portfolioHome">
+                    <div>{$portfolio['description']}</div>
+                    <div class="img">
+                        <a n:href="Portfolio:default">
+                            <div>
+                                <span>My Portfolio</span>
+                            </div>
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" data-src="/storage/{lcfirst($portfolio['category'])}/{$portfolio['img']}" alt="portfolio">
+                        </a>
+                    </div>          
+                </div>
+                <div class="button"><a n:href="Portfolio:default">My Portfolio</a></div>
+            </div>
+        {/if}
+        <div class="homeAboutWrap">            
+            <div class="homeAbout">
+                {include AboutMe from "../About/me.include.latte"}
+            </div>
+            <div class="button"><a n:href="About:default">My Portfolio</a></div>
+        </div>
+    </div> 
     <div class="section">  
         {if $blog}
             <h2>The last added Blog</h2>
-            <div class="article">
+            <div class="article articleHome">
             {foreach $blog[0] as $key => $value}
                 {if ($key == "article_id" || $key == "user_id" || $key == "aproved")}
                 {else}

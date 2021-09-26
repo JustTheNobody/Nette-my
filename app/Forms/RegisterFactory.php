@@ -23,8 +23,16 @@ class RegisterFactory
 
     public function renderForm()
     {
+        $colors = $this->forms->colors();
+        $randColor = $colors[0];
+        $colorKey = $colors[1];
+
         $form = $this->forms->create();
            
+        $form->addHidden('colorRand', $colorKey)
+            ->setHtmlAttribute('id', 'colorRand')
+            ->setOmitted();
+            
         $form->addText('f_name', 'First Name:')
             ->addRule($form::MIN_LENGTH, 'Name has to be minimum of %d letters', 2)
             ->setRequired(self::FORM_MSG_REQUIRED)
@@ -63,6 +71,12 @@ class RegisterFactory
             ->addRule($form::EQUAL, 'Password mismatch', $form['password'])
             ->setHtmlAttribute('class', 'form-control')
             ->setOmitted();
+
+        $form->addRadioList('colors', 'Select '.$randColor.' Color:', $this->forms->colors)
+            ->setHtmlAttribute('class', 'radio')
+            ->addRule($form::EQUAL, 'Wrong color', $form['colorRand'])
+            ->setOmitted();
+
         $form->addSubmit('submit', 'Submit')
             ->setHtmlAttribute('class', 'btn btn-primary');
 

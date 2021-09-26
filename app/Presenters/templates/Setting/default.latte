@@ -19,6 +19,12 @@
         </div>
     </div>  
     <div class="settingMiddle">
+        {if $user->getIdentity()->getRoles()['role'] == 'guest'}
+            <div class="link">
+                <p>You haven't confirm your email address yet.</p>
+                <a n:href="resendEmailLink!">resend the Email confirmation link.</a>
+            </div>
+        {/if}
         {if (isset($value))}        
             {switch $value}
                 {case avatar}

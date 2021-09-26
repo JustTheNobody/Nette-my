@@ -21,7 +21,15 @@ class LoginFactory //extends CustomFormFactory
 
     public function renderForm()
     {
-        $form = $this->forms->create();
+        $colors = $this->forms->colors();
+        $randColor = $colors[0];
+        $colorKey = $colors[1];
+        
+        $form = $this->forms->create();        
+
+        $form->addHidden('colorRand', $colorKey)
+            ->setHtmlAttribute('id', 'colorRand')
+            ->setOmitted();
 
         $form->addText('email', 'Email:')
             ->setRequired(self::FORM_MSG_REQUIRED)
@@ -31,6 +39,12 @@ class LoginFactory //extends CustomFormFactory
         $form->addPassword('password', 'Password:')
             ->setRequired(self::FORM_MSG_REQUIRED)
             ->setHtmlAttribute('class', 'form-control');
+
+        $form->addRadioList('colors', 'Select '.$randColor.' Color:', $this->forms->colors)
+            ->setHtmlAttribute('class', 'radio')
+            ->addRule($form::EQUAL, 'Wrong color', $form['colorRand'])
+            ->setOmitted();
+
         $form->addSubmit('submit', 'Submit')
             ->setHtmlAttribute('class', 'btn btn-primary');
         return $form;

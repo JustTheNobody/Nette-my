@@ -4,6 +4,7 @@
         <p>From: {$val->from}</p>
         <p>Subject: {$val->subject}</p>
         <p>Message: {$val->message}</p> 
-        <a n:href="delete! $val->email_id">delete</a>
+        {var $x = "email_$val->email_id"}
+        <a n:href="delete! $x">delete</a>
     </div>
 {/foreach}

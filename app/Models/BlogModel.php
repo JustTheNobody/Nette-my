@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace app\Models;
 
-use App\Models\EmailModel;
 use Nette\SmartObject;
+use App\Models\EmailModel;
 use Nette\Utils\ArrayHash;
 
 class BlogModel
@@ -158,7 +158,7 @@ class BlogModel
 
     //get all Blog -> display one at home page rest in Blog page
     public function getBlogs()
-    {    
+    {   
         if (!$this->user->testUser->getIdentity() || $this->user->testUser->getIdentity()->getRoles()['role'] != 'admin') {
             $row = $this->user->database->fetchAll('SELECT * FROM articles WHERE aproved = 1 ORDER BY article_id DESC');
             $rowComment = $this->user->database->fetchAll('SELECT * FROM comments WHERE aproved = 1 ORDER BY parent_id DESC');

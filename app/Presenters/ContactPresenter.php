@@ -44,10 +44,9 @@ final class ContactPresenter extends Presenter
     }
 
     public function createComponentContactForm()
-    {
-        
+    {    
         $contactForm = $this->form->renderForm();
-        
+
         $contactForm->onSuccess[] = [$this, 'contactFormSucces'];
         return $contactForm;
 

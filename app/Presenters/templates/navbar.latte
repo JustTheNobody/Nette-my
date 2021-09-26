@@ -9,23 +9,25 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="nav-main navbar-nav me-auto mb-2 mb-lg-0 ">
+        {block Menu}
+        <ul class="nav-main navbar-nav me-auto mb-1 mb-lg-0 ">
             <li class="nav-item">
-                <a class="nav-link {if isset($title) && $title == 'home'}active{/if}" aria-current="page" href="/">Home</a>
+                <a class="uk-button {if isset($title) && $title == 'home'}active{/if}" aria-current="page" href="/">Home</a>
             </li> 
             <li class="nav-item">
-                <a class="nav-link {if isset($title) && $title == 'about'}active{/if}" aria-current="page" href="/about">About</a>
+                <a class="uk-button {if isset($title) && $title == 'about'}active{/if}" aria-current="page" href="/about">About</a>
             </li> 
             <li class="nav-item">
-                <a class="nav-link {if isset($title) && $title == 'portfolio'}active{/if}" aria-current="page" href="/portfolio">Portfolio</a>
+                <a class="uk-button {if isset($title) && $title == 'portfolio'}active{/if}" aria-current="page" href="/portfolio">Portfolio</a>
             </li> 
             <li class="nav-item">
-                <a class="nav-link {if isset($title) && $title == 'blog'}active{/if}" aria-current="page" href="/blog">Blog</a>
+                <a class="uk-button {if isset($title) && $title == 'blog'}active{/if}" aria-current="page" href="/blog">Blog</a>
             </li>  
             <li class="nav-item">
-                <a class="nav-link {if isset($title) && $title == 'contact'}active{/if}" aria-current="page" href="/contact">Contact</a>
+                <a class="uk-button {if isset($title) && $title == 'contact'}active{/if}" aria-current="page" href="/contact">Contact</a>
             </li>  
         </ul>  
+        {/block}
         {if isset($user->getIdentity()->name) } 
         <ul class="navbar-nav le-auto mb-2 mb-lg-0 user-nav">
             <div>
@@ -33,8 +35,7 @@
                     <img src="/storage/_users/{$user->getIdentity()->getId()}/avatar/{$user->getIdentity()->avatar}" alt="avatar"> 
                 {/if}
                 {isset($user->getIdentity()->name) ? $user->getIdentity()->name}   
-            <div>
-        
+            <div>        
             <li>                         
                 <ul>
                     <li>
@@ -50,13 +51,12 @@
             </li>         
         </ul>         
         {else} 
-
-        <ul class="navbar-nav le-auto mb-2 mb-lg-0">
+        <ul class=" le-auto mb-2 mb-lg-0">
             <li class="nav-item">
-            <a class="nav-link {if isset($title) && $title == 'login'}active{/if}" aria-current="page" href="/login">Login</a>
+                <a class="{if isset($title) && $title == 'login'}active{/if}" aria-current="page" href="/login">Login</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link {if isset($title) && $title == 'register'}active{/if}" href="/register">Register</a>
+                <a class="{if isset($title) && $title == 'register'}active{/if}" href="/register">Register</a>
             </li>            
         </ul> 
         {/if}   

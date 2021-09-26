@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Nette\Mail\Message;
-use Nette\Mail\SendmailMailer;
 use Nette\Mail\SmtpMailer;
-use Nette\Mail\FallbackMailer;
 use Nette\Database\Explorer;
+use Nette\Mail\FallbackMailer;
+use Nette\Mail\SendmailMailer;
 
 class EmailModel
 {
@@ -15,30 +15,6 @@ class EmailModel
     public function __construct(Explorer $database) 
     {
         $this->database = $database;
-    }
-
-    private function sendingEmail($mail)
-    {
-        
-        $smtpMailer = new Nette\Mail\SmtpMailer( 
-            [
-            'host' => 'email.active24.com',
-            'username' => 'postmaster@martinm.cz',
-            'password' => 'ehS5iF9CAQ',
-            'secure' => 'ssl',]
-        );
-
-        $sendmailMailer = new SendmailMailer;
-        //$sendmailMailer->send($mail); //delete after fix
-
-        
-        $mailer = new Nette\Mail\FallbackMailer(
-            [
-            $smtpMailer,
-            $sendmailMailer]
-        );
-        $mailer->send($mail);
-        
     }
 
     public function sendFromWeb($values)
@@ -64,8 +40,9 @@ class EmailModel
                  <br>Message saved to DB, the record id is: " . $messageId
             );
 
+        $mailer1 = new SendmailMailer;
+        $mailer1->send($mail1);  
         
-        $this->sendingEmail($mail1);                  
         $this->sendAutomaticReply($values);
         return;
     }
@@ -86,8 +63,8 @@ class EmailModel
                 <p>With regards</p>
                 <p style='color:blue'>Martin</p>"
             );
-
-        $this->sendingEmail($mail2);
+        $mailer2 = new SendmailMailer;
+        $mailer2->send($mail2);
         return;
     }
 
@@ -95,7 +72,7 @@ class EmailModel
     {
         $mail = new Message;
         $mail
-            ->setFrom('postmaster@martinm.cz')
+            ->setFrom('martin.maly.1977@gmail.com')
             ->addTo('martin.maly.1977@gmail.com')
             ->setSubject('New Blog Posted!')
             ->setHtmlBody(
@@ -109,8 +86,8 @@ class EmailModel
                 <br>
                 <p style='color:blue'>Martin</p>"
             );
-
-        $this->sendingEmail($mail);
+        $mailer = new SendmailMailer;
+        $mailer->send($mail);
         return;
     }
 
@@ -131,8 +108,8 @@ class EmailModel
                 <br>
                 <p style='color:blue'>Thanks Martin</p>"
             );
-        
-        $this->sendingEmail($mail);
+        $mailer = new SendmailMailer;
+        $mailer->send($mail);
         return;
     }
 
